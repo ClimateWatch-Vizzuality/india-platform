@@ -1,6 +1,19 @@
 @import '~styles/settings.scss';
+@import '~styles/layout.scss';
 
-.footer {
-  background-color: dimgrey;
-  height: $footer-height;
+$margin-top-footer: 120px;
+
+.bottomBarContainer {
+  background-color: $midnightblue;
+}
+
+.bottomBar {
+  @include row();
+
+  display: block;
+  text-align: right;
+}
+
+.bottomBarText {
+  letter-spacing: 1px;
 }

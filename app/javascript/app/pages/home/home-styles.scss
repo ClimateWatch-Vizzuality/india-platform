@@ -1,5 +1,48 @@
 @import '~styles/settings.scss';
+@import '~styles/layout.scss';
 
-.page {
-  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+.section {
+  padding-top: $gutter-padding;
+  padding-bottom: $gutter-padding * 2;
+
+  @media #{$tablet-landscape} {
+    padding-top: $gutter-padding * 2;
+    padding-bottom: 0;
+  }
+}
+
+.row {
+  @include row();
+
+  @media #{$tablet-landscape} {
+    height: 490px;
+  }
+}
+
+.introTextContainer {
+  @include columns();
+
+  @media #{$tablet-landscape} {
+    @include columns(9);
+    @include column-offset(2);
+  }
+
+  padding-top: $gutter-padding;
+  flex-wrap: nowrap;
+  position: relative;
+
+  @media #{$tablet-landscape} {
+    padding-top: 120px;
+  }
+}
+
+.introText {
+  color: $white;
+  font-size: $font-size-large;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
 }

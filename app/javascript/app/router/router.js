@@ -2,13 +2,12 @@ import { connectRoutes, NOT_FOUND, redirect } from 'redux-first-router';
 import createHistory from 'history/createBrowserHistory';
 import queryString from 'query-string';
 
-import NationalSections from './sections/national-circumstances';
-import GHGSections from './sections/ghg-emissions';
+import CountryContext from './sections/country-context';
 
 const history = createHistory();
 
 export const HOME = 'location/HOME';
-export const NATIONAL_CIRCUMSTANCES = 'location/NATIONAL_CIRCUMSTANCES';
+export const COUNTRY_CONTEXT = 'location/COUNTRY_CONTEXT';
 export const GHG_EMISSIONS = 'location/GHG_EMISSIONS';
 
 export const routes = {
@@ -18,21 +17,13 @@ export const routes = {
     path: '/',
     component: 'pages/home/home'
   },
-  [NATIONAL_CIRCUMSTANCES]: {
+  [COUNTRY_CONTEXT]: {
     nav: true,
-    label: 'National Circumstances',
-    link: '/national-circumstances',
-    path: '/national-circumstances/:section?',
+    label: 'Country context',
+    link: '/country-context',
+    path: '/country-context/:section?',
     component: 'layouts/sections/sections',
-    sections: NationalSections
-  },
-  [GHG_EMISSIONS]: {
-    nav: true,
-    label: 'GHG Emissions',
-    link: '/ghg-emissions',
-    path: '/ghg-emissions/:section?',
-    component: 'layouts/sections/sections',
-    sections: GHGSections
+    sections: CountryContext
   },
   [NOT_FOUND]: {
     path: '/404',

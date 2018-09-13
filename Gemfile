@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.5.1'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -22,6 +23,9 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'aws-sdk', '~> 2'
+
+gem 'active_model_serializers', '~> 0.10.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -45,3 +49,9 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+git 'https://github.com/ClimateWatch-Vizzuality/climate-watch-gems.git' do
+  gem 'climate_watch_engine', '~> 1.0.0'
+  gem 'cw_locations', '~> 1.0.2', require: 'locations'
+  gem 'cw_historical_emissions', '~> 1.0.2', require: 'historical_emissions'
+end

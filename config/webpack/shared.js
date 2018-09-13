@@ -61,7 +61,13 @@ module.exports = {
       'node_modules'
     ],
     plugins: [ new DirectoryNamedWebpackPlugin(true) ],
-    alias: { app: 'app', components: 'app/components', routes: 'app/routes' }
+    alias: {
+      app: 'app',
+      components: 'app/components',
+      routes: 'app/routes',
+      constants: 'app/constants',
+      utils: 'app/utils'
+    }
   },
   resolveLoader: { modules: [ 'node_modules' ] },
   node: { fs: 'empty', net: 'empty' }

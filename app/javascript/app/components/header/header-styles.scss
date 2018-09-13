@@ -1,0 +1,202 @@
+@import '~styles/settings.scss';
+@import '~styles/layout.scss';
+
+$logo-width: 215px;
+$flag-height: 40px;
+
+// Header wrapper
+.headerContainer {
+  background-color: $white;
+}
+
+.header {
+  padding-top: 9px;
+
+  @include row();
+}
+
+.navbarContainer {
+  display: flex;
+  align-items: center;
+}
+
+// True for every side of header
+
+.navElement {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+// Left side of the header
+
+.logo {
+  width: $logo-width;
+}
+
+// Center of the header
+
+.pageTitleContainer {
+  font-size: $font-size;
+  font-family: $font-family-2;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  justify-content: center;
+  flex-grow: 3;
+
+  @media #{$tablet-landscape} {
+    font-size: 30px;
+  }
+}
+
+.reportText {
+  color: $dusty-gray;
+}
+
+// Right side of the header
+
+.flagContainer {
+  justify-content: flex-end;
+}
+
+.flag {
+  height: $flag-height;
+}
+
+// Link styles
+
+.link {
+  color: $theme-color;
+  padding-bottom: 15px;
+  margin: {
+    left: 15px;
+    right: 15px;
+  }
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: $font-family-1;
+  font-size: $font-size-s;
+  font-weight: bold;
+  position: relative;
+  // min-height: 47px;
+  display: flex;
+  align-items: center;
+
+  @media #{$tablet-landscape} {
+    min-height: 0;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.active::after {
+    content: "";
+    height: 6px;
+    background-color: $theme-color;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+// Tabs Container
+
+// TODO: Create a more responsive tabs container (the active link is sometimes not visible)
+.tabsContainer {
+  display: flex;
+  align-items: center;
+  margin: {
+    top: 20px;
+  }
+
+  overflow-x: scroll;
+
+  @media #{$tablet-landscape} {
+    overflow-x: hidden;
+    justify-content: center;
+  }
+}
+
+// Sticky navbar
+
+.stickyNavElement {
+  display: flex;
+}
+
+.smallLogo {
+  display: none;
+  height: 35px;
+}
+
+.smallFlag {
+  display: none;
+  height: 25px;
+}
+
+// Sticky navbar styles when it's visible
+.stickyWrapper {
+  max-height: 55px;
+
+  :global {
+    .sticky-inner-wrapper {
+      top: 85px !important; // Overwriting library top to have the threshold
+    }
+  }
+
+  .header {
+    height: 55px;
+    padding-top: 0;
+  }
+
+  .navbarContainer {
+    display: none;
+  }
+
+  .smallLogo {
+    display: flex;
+  }
+
+  .smallFlag {
+    display: flex;
+  }
+
+  .stickyNavElement {
+    flex: 1;
+    display: flex;
+  }
+
+  .stickyImageElement {
+    height: 100%;
+    align-items: center;
+  }
+
+  .stickyTabs {
+    flex: auto;
+    flex-grow: 1;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .stickyFlag {
+    justify-content: flex-end;
+  }
+
+  .tabsContainer {
+    margin-top: 0;
+  }
+
+  .stickyLink {
+    padding-bottom: 0;
+
+    &.active::after {
+      bottom: 0;
+    }
+  }
+}
