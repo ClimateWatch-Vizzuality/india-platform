@@ -13,6 +13,7 @@ $flag-height: 40px;
   padding-top: 9px;
 
   @include row();
+  flex-wrap: nowrap;
 }
 
 .navbarContainer {
@@ -32,77 +33,18 @@ $flag-height: 40px;
 
 .logo {
   width: $logo-width;
-}
-
-// Center of the header
-
-.pageTitleContainer {
-  font-size: $font-size;
+  font-size: $font-size-s;
   font-family: $font-family-2;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  justify-content: center;
-  flex-grow: 3;
+  color: $marine-blue;
 
-  @media #{$tablet-landscape} {
-    font-size: 30px;
-  }
-}
-
-.reportText {
-  color: $dusty-gray;
-}
-
-// Right side of the header
-
-.flagContainer {
-  justify-content: flex-end;
-}
-
-.flag {
-  height: $flag-height;
-}
-
-// Link styles
-
-.link {
-  color: $theme-color;
-  padding-bottom: 15px;
-  margin: {
-    left: 15px;
-    right: 15px;
+  .climateExplorer {
+    font-size: $font-size-m;
+    font-weight: $font-weight-light;
   }
 
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-family: $font-family-1;
-  font-size: $font-size-s;
-  font-weight: bold;
-  position: relative;
-  // min-height: 47px;
-  display: flex;
-  align-items: center;
-
-  @media #{$tablet-landscape} {
-    min-height: 0;
-  }
-
-  &:first-child {
-    margin-left: 0;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  &.active::after {
-    content: "";
-    height: 6px;
-    background-color: $theme-color;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  .bold {
+    font-weight: $font-weight-extra-bold;
   }
 }
 
@@ -111,16 +53,18 @@ $flag-height: 40px;
 // TODO: Create a more responsive tabs container (the active link is sometimes not visible)
 .tabsContainer {
   display: flex;
+  flex: 1;
   align-items: center;
   margin: {
-    top: 20px;
+    top: 17px;
   }
 
   overflow-x: scroll;
 
   @media #{$tablet-landscape} {
     overflow-x: hidden;
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: $gutter-padding;
   }
 }
 

@@ -2,7 +2,7 @@
 
 .link {
   color: $theme-color;
-  padding-bottom: 15px;
+  padding-bottom: 18px;
   margin: {
     left: 15px;
     right: 15px;
@@ -32,7 +32,7 @@
 
   &.active::after {
     content: "";
-    height: 3px;
+    height: 6px;
     background-color: $action-color;
     width: 100%;
     position: absolute;

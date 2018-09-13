@@ -11,6 +11,15 @@ class Header extends PureComponent {
     return (
       <div className={styles.headerContainer} id="header">
         <div className={cx(styles.header, className)}>
+          <div className={styles.logo}>
+            <div className={styles.country}>
+              INDIA
+            </div>
+            <div className={styles.climateExplorer}>
+              <span className={styles.bold}>CLIMATE</span>
+              EXPLORER
+            </div>
+          </div>
           <div className={styles.tabsContainer}>
             <Nav
               theme={{
