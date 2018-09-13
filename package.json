@@ -19,7 +19,7 @@
     "foundation-sites": "6.4.3",
     "history": "4.7.2",
     "lodash-es": "4.17.4",
-    "query-string": "6.0.0",
+    "query-string": "5.0.0",
     "react": "16.3.0",
     "react-css-themr": "2.1.2",
     "react-dom": "16.3.0",
@@ -30,7 +30,8 @@
     "redux-first-router-link": "0.0.3-next",
     "redux-thunk": "2.2.0",
     "redux-tools": "github:vizzuality/redux-tools#3.3.0",
-    "reselect": "3.0.1"
+    "reselect": "3.0.1",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "autoprefixer": "7.1.3",
