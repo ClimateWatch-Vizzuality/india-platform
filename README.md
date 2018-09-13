@@ -1,4 +1,4 @@
-# Climate Watch - Starter Kit
+# Climate Watch - India Country Platform
 
 Table of Contents:
 
