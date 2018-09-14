@@ -1,7 +1,7 @@
 import React from 'react';
 import { Section } from 'cw-components';
 import background from 'assets/hero';
-// import Cards from 'components/home/cards';
+import Cards from 'components/home/cards';
 import styles from './home-styles.scss';
 
 function Home() {
@@ -25,7 +25,7 @@ function Home() {
           </div>
         </div>
         <div className="layout-container">
-          {}
+          <Cards />
         </div>
       </Section>
     </div>
