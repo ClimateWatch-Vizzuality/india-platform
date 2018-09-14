@@ -2,7 +2,6 @@
 
 .link {
   color: $theme-color;
-  padding-bottom: 18px;
   margin: {
     left: 15px;
     right: 15px;
@@ -52,4 +51,10 @@
     height: 6px;
     background-color: $white;
   }
+}
+
+.actions {
+  border-left: solid 2px $border-color;
+  display: flex;
+  padding-left: $gutter-padding;
 }

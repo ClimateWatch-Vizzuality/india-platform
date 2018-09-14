@@ -7,6 +7,14 @@ import styles from './nav-styles.scss';
 
 class Nav extends PureComponent {
   render() {
+    const renderActions = () => {
+      // return (
+      //   <div className={styles.actions}>
+      //     Download and about links
+      //   </div>
+      // );
+    };
+
     const { routes, theme } = this.props;
     return (
       <nav className={theme.nav}>
@@ -23,6 +31,7 @@ class Nav extends PureComponent {
             {route.label}
           </NavLink>
         ))}
+        {renderActions()}
       </nav>
     );
   }

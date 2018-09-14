@@ -7,19 +7,20 @@ $flag-height: 40px;
 // Header wrapper
 .headerContainer {
   background-color: $white;
+  height: $header-height;
 }
 
 .header {
-  padding-top: 9px;
-
   @include row();
 
+  height: 100%;
   flex-wrap: nowrap;
 }
 
 .navbarContainer {
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
 // True for every side of header
@@ -37,6 +38,7 @@ $flag-height: 40px;
   font-size: $font-size-s;
   font-family: $font-family-2;
   text-transform: uppercase;
+  padding-top: 9px;
 
   .climateExplorer {
     font-size: $font-size-m;
@@ -55,11 +57,8 @@ $flag-height: 40px;
   display: flex;
   flex: 1;
   align-items: center;
-  margin: {
-    top: 17px;
-  }
-
   overflow-x: scroll;
+  height: 100%;
 
   @media #{$tablet-landscape} {
     overflow-x: hidden;
@@ -72,6 +71,7 @@ $flag-height: 40px;
 
 .stickyNavElement {
   display: flex;
+  height: 100%;
 }
 
 .smallLogo {
@@ -103,14 +103,6 @@ $flag-height: 40px;
     display: none;
   }
 
-  .smallLogo {
-    display: flex;
-  }
-
-  .smallFlag {
-    display: flex;
-  }
-
   .stickyNavElement {
     flex: 1;
     display: flex;
@@ -124,16 +116,8 @@ $flag-height: 40px;
   .stickyTabs {
     flex: auto;
     flex-grow: 1;
-    justify-content: center;
-    height: 100%;
-  }
-
-  .stickyFlag {
     justify-content: flex-end;
-  }
-
-  .tabsContainer {
-    margin-top: 0;
+    height: 100%;
   }
 
   .stickyLink {
