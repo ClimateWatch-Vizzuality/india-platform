@@ -28,6 +28,7 @@ function Home() {
           <Cards />
         </div>
       </Section>
+      <div className={styles.blank} />
     </div>
   );
 }

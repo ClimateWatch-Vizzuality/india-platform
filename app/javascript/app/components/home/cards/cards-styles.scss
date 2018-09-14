@@ -21,17 +21,22 @@
     @include columns(4);
 
     flex-wrap: nowrap;
-    overflow: scroll;
     justify-content: flex-start;
     margin-bottom: -320px;
   }
 }
 
+.contentContainer {
+  padding: 0;
+}
+
 .card {
+  background-color: $white;
   flex-direction: column-reverse;
   margin-top: $gutter-padding;
   min-height: 480px;
   width: 100%;
+  padding: 40px 40px 50px;
 
   @media #{$tablet-landscape} {
     margin-top: 0;
@@ -44,12 +49,15 @@
   flex-direction: column;
   justify-content: flex-end;
   text-align: center;
-  padding: 0 $gutter-padding / 2 50px $gutter-padding / 2;
 }
 
 .title {
   font-family: $font-family-1;
   font-size: $font-size-xl-large;
   font-weight: $font-weight-light;
-  margin: 22px;
 }
+
+.button {
+  width: 100%;
+}
+

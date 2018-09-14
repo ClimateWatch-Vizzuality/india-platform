@@ -8,7 +8,6 @@ const history = createHistory();
 
 export const HOME = 'location/HOME';
 export const COUNTRY_CONTEXT = 'location/COUNTRY_CONTEXT';
-export const GHG_EMISSIONS = 'location/GHG_EMISSIONS';
 
 export const routes = {
   [HOME]: {

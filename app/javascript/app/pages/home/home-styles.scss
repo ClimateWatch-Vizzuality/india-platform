@@ -1,6 +1,13 @@
 @import '~styles/settings.scss';
 @import '~styles/layout.scss';
 
+.blank {
+  background-color: $porcelain;
+  @media #{$tablet-landscape} {
+    height: 340px;
+  }
+}
+
 .section {
   padding-top: $gutter-padding;
   padding-bottom: $gutter-padding * 2;
@@ -8,14 +15,12 @@
   @media #{$tablet-landscape} {
     padding-top: $gutter-padding * 2;
     padding-bottom: 0;
-    margin-bottom: 340px;
   }
 }
 
 .row {
   @include row();
-
-  min-height: 780px;
+  min-height: 700px;
 }
 
 .pageTitle {

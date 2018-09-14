@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'cw-components';
+import { Card, Button } from 'cw-components';
+import { NavLink } from 'redux-first-router-link';
+import buttonThemes from 'styles/themes/button';
+import cx from 'classnames';
 import styles from './cards-styles.scss';
 
 class Cards extends PureComponent {
@@ -13,7 +16,25 @@ class Cards extends PureComponent {
             <div key={card.title} className={styles.cardElement}>
               <Card title={card.title} theme={styles}>
                 <div className={styles.cardActions}>
-                    Hello
+                  <NavLink
+                    exact
+                    className={styles.cardButton}
+                    to={card.button.link}
+                    onTouchStart={undefined}
+                    onMouseDown={undefined}
+                  >
+                    <Button
+                      {...card.button.props}
+                      theme={{
+                          button: cx(
+                            buttonThemes[card.button.style],
+                            styles.button
+                          )
+                        }}
+                    >
+                      {card.button.text}
+                    </Button>
+                  </NavLink>
                 </div>
               </Card>
             </div>
