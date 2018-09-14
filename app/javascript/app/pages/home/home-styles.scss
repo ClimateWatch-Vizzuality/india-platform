@@ -3,6 +3,7 @@
 
 .blank {
   background-color: $porcelain;
+
   @media #{$tablet-landscape} {
     height: 340px;
   }
@@ -20,6 +21,7 @@
 
 .row {
   @include row();
+
   min-height: 700px;
 }
 
