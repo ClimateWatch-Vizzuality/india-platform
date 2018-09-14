@@ -8,6 +8,7 @@
   @media #{$tablet-landscape} {
     padding-top: $gutter-padding * 2;
     padding-bottom: 0;
+    margin-bottom: 340px;
   }
 }
 
@@ -16,6 +17,19 @@
 
   @media #{$tablet-landscape} {
     height: 490px;
+  }
+}
+.pageTitle {
+  font-family: $font-family-1;
+  font-size: $font-size-xl-large;
+  font-weight: $font-weight-light;
+  line-height: $line-height-small;
+  letter-spacing: $letter-spacing-narrow;
+  text-align: center;
+  color: $white;
+
+  .country {
+    color: $action-color;
   }
 }
 
@@ -37,12 +51,18 @@
 }
 
 .introText {
-  color: $white;
-  font-size: $font-size-large;
-  line-height: 1.5;
+  color: $porcelain;
+  font-size: $font-size;
+  line-height: $line-height;
   text-align: center;
 }
 
 .bold {
   font-weight: bold;
+}
+
+.cardsContainer {
+  padding-bottom: 340px;
+  @media #{$tablet-landscape} {
+  }
 }

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Nav from 'components/nav';
-// import INDflag from 'assets/india-flag';
+import { NavLink } from 'redux-first-router-link';
 import styles from './header-styles.scss';
 
 class Header extends PureComponent {
@@ -11,7 +11,13 @@ class Header extends PureComponent {
     return (
       <div className={styles.headerContainer} id="header">
         <div className={cx(styles.header, className)}>
-          <div className={styles.logo}>
+          <NavLink
+            exact
+            className={cx(styles.logo)}
+            to="/"
+            onTouchStart={undefined}
+            onMouseDown={undefined}
+          >
             <div className={styles.country}>
               INDIA
             </div>
@@ -19,7 +25,7 @@ class Header extends PureComponent {
               <span className={styles.bold}>CLIMATE</span>
               EXPLORER
             </div>
-          </div>
+          </NavLink>
           <div className={styles.tabsContainer}>
             <Nav
               theme={{

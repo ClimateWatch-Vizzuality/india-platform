@@ -30,13 +30,12 @@ $flag-height: 40px;
 }
 
 // Left side of the header
-
 .logo {
+  color: $marine-blue;
   width: $logo-width;
   font-size: $font-size-s;
   font-family: $font-family-2;
   text-transform: uppercase;
-  color: $marine-blue;
 
   .climateExplorer {
     font-size: $font-size-m;

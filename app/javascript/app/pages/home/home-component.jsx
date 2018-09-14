@@ -1,7 +1,7 @@
 import React from 'react';
 import { Section } from 'cw-components';
 import background from 'assets/hero';
-
+// import Cards from 'components/home/cards';
 import styles from './home-styles.scss';
 
 function Home() {
@@ -10,15 +10,22 @@ function Home() {
       <Section backgroundImage={background} theme={styles}>
         <div className="layout-container">
           <div className={styles.introTextContainer}>
+            <h1 className={styles.pageTitle}>
+              <div className={styles.country}>
+                India
+              </div>
+              <div className={styles.climateExplorer}>
+                <span className={styles.bold}>CLIMATE </span>
+                EXPLORER
+              </div>
+            </h1>
             <p className={styles.introText}>
-              The Country Platform on{' '}
-              <span className={styles.bold}>
-                India Climate Explorer
-              </span>
-              {' '}
-              offers open data, visualizations and analysis to help policymakers, researchers and other stakeholders gather insights on India’s climate progress.
+              India Climate Explorer offers open data, visualizations and analysis to help policymakers, researchers and other stakeholders gather insights on India’s climate progress.
             </p>
           </div>
+        </div>
+        <div className="layout-container">
+          {}
         </div>
       </Section>
     </div>
