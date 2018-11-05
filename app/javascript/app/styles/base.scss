@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,400i,700');
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Roboto+Mono:300,400,400i,700');
 @import 'settings';
+@import 'global';
 
 html,
 body,
@@ -88,6 +89,7 @@ mark {
 
 body,
 html {
+  font-family: $font-family-1;
   font-weight: $font-weight;
   margin: 0;
   padding: 0;
@@ -97,6 +99,7 @@ html {
 :global {
   #root {
     height: 100%;
+    position: relative;
   }
 
   a {

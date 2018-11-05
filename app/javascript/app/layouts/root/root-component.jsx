@@ -3,9 +3,11 @@ import Proptypes from 'prop-types';
 import { Loading } from 'cw-components';
 import universal from 'react-universal-component';
 
-import Nav from 'components/nav';
+import Header from 'components/header';
 import Footer from 'components/footer';
+import Sticky from 'react-stickynode';
 
+import headerStyles from 'components/header/header-styles';
 import styles from './root-styles.scss';
 
 const universalOptions = {
@@ -20,11 +22,15 @@ class App extends PureComponent {
   render() {
     const { route } = this.props;
     return (
-      <div className={styles.app}>
-        <Nav />
-        <PageComponent path={route.component} />
+      <React.Fragment>
+        <Sticky top={-85} className={styles.header} activeClass={headerStyles.stickyWrapper} innerZ={5}>
+          <Header />
+        </Sticky>
+        <div className={styles.appContent}>
+          <PageComponent path={route.component} />
+        </div>
         <Footer />
-      </div>
+      </React.Fragment>
     );
   }
 }

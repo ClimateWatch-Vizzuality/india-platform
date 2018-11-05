@@ -1,14 +1,35 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import { Section } from 'cw-components';
+import background from 'assets/hero';
+import Cards from 'components/home/cards';
 import styles from './home-styles.scss';
 
-class Home extends PureComponent {
-  render() {
-    return (
-      <div className={styles.page}>
-        <h2>Home page</h2>
-      </div>
-    );
-  }
+function Home() {
+  return (
+    <div className={styles.page}>
+      <Section backgroundImage={background} theme={styles}>
+        <div className="layout-container">
+          <div className={styles.introTextContainer}>
+            <h1 className={styles.pageTitle}>
+              <div className={styles.country}>
+                India
+              </div>
+              <div className={styles.climateExplorer}>
+                <span className={styles.bold}>CLIMATE </span>
+                EXPLORER
+              </div>
+            </h1>
+            <p className={styles.introText}>
+              India Climate Explorer offers open data, visualizations and analysis to help policymakers, researchers and other stakeholders gather insights on India’s climate progress.
+            </p>
+          </div>
+        </div>
+        <div className="layout-container">
+          <Cards />
+        </div>
+      </Section>
+      <div className={styles.blank} />
+    </div>
+  );
 }
-
 export default Home;
