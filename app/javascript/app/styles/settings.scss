@@ -14,6 +14,9 @@ $font-size-x-large: 2.75rem; // 44px / 16px
 $font-size-xl-large: 2.25rem; // 36px / 16px
 $font-size-xxl-large: 3.375rem; // 54px / 16px
 
+$font-size-title: 4.375rem; // 70px / 16px
+$font-size-subtitle: 1.875rem; // 30px / 16px
+
 //font-weights
 $font-weight-light: 300;
 $font-weight: 400;
@@ -25,9 +28,15 @@ $font-weight-extra-bold: 900;
 $line-height: 1.63;
 $line-height-small: 1.23;
 
-// Letter spacing
+//Line spacing
+$title-line-height: 64px;
+$headlines-line-height: 54px;
+$small-title-line-height: 29px;
+$body-text-line-height: 24px;
 
+// Letter spacing
 $letter-spacing-narrow: -1.3px;
+$letter-spacing-wide: 6.48px;
 
 // Layout
 $gutter-padding: 30px;
@@ -45,7 +54,8 @@ $logos-top-bottom-margin: 15px;
 $black: #333;
 $white: #fff;
 $butterscotch: #ffc735;
-$midnightblue: #233140;
+$midnightblue: #0a1941;
+$elephant-blue: #113750;
 $marine-blue: #003675;
 $dusty-gray: #999;
 $porcelain: #ecf0f1;
