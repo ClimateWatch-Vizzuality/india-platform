@@ -45,16 +45,10 @@
 }
 
 .introTextContainer {
-  @include columns();
-
-  @media #{$tablet-landscape} {
-    @include columns(9);
-    @include column-offset(2);
-  }
-
-  padding-top: $gutter-padding;
-  flex-wrap: nowrap;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 620px;
 
   @media #{$tablet-landscape} {
     padding-top: 120px;
