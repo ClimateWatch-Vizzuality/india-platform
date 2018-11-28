@@ -15,7 +15,7 @@ services:
       - POSTGRES_URL=postgres://postgres:example@postgres:5432/cw_india_platform
       - RAILS_SERVE_STATIC_FILES=true
     restart: always
-    container_name: cw-starter-kit
+    container_name: cw-india
     depends_on:
       - postgres
 

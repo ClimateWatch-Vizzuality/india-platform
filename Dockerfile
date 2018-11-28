@@ -1,10 +1,11 @@
 FROM ruby:2.5.1
 MAINTAINER Jose Angel Parreño <joseangel.parreno@vizzuality.com>
 
-ENV NAME cw-starter-kit
-ENV RAKE_ENV production
-ENV RAILS_ENV production
-ENV CW_API /api/v1
+ENV NAME=cw-india
+ENV RAKE_ENV=production
+ENV RAILS_ENV=production
+ENV CW_API=/api/v1
+ENV COUNTRY_ISO=IND
 ENV GOOGLE_ANALYTICS_ID ''
 
 # Install dependencies
