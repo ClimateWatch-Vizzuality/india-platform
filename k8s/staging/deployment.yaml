@@ -46,6 +46,8 @@ spec:
           requests:
             memory: "0Mi"
             cpu: "0m"
+        args:
+          - start
         env:
           - name: CW_FILES_PREFIX
             value: 'climatewatch.org/staging.climatewatch.org/india/'
@@ -99,7 +101,7 @@ spec:
         ports:
           - containerPort: 3000
 
-      - name: {name}-sidekiq
+      - name: {name}-staging-sidekiq
         image: vizzuality/{name}
         imagePullPolicy: Always
         resources:
