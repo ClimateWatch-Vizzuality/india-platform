@@ -1,0 +1,24 @@
+@import '~styles/ui-extends.scss';
+@import '~styles/layout.scss';
+
+.pageLayout {
+  @include row();
+}
+
+.policyTypeSection {
+  margin-bottom: 40px;
+
+  .title {
+    @extend %smallTitle;
+
+    color: $midnightblue;
+  }
+}
+
+.policiesCardsContainer {
+  @include columns(4);
+
+  > * {
+    @include setGutters('vertical');
+  }
+}
