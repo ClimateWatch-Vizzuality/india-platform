@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :climate_policy, class: 'ClimatePolicy::Policy' do
-    category { 'Energy' }
+    sector { 'Energy' }
     code { 'ECBC' }
     policy_type { 'Policy Instrument' }
     title { 'Energy Conservation Building Code' }

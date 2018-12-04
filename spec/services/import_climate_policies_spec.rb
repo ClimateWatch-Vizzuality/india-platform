@@ -36,7 +36,7 @@ RSpec.describe ImportClimatePolicies do
     describe 'Imported record' do
       before { subject }
 
-      let(:imported_record) { ClimatePolicy::Policy.find_by(category: 'Buildings') }
+      let(:imported_record) { ClimatePolicy::Policy.find_by(sector: 'Buildings') }
 
       it 'has all attributes populated' do
         expect(imported_record.attributes.values).to all(be_truthy)

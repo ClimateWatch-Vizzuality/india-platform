@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_131137) do
   end
 
   create_table "climate_policies", force: :cascade do |t|
-    t.string "category", null: false
+    t.string "sector", null: false
     t.string "code", null: false
     t.string "policy_type", null: false
     t.text "title", null: false

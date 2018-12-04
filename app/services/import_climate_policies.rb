@@ -34,7 +34,7 @@ class ImportClimatePolicies
   def climate_policy_attributes(row)
     {
       policy_type: row[:type_policy],
-      category: row[:category],
+      sector: row[:category],
       code: row[:p_code],
       title: row[:title_policy],
       description: row[:description_policy],

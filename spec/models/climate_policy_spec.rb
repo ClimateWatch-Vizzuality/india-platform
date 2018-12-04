@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe ClimatePolicy::Policy, type: :model do
   subject { FactoryBot.build(:climate_policy) }
 
-  it 'should be invalid when category not present' do
-    subject.category = nil
-    expect(subject).to have(1).errors_on(:category)
+  it 'should be invalid when sector not present' do
+    subject.sector = nil
+    expect(subject).to have(1).errors_on(:sector)
   end
 
   it 'should be invalid when code not present' do
