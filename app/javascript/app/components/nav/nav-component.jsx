@@ -18,19 +18,21 @@ class Nav extends PureComponent {
     const { routes, theme } = this.props;
     return (
       <nav className={theme.nav}>
-        {routes.map(route => (
-          <NavLink
-            exact={route.exact || false}
-            className={cx(styles.link, theme.link)}
-            key={route.label}
-            to={route.link || route.path}
-            activeClassName={styles.active}
-            onTouchStart={undefined}
-            onMouseDown={undefined}
-          >
-            {route.label}
-          </NavLink>
-        ))}
+        {routes.map(
+          route => route.nav && (
+              <NavLink
+                exact={route.exact || false}
+                className={cx(styles.link, theme.link)}
+                key={route.label}
+                to={route.link || route.path}
+                activeClassName={styles.active}
+                onTouchStart={undefined}
+                onMouseDown={undefined}
+              >
+                {route.label}
+              </NavLink>
+            )
+        )}
         {renderActions()}
       </nav>
     );
