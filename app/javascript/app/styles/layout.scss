@@ -16,7 +16,7 @@ $grid-padding-gutters: $gutter-padding;
 
 @mixin setGutters($gridDirection) {
   @if $gridDirection == 'vertical' {
-    @include xy-gutters('top', 'bottom');
+    @include xy-gutters($gutter-position: ('top', 'bottom'));
   }
 
   @else {
