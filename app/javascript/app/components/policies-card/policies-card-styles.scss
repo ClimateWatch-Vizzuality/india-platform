@@ -13,6 +13,10 @@
     box-shadow: none;
     background-color: $mid-gray;
     cursor: pointer;
+
+    > .description::before {
+      background-color: $mid-gray;
+    }
   }
 }
 
@@ -32,5 +36,8 @@
 .description {
   @extend %bodyText;
 
+  @include textEllipsis(1.2em, 3, $white);
+
   color: $midnightblue;
 }
+

@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import ClimatePoliciesProvider from 'providers/climate-policies-provider';
 import PoliciesCard from 'components/policies-card';
 import SearchCategoriesBox from 'components/search-categories-box';
-import { policiesList } from './climate-policies-mock';
 
 import styles from './climate-policy-module-styles';
 
-const ClimatePolicies = ({ title, description }) => (
+const ClimatePolicies = ({ title, description, policiesListBySector }) => (
   <div className={styles.pageLayout}>
     <section className={styles.introAndSearch}>
       <div className={styles.title}>{title}</div>
@@ -21,16 +20,16 @@ const ClimatePolicies = ({ title, description }) => (
         </div>
       </div>
     </section>
-    {policiesList.map(policyType => (
-      <section className={styles.policyTypeSection} key={policyType.name}>
-        <h3 className={styles.title}>{policyType.name}</h3>
+    {Object.keys(policiesListBySector).map(sector => (
+      <section className={styles.policyTypeSection} key={sector}>
+        <h3 className={styles.title}>{sector}</h3>
         <div className={styles.policiesCardsContainer}>
-          {policyType.policies.map(policy => (
+          {policiesListBySector[sector].map(policy => (
             <PoliciesCard
-              key={policy.name}
-              title={policy.name}
+              key={policy.title}
+              title={policy.title}
               description={policy.description}
-              responsibleAuthority={policy.responsible}
+              responsibleAuthority={policy.authority}
             />
           ))}
         </div>
@@ -42,7 +41,10 @@ const ClimatePolicies = ({ title, description }) => (
 
 ClimatePolicies.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  description: PropTypes.string.isRequired,
+  policiesListBySector: PropTypes.shape({})
 };
+
+ClimatePolicies.defaultProps = { policiesListBySector: {} };
 
 export default ClimatePolicies;
