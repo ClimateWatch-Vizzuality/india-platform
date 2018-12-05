@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_08_120439) do
+ActiveRecord::Schema.define(version: 2018_12_04_131137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(version: 2018_11_08_120439) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "climate_policies", force: :cascade do |t|
+    t.string "sector", null: false
+    t.string "code", null: false
+    t.string "policy_type", null: false
+    t.text "title", null: false
+    t.text "authority"
+    t.text "description"
+    t.boolean "tracking"
+    t.text "tracking_description"
   end
 
   create_table "datasets", force: :cascade do |t|
@@ -141,7 +152,8 @@ ActiveRecord::Schema.define(version: 2018_11_08_120439) do
     t.bigint "section_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "error"
+    t.string "user_email"
+    t.jsonb "details", default: {}
     t.index ["jid"], name: "index_worker_logs_on_jid"
     t.index ["section_id"], name: "index_worker_logs_on_section_id"
   end
