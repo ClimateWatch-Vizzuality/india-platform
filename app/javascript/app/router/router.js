@@ -3,7 +3,6 @@ import createHistory from 'history/createBrowserHistory';
 import queryString from 'query-string';
 
 import CountryContext from './sections/country-context';
-import ClimatePolicies from './sections/climate-policies';
 import ClimatePolicyDetail from './sections/climate-policy-detail';
 
 const history = createHistory();
@@ -33,8 +32,7 @@ export const routes = {
     label: 'Climate policies',
     link: '/climate-policies',
     path: '/climate-policies',
-    component: 'layouts/sections/sections',
-    sections: ClimatePolicies
+    component: 'pages/climate-policies/climate-policy-module/climate-policy-module'
   },
   [CLIMATE_POLICY_DETAIL]: {
     nav: false,
