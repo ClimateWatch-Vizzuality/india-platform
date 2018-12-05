@@ -7,6 +7,7 @@ import SearchCategoriesBox from 'components/search-categories-box';
 import styles from './climate-policy-module-styles';
 
 const title = 'Policy module';
+// eslint-disable-next-line max-len
 const description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.';
 
 const ClimatePolicies = ({ policiesListBySector }) => (

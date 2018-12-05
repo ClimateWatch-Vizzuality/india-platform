@@ -1,13 +1,18 @@
 import React from 'react';
 import Link from 'redux-first-router-link';
 
+import styles from './climate-policies-detail-header-styles';
+
 const ClimatePoliciesDetailHeaderComponent = () => (
-  <div>
-    <Link to={{ type: 'location/CLIMATE_POLICIES' }}>
+  <div className={styles.headerContainer}>
+    <Link
+      to={{ type: 'location/CLIMATE_POLICIES' }}
+      className={styles.backLink}
+    >
       Back to Climate Policies
     </Link>
-    <div>Policy name</div>
-    <div>Responsible Authority</div>
+    <div className={styles.sectionTitle}>Policy name</div>
+    <div className={styles.sectionDescription}>Responsible Authority</div>
   </div>
 );
 
