@@ -5,6 +5,33 @@
   @include row();
 }
 
+.introAndSearch {
+  margin-top: 70px;
+  margin-bottom: 70px;
+
+  .title {
+    @extend %bodyText;
+
+    font-size: $font-size-large;
+    color: $midnightblue;
+    margin-bottom: 10px;
+  }
+
+  .content {
+    @include columns((7, 4));
+
+    > :last-child {
+      @include column-offset(1, $gutters: true);
+    }
+  }
+
+  .description {
+    @extend %bodyText;
+
+    color: $text-dark-blue;
+  }
+}
+
 .policyTypeSection {
   margin-bottom: 40px;
 
