@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ClimatePoliciesProvider from 'providers/climate-policies-provider';
 import PoliciesCard from 'components/policies-card';
 import SearchCategoriesBox from 'components/search-categories-box';
 import { policiesList } from './climate-policies-mock';
@@ -35,6 +36,7 @@ const ClimatePolicies = ({ title, description }) => (
         </div>
       </section>
     ))}
+    <ClimatePoliciesProvider />
   </div>
 );
 

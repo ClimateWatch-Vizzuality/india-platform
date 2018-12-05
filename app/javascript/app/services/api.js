@@ -53,4 +53,4 @@ class API {
 }
 
 export const CWAPI = new API(CW_API_URL);
-export const SAAPI = new API(API_URL);
+export const INDIAAPI = new API(API_URL);

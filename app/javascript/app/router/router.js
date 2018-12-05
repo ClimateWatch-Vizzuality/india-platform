@@ -30,7 +30,7 @@ export const routes = {
   },
   [CLIMATE_POLICIES]: {
     nav: true,
-    label: 'Policy module',
+    label: 'Climate policies',
     link: '/climate-policies',
     path: '/climate-policies',
     component: 'layouts/sections/sections',
