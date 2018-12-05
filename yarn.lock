@@ -2371,8 +2371,8 @@ core-js@^1.0.0:
   resolved "http://registry.npmjs.org/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
 core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0:
-  version "2.5.7"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.0.tgz#1e30793e9ee5782b307e37ffa22da0eacddd84d4"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -8381,13 +8381,14 @@ reduce-reducers@^0.1.2:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/reduce-reducers/-/reduce-reducers-0.1.5.tgz#ff77ca8068ff41007319b8b4b91533c7e0e54576"
 
-redux-first-router-link@0.0.3-next:
-  version "0.0.3-next"
-  resolved "https://registry.yarnpkg.com/redux-first-router-link/-/redux-first-router-link-0.0.3-next.tgz#1d1bd6a1b3499fbc29ae98bf181e1629c538be38"
+redux-first-router-link@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/redux-first-router-link/-/redux-first-router-link-2.0.0.tgz#017e56fdec25b4e8aa21af2bdfdee8a96ac1ef04"
   dependencies:
     path-to-regexp "^1.7.0"
     prop-types "15.5.10"
-    rudy-match-path "^0.1.0"
+    rudy-history "^1.0.0"
+    rudy-match-path "^0.3.0"
 
 redux-first-router@0.0.20-next:
   version "0.0.20-next"
@@ -8846,11 +8847,15 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rudy-match-path@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/rudy-match-path/-/rudy-match-path-0.1.0.tgz#5811458b234cab3502a4e548a5dedf527549a294"
+rudy-history@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/rudy-history/-/rudy-history-1.0.0.tgz#6e716bfea7b6dc00768a9423ace964fd0f168127"
   dependencies:
-    path-to-regexp "^1.7.0"
+    invariant "^2.2.1"
+    loose-envify "^1.2.0"
+    resolve-pathname "^2.2.0"
+    value-equal "^0.4.0"
+    warning "^3.0.0"
 
 rudy-match-path@^0.3.0:
   version "0.3.0"

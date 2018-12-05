@@ -30,6 +30,10 @@ const ClimatePolicies = ({ title, description, policiesListBySector }) => (
               title={policy.title}
               description={policy.description}
               responsibleAuthority={policy.authority}
+              action={{
+                type: 'location/CLIMATE_POLICY_DETAIL',
+                payload: { policy: 'fp', section: 'yea' }
+              }}
             />
           ))}
         </div>
