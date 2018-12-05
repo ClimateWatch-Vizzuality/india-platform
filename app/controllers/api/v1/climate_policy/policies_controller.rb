@@ -6,6 +6,13 @@ module Api
           render json: ::ClimatePolicy::Policy.all,
                  each_serializer: Api::V1::ClimatePolicy::PolicySerializer
         end
+
+        def show
+          policy = ::ClimatePolicy::Policy.find_by!(code: params[:code])
+
+          render json: policy,
+                 serializer: Api::V1::ClimatePolicy::PolicySerializer
+        end
       end
     end
   end

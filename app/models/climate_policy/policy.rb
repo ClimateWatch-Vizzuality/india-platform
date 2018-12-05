@@ -4,7 +4,7 @@
 #
 #  id                   :bigint(8)        not null, primary key
 #  authority            :text
-#  category             :string           not null
+#  sector               :string           not null
 #  code                 :string           not null
 #  description          :text
 #  policy_type          :string           not null
@@ -18,5 +18,6 @@ module ClimatePolicy
     self.table_name = 'climate_policies'
 
     validates_presence_of :sector, :code, :policy_type, :title
+    validates :code, uniqueness: true
   end
 end
