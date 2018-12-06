@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_05_165349) do
+ActiveRecord::Schema.define(version: 2018_12_06_133329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 2018_12_05_165349) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "climate_policies", force: :cascade do |t|
+  create_table "climate_policy_policies", force: :cascade do |t|
     t.string "sector", null: false
     t.string "code", null: false
     t.string "policy_type", null: false
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2018_12_05_165349) do
     t.text "description"
     t.boolean "tracking"
     t.text "tracking_description"
-    t.index ["code"], name: "index_climate_policies_on_code", unique: true
+    t.index ["code"], name: "index_climate_policy_policies_on_code", unique: true
   end
 
   create_table "datasets", force: :cascade do |t|
