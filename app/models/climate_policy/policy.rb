@@ -19,6 +19,8 @@
 
 module ClimatePolicy
   class Policy < ApplicationRecord
+    has_many :instruments
+
     validates_presence_of :sector, :code, :policy_type, :title
     validates :code, uniqueness: true
   end
