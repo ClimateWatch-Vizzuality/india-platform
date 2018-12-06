@@ -6,7 +6,7 @@
 }
 
 .section {
-  background-color: $marine-blue;
+  background-image: $blue-gradient;
   position: relative;
 
   &::before {
@@ -16,7 +16,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: $marine-blue;
+    background-image: $blue-gradient;
     z-index: -1;
   }
 }
@@ -48,4 +48,10 @@
   letter-spacing: -1.3px;
   padding-top: $gutter-padding * 2;
   padding-bottom: $gutter-padding * 3;
+}
+
+.sectionDescription {
+  color: $white;
+  line-height: 1.6;
+  padding-bottom: $gutter-padding * 2;
 }

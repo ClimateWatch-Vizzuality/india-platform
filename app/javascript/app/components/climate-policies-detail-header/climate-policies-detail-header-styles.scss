@@ -1,0 +1,26 @@
+@import '~styles/ui-extends.scss';
+@import '~styles/layout.scss';
+
+.headerContainer {
+  @include row();
+}
+
+.backLink {
+  @extend %bodyText;
+
+  margin-top: $gutter-padding;
+  color: $butterscotch;
+}
+
+.sectionTitle {
+  @extend %headline;
+
+  color: $white;
+}
+
+.sectionDescription {
+  @extend %bodyText;
+
+  color: $white;
+  padding-bottom: $gutter-padding;
+}

@@ -32,13 +32,20 @@ class Planning extends PureComponent {
 
   render() {
     const { route, section } = this.props;
+
     return (
       <div className={styles.page}>
         <div className={styles.section} style={{backgroundImage: `url('${backgrounds[route.link]}')`}}>
-          <div className={styles.row}>
-            <h2 className={styles.sectionTitle}>{route.label}</h2>
-          </div>
-
+          {
+            section.header ? (
+              <section.header />
+            ) : (
+              <div className={styles.row}>
+                <h2 className={styles.sectionTitle}>{route.label}</h2>
+                <p className={styles.sectionDescription}>{route.description}</p>
+              </div>
+            )
+          }
           <Sticky ref={el => {this.stickyRef = el}} onStateChange={this.handleStickyChange} top="#header" activeClass={styles.stickyWrapper} innerZ={6}>
             <div className={styles.row}>
               <Nav theme={{ nav: styles.nav, link: navStyles.linkSubNav }} routes={route.sections} />

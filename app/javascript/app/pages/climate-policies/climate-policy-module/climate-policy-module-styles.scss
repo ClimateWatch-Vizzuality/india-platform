@@ -1,0 +1,85 @@
+@import '~styles/ui-extends.scss';
+@import '~styles/layout.scss';
+
+.pageLayout {
+  @include row();
+}
+
+.pageIntro {
+  width: 100vw;
+  background-image: $blue-gradient;
+  position: relative;
+  left: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: $blue-gradient;
+    z-index: -1;
+  }
+}
+
+.sectionTitle {
+  color: $white;
+  font-size: $font-size-xxl-large;
+  font-weight: 300;
+  line-height: 1.19;
+  letter-spacing: -1.3px;
+  padding-top: $gutter-padding;
+  padding-bottom: $gutter-padding;
+}
+
+.sectionDescription {
+  color: $white;
+  line-height: 1.6;
+  padding-bottom: $gutter-padding * 2;
+}
+
+.introAndSearch {
+  margin-top: 70px;
+  margin-bottom: 70px;
+
+  .title {
+    @extend %bodyText;
+
+    font-size: $font-size-large;
+    color: $midnightblue;
+    margin-bottom: 10px;
+  }
+
+  .content {
+    @include columns((7, 4));
+
+    > :last-child {
+      @include column-offset(1, $gutters: true);
+    }
+  }
+
+  .description {
+    @extend %bodyText;
+
+    color: $text-dark-blue;
+  }
+}
+
+.policyTypeSection {
+  margin-bottom: 40px;
+
+  .title {
+    @extend %smallTitle;
+
+    color: $midnightblue;
+  }
+}
+
+.policiesCardsContainer {
+  @include columns(4);
+
+  > * {
+    @include setGutters('vertical');
+  }
+}
