@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/ClimateWatch-Vizzuality/climate-watch-gems.git
-  revision: fe9d02aa417fabd25c3623350dc3d62d0c59d3bd
+  revision: f382db71a553c6360c16317f555035ec3d70c169
   specs:
-    climate_watch_engine (1.4.0)
+    climate_watch_engine (1.4.1)
       aws-sdk-s3 (~> 1)
       rails (~> 5.2.0)
     cw_data_uploader (0.4.0)
@@ -14,7 +14,7 @@ GIT
       pg
       rubyzip
       sidekiq
-    cw_historical_emissions (1.4.0)
+    cw_historical_emissions (1.5.0)
       active_model_serializers (~> 0.10.0)
       aws-sdk-s3 (~> 1)
       climate_watch_engine (~> 1.4.0)
@@ -99,8 +99,8 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     aws-eventstream (1.0.1)
-    aws-partitions (1.121.0)
-    aws-sdk-core (3.42.0)
+    aws-partitions (1.122.0)
+    aws-sdk-core (3.43.0)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
@@ -111,7 +111,7 @@ GEM
     aws-sdk-rails (2.0.1)
       aws-sdk-ses (~> 1)
       railties (>= 3)
-    aws-sdk-s3 (1.29.0)
+    aws-sdk-s3 (1.30.0)
       aws-sdk-core (~> 3, >= 3.39.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
@@ -374,9 +374,9 @@ DEPENDENCIES
   annotate
   byebug
   capybara (~> 2.13)
-  climate_watch_engine (~> 1.4.0)!
+  climate_watch_engine (~> 1.4.1)!
   cw_data_uploader (~> 0.4.0)!
-  cw_historical_emissions (~> 1.4.0)!
+  cw_historical_emissions (~> 1.5.0)!
   cw_locations (~> 1.4.0)!
   devise
   dotenv-rails
