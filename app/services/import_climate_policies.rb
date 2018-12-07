@@ -12,7 +12,7 @@ class ImportClimatePolicies
             :entities_instrument, :context_instrument, :source
           ],
           indicators: [
-            :p_code, :i_codes, :ind_type, :input_f, :attainment_date, :ind_unit,
+            :p_code, :i_codes, :ind_type, :ind_name, :attainment_date, :ind_unit,
             :ind_authority, :ind_sources, :ind_tracking, :ind_tracking_notes,
             :ind_status, :sources
           ],
@@ -123,7 +123,7 @@ class ImportClimatePolicies
     {
       policy: ClimatePolicy::Policy.find_by(code: row[:p_code]),
       category: row[:ind_type],
-      name: row[:input_f],
+      name: row[:ind_name],
       attainment_date: row[:attainment_date],
       value: row[:ind_unit],
       responsible_authority: row[:ind_authority],
