@@ -18,3 +18,7 @@ platforms:
         importer: ImportClimatePolicies
         datasets:
           - policies
+          - instruments
+          - indicators
+          - milestones
+          - sources

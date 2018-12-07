@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_05_165349) do
+ActiveRecord::Schema.define(version: 2018_12_07_151527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,7 +36,54 @@ ActiveRecord::Schema.define(version: 2018_12_05_165349) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "climate_policies", force: :cascade do |t|
+  create_table "climate_policy_indicators", force: :cascade do |t|
+    t.bigint "policy_id"
+    t.string "category"
+    t.text "name"
+    t.string "value"
+    t.string "attainment_date"
+    t.text "responsible_authority"
+    t.text "data_source_link"
+    t.string "tracking_frequency"
+    t.text "tracking_notes"
+    t.text "status"
+    t.text "sources"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["policy_id"], name: "index_climate_policy_indicators_on_policy_id"
+  end
+
+  create_table "climate_policy_instruments", force: :cascade do |t|
+    t.bigint "policy_id"
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "policy_scheme"
+    t.text "description"
+    t.text "scheme"
+    t.text "policy_status"
+    t.text "key_milestones"
+    t.text "implementation_entities"
+    t.text "broader_context"
+    t.text "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_climate_policy_instruments_on_code", unique: true
+    t.index ["policy_id"], name: "index_climate_policy_instruments_on_policy_id"
+  end
+
+  create_table "climate_policy_milestones", force: :cascade do |t|
+    t.bigint "policy_id"
+    t.string "name"
+    t.text "responsible_authority"
+    t.string "date"
+    t.string "status"
+    t.text "data_source_link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["policy_id"], name: "index_climate_policy_milestones_on_policy_id"
+  end
+
+  create_table "climate_policy_policies", force: :cascade do |t|
     t.string "sector", null: false
     t.string "code", null: false
     t.string "policy_type", null: false
@@ -45,7 +92,17 @@ ActiveRecord::Schema.define(version: 2018_12_05_165349) do
     t.text "description"
     t.boolean "tracking"
     t.text "tracking_description"
-    t.index ["code"], name: "index_climate_policies_on_code", unique: true
+    t.index ["code"], name: "index_climate_policy_policies_on_code", unique: true
+  end
+
+  create_table "climate_policy_sources", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name"
+    t.string "description"
+    t.text "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_climate_policy_sources_on_code", unique: true
   end
 
   create_table "datasets", force: :cascade do |t|
@@ -146,6 +203,9 @@ ActiveRecord::Schema.define(version: 2018_12_05_165349) do
     t.index ["section_id"], name: "index_worker_logs_on_section_id"
   end
 
+  add_foreign_key "climate_policy_indicators", "climate_policy_policies", column: "policy_id", on_delete: :cascade
+  add_foreign_key "climate_policy_instruments", "climate_policy_policies", column: "policy_id", on_delete: :cascade
+  add_foreign_key "climate_policy_milestones", "climate_policy_policies", column: "policy_id", on_delete: :cascade
   add_foreign_key "datasets", "sections"
   add_foreign_key "historical_emissions_records", "historical_emissions_data_sources", column: "data_source_id", on_delete: :cascade
   add_foreign_key "historical_emissions_records", "historical_emissions_gases", column: "gas_id", on_delete: :cascade

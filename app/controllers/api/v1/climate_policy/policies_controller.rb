@@ -11,7 +11,7 @@ module Api
           policy = ::ClimatePolicy::Policy.find_by!(code: params[:code])
 
           render json: policy,
-                 serializer: Api::V1::ClimatePolicy::PolicySerializer
+                 serializer: Api::V1::ClimatePolicy::PolicyFullSerializer
         end
       end
     end
