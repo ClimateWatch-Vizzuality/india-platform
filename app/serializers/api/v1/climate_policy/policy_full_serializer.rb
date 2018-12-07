@@ -5,9 +5,9 @@ module Api
         attributes :code, :policy_type, :sector, :description, :title,
                    :authority, :tracking, :tracking_description
 
-        has_many :instruments
-        has_many :indicators
-        has_many :milestones
+        has_many :instruments, serializer: Api::V1::ClimatePolicy::InstrumentSerializer
+        has_many :indicators, serializer: Api::V1::ClimatePolicy::IndicatorSerializer
+        has_many :milestones, serializer: Api::V1::ClimatePolicy::MilestoneSerializer
       end
     end
   end
