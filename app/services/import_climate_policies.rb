@@ -32,7 +32,7 @@ class ImportClimatePolicies
     ActiveRecord::Base.transaction do
       cleanup
       import_policies
-      import_policy_instruments
+      import_instruments
       import_indicators
       import_milestones
     end
@@ -91,7 +91,7 @@ class ImportClimatePolicies
     }
   end
 
-  def import_policy_instruments
+  def import_instruments
     import_each_with_logging(instruments_csv, INSTRUMENTS_FILEPATH) do |row|
       ClimatePolicy::Instrument.create!(instrument_attributes(row))
     end
@@ -122,9 +122,9 @@ class ImportClimatePolicies
   def indicator_attributes(row)
     {
       policy: ClimatePolicy::Policy.find_by(code: row[:p_code]),
-      category: row[:ind_type],
+      category: row[:ind_type]&.titleize,
       name: row[:ind_name],
-      attainment_date: row[:attainment_date],
+      attainment_date: parse_date(row[:attainment_date]),
       value: row[:ind_unit],
       responsible_authority: row[:ind_authority],
       data_source_link: row[:ind_sources],
@@ -146,9 +146,15 @@ class ImportClimatePolicies
       policy: ClimatePolicy::Policy.find_by(code: row[:p_code]),
       name: row[:i_milestone],
       responsible_authority: row[:m_responsibility],
-      date: row[:m_date],
+      date: parse_date(row[:m_date]),
       data_source_link: row[:m_source],
       status: row[:m_status]
     }
+  end
+
+  def parse_date(date)
+    Date.strptime(date, '%b-%y').strftime('%Y-%m')
+  rescue ArgumentError
+    date
   end
 end
