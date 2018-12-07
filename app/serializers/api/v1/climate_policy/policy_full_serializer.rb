@@ -6,6 +6,7 @@ module Api
                    :authority, :tracking, :tracking_description
 
         has_many :instruments
+        has_many :indicators
       end
     end
   end

@@ -17,6 +17,8 @@ class CreateClimatePolicyInstruments < ActiveRecord::Migration[5.2]
       t.text :implementation_entities
       t.text :broader_context
       t.text :source
+
+      t.timestamps
     end
 
     add_index :climate_policy_instruments, :code, unique: true

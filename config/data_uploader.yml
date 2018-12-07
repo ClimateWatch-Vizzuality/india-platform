@@ -19,3 +19,4 @@ platforms:
         datasets:
           - policies
           - instruments
+          - indicators

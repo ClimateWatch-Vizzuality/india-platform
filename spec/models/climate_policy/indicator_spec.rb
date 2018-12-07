@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe ClimatePolicy::Instrument, type: :model do
-  subject { FactoryBot.build(:climate_policy_instrument) }
+RSpec.describe ClimatePolicy::Indicator, type: :model do
+  subject { FactoryBot.build(:climate_policy_indicator) }
 
   it 'should be invalid when policy not present' do
     subject.policy = nil

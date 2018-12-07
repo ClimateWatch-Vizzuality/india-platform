@@ -10,11 +10,17 @@ class ImportClimatePolicies
             :p_code, :p_scheme, :i_code, :s_name_instrument, :description_instrument,
             :scheme_instrument, :status_instrument, :milestone_instrument,
             :entities_instrument, :context_instrument, :source
+          ],
+          indicators: [
+            :p_code, :i_codes, :ind_type, :input_f, :attainment_date, :ind_unit,
+            :ind_authority, :ind_sources, :ind_tracking, :ind_tracking_notes,
+            :ind_status, :sources
           ]
   # rubocop:enable Layout/IndentArray
 
   POLICIES_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/policies.csv".freeze
   INSTRUMENTS_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/instruments.csv".freeze
+  INDICATORS_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/indicators.csv".freeze
 
   def call
     return unless all_headers_valid?
@@ -23,6 +29,7 @@ class ImportClimatePolicies
       cleanup
       import_policies
       import_policy_instruments
+      import_indicators
     end
   end
 
@@ -31,13 +38,15 @@ class ImportClimatePolicies
   def all_headers_valid?
     [
       valid_headers?(policies_csv, POLICIES_FILEPATH, headers[:policies]),
-      valid_headers?(instruments_csv, INSTRUMENTS_FILEPATH, headers[:instruments])
+      valid_headers?(instruments_csv, INSTRUMENTS_FILEPATH, headers[:instruments]),
+      valid_headers?(indicators_csv, INDICATORS_FILEPATH, headers[:indicators])
     ].all?(true)
   end
 
   def cleanup
     ClimatePolicy::Policy.delete_all
     ClimatePolicy::Instrument.delete_all
+    ClimatePolicy::Indicator.delete_all
   end
 
   def policies_csv
@@ -46,6 +55,10 @@ class ImportClimatePolicies
 
   def instruments_csv
     @instruments_csv ||= S3CSVReader.read(INSTRUMENTS_FILEPATH)
+  end
+
+  def indicators_csv
+    @indicators_csv ||= S3CSVReader.read(INDICATORS_FILEPATH)
   end
 
   def import_policies
@@ -86,6 +99,28 @@ class ImportClimatePolicies
       implementation_entities: row[:entities_instrument],
       broader_context: row[:context_instrument],
       source: row[:source]
+    }
+  end
+
+  def import_indicators
+    import_each_with_logging(indicators_csv, INDICATORS_FILEPATH) do |row|
+      ClimatePolicy::Indicator.create!(indicator_attributes(row))
+    end
+  end
+
+  def indicator_attributes(row)
+    {
+      policy: ClimatePolicy::Policy.find_by(code: row[:p_code]),
+      category: row[:ind_type],
+      name: row[:input_f],
+      attainment_date: row[:attainment_date],
+      value: row[:ind_unit],
+      responsible_authority: row[:ind_authority],
+      data_source_link: row[:ind_sources],
+      tracking_frequency: row[:ind_tracking],
+      tracking_notes: row[:ind_tracking_notes],
+      status: row[:ind_status],
+      sources: row[:sources]
     }
   end
 end

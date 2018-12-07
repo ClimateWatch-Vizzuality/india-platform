@@ -10,6 +10,11 @@ correct_files = {
     p_code,p_scheme,i_code,s_name_instrument,description_instrument,Scheme_instrument,status_instrument,milestone_instrument,entities_instrument,context_instrument,source
     ECBC,Energy Conservation Building Code,ECBC.1,ECBC,description of the instrument, scheme for the instrument, instrument status,key milestones,entities description,broader context description,source
   END_OF_CSV
+  ImportClimatePolicies::INDICATORS_FILEPATH => <<~END_OF_CSV,
+    p_code,i_codes,ind_type,input_f,attainment_date,ind_unit,ind_authority,ind_sources,ind_tracking,ind_tracking_notes,ind_status,sources
+    ECBC,ECBC.1,Finance,"UNDP-GEF-BEE programme",Apr-17,5.2 million (USD),UNDP-GEF,http://example.com,Annually,"Annual Project Review",5.01million USD disbursed by GEF,UNDP-EECB
+    ECBC,ECBC.1,Finance,Funding for building institutional capacity,Apr-17,"1,475,000 (USD)",UNDP-GEF,https://example.com,Annually,"Annual Project Review","Budget allocated in USD",CPWD-GSH
+  END_OF_CSV
 }
 missing_headers = {
   ImportClimatePolicies::POLICIES_FILEPATH => <<~END_OF_CSV,
@@ -20,6 +25,11 @@ missing_headers = {
   ImportClimatePolicies::INSTRUMENTS_FILEPATH => <<~END_OF_CSV,
     i_code,s_name_instrument,description_instrument,Scheme_instrument,status_instrument,milestone_instrument,entities_instrument,context_instrument,source
     ECBC,Energy Conservation Building Code,ECBC.1,ECBC,description of the instrument, scheme for the instrument, instrument status,key milestones,entities description,broader context description,source
+  END_OF_CSV
+  ImportClimatePolicies::INDICATORS_FILEPATH => <<~END_OF_CSV,
+    i_codes,ind_type,input_f,attainment_date,ind_unit,ind_authority,ind_sources,ind_tracking,ind_tracking_notes,ind_status,sources
+    ECBC,ECBC.1,Finance,"UNDP-GEF-BEE programme",Apr-17,5.2 million (USD),UNDP-GEF,http://example.com,"Annual Project Review",5.01million USD disbursed by GEF,UNDP-EECB
+    ECBC,ECBC.1,Finance,Funding for building institutional capacity,Apr-17,"1,475,000 (USD)",UNDP-GEF,https://example.com,Annually,"Annual Project Review","Budget allocated in USD",CPWD-GSH
   END_OF_CSV
 }
 
@@ -45,6 +55,10 @@ RSpec.describe ImportClimatePolicies do
       expect { subject }.to change { ClimatePolicy::Instrument.count }.by(1)
     end
 
+    it 'Creates new indicators' do
+      expect { subject }.to change { ClimatePolicy::Indicator.count }.by(2)
+    end
+
     describe 'Imported record' do
       before { ImportClimatePolicies.new.call }
 
@@ -60,6 +74,16 @@ RSpec.describe ImportClimatePolicies do
 
       describe 'instrument' do
         subject { ClimatePolicy::Instrument.find_by(code: 'ECBC.1') }
+
+        it 'has all attributes populated' do
+          subject.attributes.each do |attr, value|
+            expect(value).not_to be_nil, "#{attr} not to be nil"
+          end
+        end
+      end
+
+      describe 'indicator' do
+        subject { ClimatePolicy::Indicator.first }
 
         it 'has all attributes populated' do
           subject.attributes.each do |attr, value|
@@ -85,6 +109,10 @@ RSpec.describe ImportClimatePolicies do
       expect { subject.call }.to change { ClimatePolicy::Instrument.count }.by(0)
     end
 
+    it 'does not create any indicator' do
+      expect { subject.call }.to change { ClimatePolicy::Indicator.count }.by(0)
+    end
+
     it 'has missing headers for policy file' do
       subject.call
       expected_error = {
@@ -99,6 +127,15 @@ RSpec.describe ImportClimatePolicies do
       expected_error = {
         type: :missing_header,
         filename: File.basename(ImportClimatePolicies::INSTRUMENTS_FILEPATH)
+      }
+      expect(subject.errors).to include(hash_including(expected_error))
+    end
+
+    it 'has missing headers for indicators file' do
+      subject.call
+      expected_error = {
+        type: :missing_header,
+        filename: File.basename(ImportClimatePolicies::INDICATORS_FILEPATH)
       }
       expect(subject.errors).to include(hash_including(expected_error))
     end
