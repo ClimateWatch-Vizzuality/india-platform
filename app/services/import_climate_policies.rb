@@ -18,6 +18,9 @@ class ImportClimatePolicies
           ],
           milestones: [
             :p_code, :i_milestone, :m_responsibility, :m_date, :m_source, :m_status
+          ],
+          sources: [
+            :source_s_name, :source_l_name, :source_description, :source_link
           ]
   # rubocop:enable Layout/IndentArray
 
@@ -25,12 +28,14 @@ class ImportClimatePolicies
   INSTRUMENTS_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/instruments.csv".freeze
   INDICATORS_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/indicators.csv".freeze
   MILESTONES_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/milestones.csv".freeze
+  SOURCES_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/sources.csv".freeze
 
   def call
     return unless all_headers_valid?
 
     ActiveRecord::Base.transaction do
       cleanup
+      import_sources
       import_policies
       import_instruments
       import_indicators
@@ -45,15 +50,21 @@ class ImportClimatePolicies
       valid_headers?(policies_csv, POLICIES_FILEPATH, headers[:policies]),
       valid_headers?(instruments_csv, INSTRUMENTS_FILEPATH, headers[:instruments]),
       valid_headers?(indicators_csv, INDICATORS_FILEPATH, headers[:indicators]),
-      valid_headers?(milestones_csv, MILESTONES_FILEPATH, headers[:milestones])
+      valid_headers?(milestones_csv, MILESTONES_FILEPATH, headers[:milestones]),
+      valid_headers?(sources_csv, SOURCES_FILEPATH, headers[:sources])
     ].all?(true)
   end
 
   def cleanup
+    ClimatePolicy::Source.delete_all
     ClimatePolicy::Policy.delete_all
     ClimatePolicy::Instrument.delete_all
     ClimatePolicy::Indicator.delete_all
     ClimatePolicy::Milestone.delete_all
+  end
+
+  def sources_csv
+    @sources_csv ||= S3CSVReader.read(SOURCES_FILEPATH)
   end
 
   def policies_csv
@@ -70,6 +81,21 @@ class ImportClimatePolicies
 
   def milestones_csv
     @milestones_csv ||= S3CSVReader.read(MILESTONES_FILEPATH)
+  end
+
+  def import_sources
+    import_each_with_logging(sources_csv, SOURCES_FILEPATH) do |row|
+      ClimatePolicy::Source.create!(source_attributes(row))
+    end
+  end
+
+  def source_attributes(row)
+    {
+      code: row[:source_s_name],
+      name: row[:source_l_name],
+      description: row[:source_description],
+      link: row[:source_link]
+    }
   end
 
   def import_policies

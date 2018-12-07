@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_07_111658) do
+ActiveRecord::Schema.define(version: 2018_12_07_151527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,16 @@ ActiveRecord::Schema.define(version: 2018_12_07_111658) do
     t.boolean "tracking"
     t.text "tracking_description"
     t.index ["code"], name: "index_climate_policy_policies_on_code", unique: true
+  end
+
+  create_table "climate_policy_sources", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name"
+    t.string "description"
+    t.text "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_climate_policy_sources_on_code", unique: true
   end
 
   create_table "datasets", force: :cascade do |t|
