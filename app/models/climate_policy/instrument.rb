@@ -13,6 +13,8 @@
 #  policy_status           :text
 #  scheme                  :text
 #  source                  :text
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #  policy_id               :bigint(8)
 #
 # Indexes

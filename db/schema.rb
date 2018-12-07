@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_07_091043) do
+ActiveRecord::Schema.define(version: 2018_12_07_111658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,18 @@ ActiveRecord::Schema.define(version: 2018_12_07_091043) do
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_climate_policy_instruments_on_code", unique: true
     t.index ["policy_id"], name: "index_climate_policy_instruments_on_policy_id"
+  end
+
+  create_table "climate_policy_milestones", force: :cascade do |t|
+    t.bigint "policy_id"
+    t.string "name"
+    t.text "responsible_authority"
+    t.string "date"
+    t.string "status"
+    t.text "data_source_link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["policy_id"], name: "index_climate_policy_milestones_on_policy_id"
   end
 
   create_table "climate_policy_policies", force: :cascade do |t|
@@ -183,6 +195,7 @@ ActiveRecord::Schema.define(version: 2018_12_07_091043) do
 
   add_foreign_key "climate_policy_indicators", "climate_policy_policies", column: "policy_id", on_delete: :cascade
   add_foreign_key "climate_policy_instruments", "climate_policy_policies", column: "policy_id", on_delete: :cascade
+  add_foreign_key "climate_policy_milestones", "climate_policy_policies", column: "policy_id", on_delete: :cascade
   add_foreign_key "datasets", "sections"
   add_foreign_key "historical_emissions_records", "historical_emissions_data_sources", column: "data_source_id", on_delete: :cascade
   add_foreign_key "historical_emissions_records", "historical_emissions_gases", column: "gas_id", on_delete: :cascade

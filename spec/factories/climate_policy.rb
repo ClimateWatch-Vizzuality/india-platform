@@ -20,5 +20,11 @@ FactoryBot.define do
         create_list :climate_policy_instrument, 2, policy: policy
       end
     end
+
+    trait :with_milestones do
+      after(:create) do |policy|
+        create_list :climate_policy_milestone, 2, policy: policy
+      end
+    end
   end
 end

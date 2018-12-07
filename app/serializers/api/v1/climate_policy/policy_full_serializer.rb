@@ -7,6 +7,7 @@ module Api
 
         has_many :instruments
         has_many :indicators
+        has_many :milestones
       end
     end
   end

@@ -21,7 +21,13 @@ describe Api::V1::ClimatePolicy::PoliciesController, type: :controller do
 
     describe 'GET show' do
       let!(:policy) {
-        FactoryBot.create(:climate_policy, :with_instruments, :with_indicators, code: 'ECBC')
+        FactoryBot.create(
+          :climate_policy,
+          :with_instruments,
+          :with_indicators,
+          :with_milestones,
+          code: 'ECBC'
+        )
       }
 
       it 'returns a successful 200 response' do
@@ -35,6 +41,7 @@ describe Api::V1::ClimatePolicy::PoliciesController, type: :controller do
         expect(policy_json).to include('code' => 'ECBC')
         expect(policy_json['instruments'].length).to eq(2)
         expect(policy_json['indicators'].length).to eq(2)
+        expect(policy_json['milestones'].length).to eq(2)
       end
     end
   end

@@ -15,12 +15,16 @@ class ImportClimatePolicies
             :p_code, :i_codes, :ind_type, :input_f, :attainment_date, :ind_unit,
             :ind_authority, :ind_sources, :ind_tracking, :ind_tracking_notes,
             :ind_status, :sources
+          ],
+          milestones: [
+            :p_code, :i_milestone, :m_responsibility, :m_date, :m_source, :m_status
           ]
   # rubocop:enable Layout/IndentArray
 
   POLICIES_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/policies.csv".freeze
   INSTRUMENTS_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/instruments.csv".freeze
   INDICATORS_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/indicators.csv".freeze
+  MILESTONES_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/milestones.csv".freeze
 
   def call
     return unless all_headers_valid?
@@ -30,6 +34,7 @@ class ImportClimatePolicies
       import_policies
       import_policy_instruments
       import_indicators
+      import_milestones
     end
   end
 
@@ -39,7 +44,8 @@ class ImportClimatePolicies
     [
       valid_headers?(policies_csv, POLICIES_FILEPATH, headers[:policies]),
       valid_headers?(instruments_csv, INSTRUMENTS_FILEPATH, headers[:instruments]),
-      valid_headers?(indicators_csv, INDICATORS_FILEPATH, headers[:indicators])
+      valid_headers?(indicators_csv, INDICATORS_FILEPATH, headers[:indicators]),
+      valid_headers?(milestones_csv, MILESTONES_FILEPATH, headers[:milestones])
     ].all?(true)
   end
 
@@ -47,6 +53,7 @@ class ImportClimatePolicies
     ClimatePolicy::Policy.delete_all
     ClimatePolicy::Instrument.delete_all
     ClimatePolicy::Indicator.delete_all
+    ClimatePolicy::Milestone.delete_all
   end
 
   def policies_csv
@@ -59,6 +66,10 @@ class ImportClimatePolicies
 
   def indicators_csv
     @indicators_csv ||= S3CSVReader.read(INDICATORS_FILEPATH)
+  end
+
+  def milestones_csv
+    @milestones_csv ||= S3CSVReader.read(MILESTONES_FILEPATH)
   end
 
   def import_policies
@@ -121,6 +132,23 @@ class ImportClimatePolicies
       tracking_notes: row[:ind_tracking_notes],
       status: row[:ind_status],
       sources: row[:sources]
+    }
+  end
+
+  def import_milestones
+    import_each_with_logging(milestones_csv, MILESTONES_FILEPATH) do |row|
+      ClimatePolicy::Milestone.create!(milestone_attributes(row))
+    end
+  end
+
+  def milestone_attributes(row)
+    {
+      policy: ClimatePolicy::Policy.find_by(code: row[:p_code]),
+      name: row[:i_milestone],
+      responsible_authority: row[:m_responsibility],
+      date: row[:m_date],
+      data_source_link: row[:m_source],
+      status: row[:m_status]
     }
   end
 end
