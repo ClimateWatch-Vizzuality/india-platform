@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { Icon } from 'cw-components';
 import iconInfo from 'assets/icons/info';
 import ReactTooltip from 'react-tooltip';
@@ -15,7 +16,7 @@ class InfoButton extends PureComponent {
   };
 
   render() {
-    const { className } = this.props;
+    const { className, theme } = this.props;
     return (
       <div className={className}>
         <div data-for="blueTooltip" data-tip="Information">
@@ -23,7 +24,7 @@ class InfoButton extends PureComponent {
             alt="info"
             icon={iconInfo}
             onClick={this.handleInfoClick}
-            theme={{ icon: styles.icon }}
+            theme={{ icon: cx(styles.icon, theme.icon) }}
           />
         </div>
         <ReactTooltip
@@ -39,10 +40,11 @@ class InfoButton extends PureComponent {
 
 InfoButton.propTypes = {
   className: PropTypes.object,
+  theme: PropTypes.shape({ icon: PropTypes.string }),
   slugs: PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
   setModalMetadata: PropTypes.func.isRequired
 };
 
-InfoButton.defaultProps = { className: {}, slugs: null };
+InfoButton.defaultProps = { className: {}, slugs: null, theme: {} };
 
 export default InfoButton;
