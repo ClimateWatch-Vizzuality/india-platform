@@ -37,7 +37,12 @@
 
 .nav {
   display: flex;
+  height: 70px;
   padding-top: $gutter-padding / 2;
+}
+
+.active {
+  border-bottom: 3px solid $theme-color;
 }
 
 .sectionTitle {
