@@ -65,11 +65,9 @@ class Planning extends PureComponent {
               </div>
             )
           }
-          <Sticky ref={el => {this.stickyRef = el}} onStateChange={this.handleStickyChange} top="#header" activeClass={navStyles.stickyWrapper} innerZ={6}>
-            <div className={styles.row}>
-              <Nav theme={{ nav: styles.nav, link: navStyles.linkSubNav }} routes={sections} />
-            </div>
-          </Sticky>
+          <div className={styles.row}>
+            <Nav theme={{ nav: styles.nav, link: navStyles.linkSubNav }} routes={sections} />
+          </div>
         </div>
         <SectionComponent page={route.link} section={section.slug} />
       </div>
