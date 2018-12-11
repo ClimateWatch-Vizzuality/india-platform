@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import ClimatePoliciesProvider from 'providers/climate-policies-provider';
+import ClimatePolicyProvider from 'providers/climate-policy-provider';
 import InfoButton from 'components/info-button';
 import { Icon } from 'cw-components';
 import openInNew from 'assets/icons/open_in_new';
@@ -20,7 +21,7 @@ const columnNames = [
 
 const handleOnClick = () => window.open('https://www.google.com', '_blank');
 
-const Instruments = ({ instruments }) => (
+const Instruments = ({ instruments, policyCode }) => (
   <div className={styles.page}>
     <div className={styles.titleContainer}>
       <div className={styles.title}>
@@ -65,11 +66,15 @@ const Instruments = ({ instruments }) => (
       </div>
     </div>
     <ClimatePoliciesProvider />
+    <ClimatePolicyProvider params={{ policyCode }} />
   </div>
 );
 
-Instruments.propTypes = { instruments: PropTypes.array };
+Instruments.propTypes = {
+  instruments: PropTypes.array,
+  policyCode: PropTypes.string
+};
 
-Instruments.defaultProps = { instruments: [] };
+Instruments.defaultProps = { instruments: [], policyCode: '' };
 
 export default Instruments;
