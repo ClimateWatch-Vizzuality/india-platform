@@ -2,16 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { searchSelectors } from './search-categories-box-selectors';
 import Component from './search-categories-box-component';
 import * as actions from './search-categories-box-actions';
 
 class SearchFilterContainer extends PureComponent {
   onFilterChange = filter => {
     const { updateFiltersSelected, query } = this.props;
-    console.log(query)
-    updateFiltersSelected({
-      query: {...query, ...filter}
-    });
+    updateFiltersSelected({ query: { ...query, ...filter } });
   };
 
   render() {
@@ -19,13 +17,11 @@ class SearchFilterContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ location }) => ({
-  query: location.query
-})
-
 SearchFilterContainer.propTypes = {
+  query: PropTypes.shape({}),
   updateFiltersSelected: PropTypes.func.isRequired
 };
 
+SearchFilterContainer.defaultProps = { query: null };
 
-export default connect(mapStateToProps, actions)(SearchFilterContainer);
+export default connect(searchSelectors, actions)(SearchFilterContainer);

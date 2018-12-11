@@ -6,12 +6,15 @@ import SearchCategoriesBox from 'components/search-categories-box';
 
 import styles from './climate-policy-module-styles';
 
-const SEARCHBOX_TABS = [{slug:'sectors', name:'Sector'}, {slug:'responsible_authority', name:'Responsible Authority'}];
+const SEARCHBOX_TABS = [
+  { slug: 'sectors', name: 'Sector' },
+  { slug: 'responsible_authority', name: 'Responsible Authority' }
+];
 const title = 'Policy module';
 // eslint-disable-next-line max-len
 const description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.';
 
-const ClimatePolicies = ({ policiesListBySector, sectors, authorities }) => console.log(authorities) || (
+const ClimatePolicies = ({ policiesListBySector, sectors, authorities }) => (
   <div>
     <section className={styles.pageIntro}>
       <div className={styles.pageLayout}>
@@ -30,7 +33,7 @@ const ClimatePolicies = ({ policiesListBySector, sectors, authorities }) => cons
                 onChange={value => console.info(value)}
                 placeholder="Search and filter policies"
                 tabs={SEARCHBOX_TABS}
-                checkBoxes={{sectors, responsible_authority: authorities}}
+                checkBoxes={{ sectors, responsible_authority: authorities }}
               />
             </div>
           </div>
@@ -64,8 +67,16 @@ const ClimatePolicies = ({ policiesListBySector, sectors, authorities }) => cons
   </div>
 );
 
-ClimatePolicies.propTypes = { policiesListBySector: PropTypes.shape({}) };
+ClimatePolicies.propTypes = {
+  policiesListBySector: PropTypes.shape({}),
+  sectors: PropTypes.arrayOf(PropTypes.string),
+  authorities: PropTypes.arrayOf(PropTypes.string)
+};
 
-ClimatePolicies.defaultProps = { policiesListBySector: {} };
+ClimatePolicies.defaultProps = {
+  policiesListBySector: {},
+  sectors: null,
+  authorities: null
+};
 
 export default ClimatePolicies;
