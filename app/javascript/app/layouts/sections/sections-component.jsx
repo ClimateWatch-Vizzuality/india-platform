@@ -9,6 +9,8 @@ import navStyles from 'components/nav/nav-styles';
 
 import styles from './sections-styles.scss';
 
+const CLIMATE_POLICIES = '/climate-policies';
+
 const universalOptions = {
   loading: <Loading height={500} />,
   minDelay: 400
@@ -31,7 +33,24 @@ class Planning extends PureComponent {
   }
 
   render() {
-    const { route, section } = this.props;
+    const { route, section, policy } = this.props;
+
+    const isClimatePoliciesDetails = route.link === CLIMATE_POLICIES;
+    let { sections } = route;
+    if (isClimatePoliciesDetails) {
+      sections = route.sections.map(s => (
+        { 
+          label: s.label,
+          link: {
+            type: 'location/CLIMATE_POLICY_DETAIL',
+            payload: {
+              policy,
+              section: s.slug
+            }
+          }
+        }
+      ))
+    };
 
     return (
       <div className={styles.page}>
@@ -46,11 +65,9 @@ class Planning extends PureComponent {
               </div>
             )
           }
-          <Sticky ref={el => {this.stickyRef = el}} onStateChange={this.handleStickyChange} top="#header" activeClass={styles.stickyWrapper} innerZ={6}>
-            <div className={styles.row}>
-              <Nav theme={{ nav: styles.nav, link: navStyles.linkSubNav }} routes={route.sections} />
-            </div>
-          </Sticky>
+          <div className={styles.row}>
+            <Nav theme={{ nav: styles.nav, link: navStyles.linkSubNav }} routes={sections} />
+          </div>
         </div>
         <SectionComponent page={route.link} section={section.slug} />
       </div>
@@ -61,6 +78,11 @@ class Planning extends PureComponent {
 Planning.propTypes = {
   route: PropTypes.object.isRequired,
   section: PropTypes.object.isRequired,
+  policy: PropTypes.string
+}
+
+Planning.defaultProps = {
+  policy: undefined
 }
 
 export default Planning;

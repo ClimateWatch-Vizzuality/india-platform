@@ -49,7 +49,24 @@
 
   &.active::after {
     height: 6px;
-    background-color: $white;
+    background-color: $butterscotch;
+  }
+}
+
+.stickyWrapper {
+  max-height: 34px;
+
+  :global {
+    .sticky-inner-wrapper {
+      background-color: $action-color;
+    }
+  }
+
+  .linkSubNav {
+    &.active::after {
+      height: 6px;
+      background-color: $white;
+    }
   }
 }
 
