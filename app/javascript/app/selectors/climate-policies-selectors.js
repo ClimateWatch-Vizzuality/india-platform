@@ -18,13 +18,9 @@ export const policiesListBySector = createSelector(
 export const policiesByCode = createSelector(getClimatePoliciesList, list => {
   if (!list) return null;
   const groupedByCode = groupBy(list, 'code');
-  const policies = {};
-  Object.keys(groupedByCode).forEach(code => {
-    policies[code] = {};
-    // eslint-disable-next-line prefer-destructuring
-    policies[code] = groupedByCode[code][0];
-  });
-  return policies;
+  return Object
+    .keys(groupedByCode)
+    .reduce((acc, code) => ({ ...acc, [code]: groupedByCode[code][0] }), {});
 });
 
 export const climatePolicies = createStructuredSelector({
