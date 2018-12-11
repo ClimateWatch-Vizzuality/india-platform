@@ -6,11 +6,12 @@ import SearchCategoriesBox from 'components/search-categories-box';
 
 import styles from './climate-policy-module-styles';
 
+const SEARCHBOX_TABS = [{slug:'sectors', name:'Sector'}, {slug:'responsible_authority', name:'Responsible Authority'}];
 const title = 'Policy module';
 // eslint-disable-next-line max-len
 const description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.';
 
-const ClimatePolicies = ({ policiesListBySector }) => (
+const ClimatePolicies = ({ policiesListBySector, sectors, authorities }) => console.log(authorities) || (
   <div>
     <section className={styles.pageIntro}>
       <div className={styles.pageLayout}>
@@ -24,10 +25,14 @@ const ClimatePolicies = ({ policiesListBySector }) => (
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
             <div className={styles.description}>{description}</div>
-            <SearchCategoriesBox
-              onChange={value => console.info(value)}
-              placeholder="Feel free to write me"
-            />
+            <div className={styles.filterContainer}>
+              <SearchCategoriesBox
+                onChange={value => console.info(value)}
+                placeholder="Search and filter policies"
+                tabs={SEARCHBOX_TABS}
+                checkBoxes={{sectors, responsible_authority: authorities}}
+              />
+            </div>
           </div>
         </div>
       </section>

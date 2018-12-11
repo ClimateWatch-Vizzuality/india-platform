@@ -1,1 +1,69 @@
 @import '~styles/ui-extends.scss';
+
+.container {
+  position: absolute;
+  width: 100%;
+}
+.inputWrapper {
+  border: 1px solid $mid-gray;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.09);
+}
+
+.boxWrapper {
+  position: relative;
+  width: 100%;
+  bottom: 3px;
+  border: 1px solid $mid-gray;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.09);
+}
+
+.tabsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 25px;
+  background-color: #F5F6F7;
+}
+
+.tab {
+  position: relative;
+  padding: 15px 0;
+  margin-right: 40px;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    height: 0px;
+    transition: all 0.2s;
+  }
+
+  &.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: $butterscotch;
+    height: 5px;
+    width: 100%;
+  }
+}
+
+.tabIndex {
+  font-size: 0.7rem;
+  color: $butterscotch;
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  font-weight: 600;
+}
+
+.option {
+  padding-bottom: 25px;
+}
+
+.optionsContainer {
+  padding: 25px;
+  &:last-child() {
+    padding-bottom: 0;
+  }
+}

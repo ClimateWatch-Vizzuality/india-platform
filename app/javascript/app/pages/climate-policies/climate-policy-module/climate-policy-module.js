@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { climatePolicies } from 'selectors/climate-policies-selectors';
+import { climatePolicies } from './climate-policy-module-selectors';
 
 import Component from './climate-policy-module-component';
 
