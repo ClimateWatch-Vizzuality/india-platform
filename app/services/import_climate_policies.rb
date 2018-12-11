@@ -120,7 +120,7 @@ class ImportClimatePolicies
   end
 
   def normalize_policy_sector(category)
-    return 'Unknown' if category.nil? || category == '?'
+    return 'Other' if category.nil? || category == '?'
 
     category
   end
