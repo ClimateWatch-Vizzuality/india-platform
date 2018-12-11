@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_07_151527) do
+ActiveRecord::Schema.define(version: 2018_12_11_085948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,9 @@ ActiveRecord::Schema.define(version: 2018_12_07_151527) do
     t.text "description"
     t.boolean "tracking"
     t.text "tracking_description"
+    t.string "status"
+    t.string "progress"
+    t.boolean "key_policy", default: false, null: false
     t.index ["code"], name: "index_climate_policy_policies_on_code", unique: true
   end
 
