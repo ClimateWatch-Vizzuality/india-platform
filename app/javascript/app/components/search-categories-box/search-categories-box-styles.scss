@@ -4,9 +4,20 @@
   position: absolute;
   width: 100%;
 }
+
 .inputWrapper {
   border: 1px solid $mid-gray;
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.09);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.09);
+}
+
+.inputCombo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox {
+  margin-right: 10px;
 }
 
 .boxWrapper {
@@ -14,7 +25,7 @@
   width: 100%;
   bottom: 3px;
   border: 1px solid $mid-gray;
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.09);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.09);
 }
 
 .tabsContainer {
@@ -22,18 +33,17 @@
   display: flex;
   justify-content: flex-start;
   padding: 0 25px;
-  background-color: #F5F6F7;
+  background-color: #f5f6f7;
 }
 
 .tab {
   position: relative;
   padding: 15px 0;
   margin-right: 40px;
-  cursor: pointer;
 
   &::after {
     content: '';
-    height: 0px;
+    height: 0;
     transition: all 0.2s;
   }
 
@@ -46,6 +56,13 @@
     height: 5px;
     width: 100%;
   }
+}
+
+.tabName {
+  @extend %bodyText;
+
+  color: $theme-color;
+  cursor: pointer;
 }
 
 .tabIndex {
@@ -63,6 +80,7 @@
 
 .optionsContainer {
   padding: 25px;
+
   &:last-child() {
     padding-bottom: 0;
   }

@@ -18,5 +18,5 @@ export const getFilters = createSelector(getQuery, query => {
 
 export const searchSelectors = createStructuredSelector({
   query: getQuery,
-  filters: getFilters
+  foldedFilters: getFilters
 });

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { isEmpty } from 'lodash';
 import { Input } from 'cw-components';
 
 import styles from './search-categories-box-styles.scss';
@@ -12,25 +13,24 @@ class SearchCategoriesBoxComponent extends PureComponent {
     this.state = { selectedTab: tabs[0] };
   }
 
-  handleFilterChange = event => {
-    const { onFilterChange, filters } = this.props;
+  handleCheckboxChange = event => {
+    const { onFilterChange, query } = this.props;
     const { selectedTab } = this.state;
+    const key = [ selectedTab.slug ];
     const input = event.target.id;
-    const selectedTabFilters = filters && filters[selectedTab.slug];
+    const selectedTabFilters = query && query[key];
     const isFilterActive = selectedTabFilters &&
       selectedTabFilters.includes(input);
     let updatedFilters;
     if (isFilterActive) {
-      updatedFilters = {
-        ...filters,
-        [selectedTab.slug]: filters[selectedTab.slug].filter(f => f !== input)
-      };
+      updatedFilters = { ...query, [key]: query[key].filter(f => f !== input) };
     } else {
       updatedFilters = selectedTabFilters
-        ? { [selectedTab.slug]: [ ...filters[selectedTab.slug], input ] }
-        : { [selectedTab.slug]: [ input ] };
+        ? { [key]: [ ...query[key], input ] }
+        : { [key]: [ input ] };
     }
-    onFilterChange({ ...updatedFilters });
+    updatedFilters = isEmpty(updatedFilters[key]) ? {} : { ...updatedFilters };
+    onFilterChange({ ...updatedFilters }, key);
   };
 
   handleTabChange = event => {
@@ -40,12 +40,18 @@ class SearchCategoriesBoxComponent extends PureComponent {
   };
 
   render() {
-    const { onChange, placeholder, tabs, checkBoxes, filters } = this.props;
+    const {
+      onSearchChange,
+      placeholder,
+      tabs,
+      checkBoxes,
+      foldedFilters
+    } = this.props;
     const { selectedTab } = this.state;
     return (
       <div className={styles.container}>
         <Input
-          onChange={onChange}
+          onChange={onSearchChange}
           placeholder={placeholder}
           theme={{ input: styles.inputWrapper }}
         />
@@ -58,15 +64,18 @@ class SearchCategoriesBoxComponent extends PureComponent {
                   [styles.active]: selectedTab.slug === tab.slug
                 })}
               >
-                {}
-                <p className={styles.tabName} onClick={this.handleTabChange}>
+                <button
+                  type="button"
+                  className={styles.tabName}
+                  onClick={this.handleTabChange}
+                >
                   {tab.name}
-                </p>
+                </button>
                 <span className={styles.tabIndex}>
                   {
-                    filters &&
-                      filters[tab.slug] &&
-                      (filters[tab.slug].length || '')
+                    foldedFilters &&
+                      foldedFilters[tab.slug] &&
+                      (foldedFilters[tab.slug].length || '')
                   }
                 </span>
               </div>
@@ -75,16 +84,17 @@ class SearchCategoriesBoxComponent extends PureComponent {
           <div className={styles.optionsContainer}>
             {checkBoxes[selectedTab.slug].map(option => (
               <div key={option} className={styles.option}>
-                <label htmlFor={option}>
+                <label htmlFor={option} className={styles.inputCombo}>
                   <input
                     type="checkbox"
                     name={option}
                     id={option}
-                    onChange={this.handleFilterChange}
+                    onChange={this.handleCheckboxChange}
+                    className={styles.checkbox}
                     checked={
-                      filters &&
-                        filters[selectedTab.slug] &&
-                        filters[selectedTab.slug].some(q => q === option)
+                      foldedFilters &&
+                        foldedFilters[selectedTab.slug] &&
+                        foldedFilters[selectedTab.slug].some(q => q === option)
                     }
                   />
                   {option}
@@ -102,11 +112,15 @@ SearchCategoriesBoxComponent.propTypes = {
   placeholder: PropTypes.string.isRequired,
   tabs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   checkBoxes: PropTypes.shape({}).isRequired,
-  filters: PropTypes.shape({}),
-  onChange: PropTypes.func.isRequired,
+  query: PropTypes.shape({}),
+  foldedFilters: PropTypes.shape({}),
+  onSearchChange: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired
 };
 
-SearchCategoriesBoxComponent.defaultProps = { filters: null };
+SearchCategoriesBoxComponent.defaultProps = {
+  query: null,
+  foldedFilters: null
+};
 
 export default SearchCategoriesBoxComponent;
