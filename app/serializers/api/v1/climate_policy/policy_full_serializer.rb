@@ -3,7 +3,8 @@ module Api
     module ClimatePolicy
       class PolicyFullSerializer < ActiveModel::Serializer
         attributes :code, :policy_type, :sector, :description, :title,
-                   :authority, :tracking, :tracking_description
+                   :authority, :tracking, :tracking_description,
+                   :status, :progress, :key_policy
 
         has_many :instruments, serializer: Api::V1::ClimatePolicy::InstrumentSerializer
         has_many :indicators, serializer: Api::V1::ClimatePolicy::IndicatorSerializer

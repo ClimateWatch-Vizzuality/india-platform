@@ -1,23 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe ImportClimatePolicies do
+  def csv
+    @csv ||= {
+      policies: file_fixture('climate_policy/policies.csv').read,
+      instruments: file_fixture('climate_policy/instruments.csv').read,
+      indicators: file_fixture('climate_policy/indicators.csv').read,
+      milestones: file_fixture('climate_policy/milestones.csv').read,
+      sources: file_fixture('climate_policy/sources.csv').read
+    }
+  end
+
   def correct_files
     @correct_files ||= {
-      ImportClimatePolicies::POLICIES_FILEPATH => file_fixture('climate_policy/policies.csv').read,
-      ImportClimatePolicies::INSTRUMENTS_FILEPATH => file_fixture('climate_policy/instruments.csv').read,
-      ImportClimatePolicies::INDICATORS_FILEPATH => file_fixture('climate_policy/indicators.csv').read,
-      ImportClimatePolicies::MILESTONES_FILEPATH => file_fixture('climate_policy/milestones.csv').read,
-      ImportClimatePolicies::SOURCES_FILEPATH => file_fixture('climate_policy/sources.csv').read
+      ImportClimatePolicies::POLICIES_FILEPATH => csv[:policies],
+      ImportClimatePolicies::INSTRUMENTS_FILEPATH => csv[:instruments],
+      ImportClimatePolicies::INDICATORS_FILEPATH => csv[:indicators],
+      ImportClimatePolicies::MILESTONES_FILEPATH => csv[:milestones],
+      ImportClimatePolicies::SOURCES_FILEPATH => csv[:sources]
     }
   end
 
   def missing_headers
     @missing_headers ||= {
-      ImportClimatePolicies::POLICIES_FILEPATH => file_fixture('climate_policy/policies_missing_headers.csv').read,
-      ImportClimatePolicies::INSTRUMENTS_FILEPATH => file_fixture('climate_policy/instruments_missing_headers.csv').read,
-      ImportClimatePolicies::INDICATORS_FILEPATH => file_fixture('climate_policy/indicators_missing_headers.csv').read,
-      ImportClimatePolicies::MILESTONES_FILEPATH => file_fixture('climate_policy/milestones_missing_headers.csv').read,
-      ImportClimatePolicies::SOURCES_FILEPATH => file_fixture('climate_policy/sources_missing_headers.csv').read
+      ImportClimatePolicies::POLICIES_FILEPATH => remove_headers(csv[:policies], :category),
+      ImportClimatePolicies::INSTRUMENTS_FILEPATH => remove_headers(csv[:instruments], :code),
+      ImportClimatePolicies::INDICATORS_FILEPATH => remove_headers(csv[:indicators], :name, :type),
+      ImportClimatePolicies::MILESTONES_FILEPATH => remove_headers(csv[:milestones], :name),
+      ImportClimatePolicies::SOURCES_FILEPATH => remove_headers(csv[:sources], :name)
     }
   end
 

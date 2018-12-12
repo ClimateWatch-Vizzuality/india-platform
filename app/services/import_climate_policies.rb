@@ -3,25 +3,24 @@ class ImportClimatePolicies
 
   # rubocop:disable Layout/IndentArray
   headers policies: [
-            :category, :p_code, :type_policy, :title_policy, :authority_policy,
-            :description_policy, :tracking, :tracking_description
+            :category, :code, :type, :title, :authority,
+            :description, :tracking, :tracking_description,
+            :status, :progress, :is_a_key_policy
           ],
           instruments: [
-            :p_code, :p_scheme, :i_code, :s_name_instrument, :description_instrument,
-            :scheme_instrument, :status_instrument, :milestone_instrument,
-            :entities_instrument, :context_instrument, :source
+            :policy_code, :policy_scheme, :code, :name, :description,
+            :scheme, :status, :key_milestones,
+            :implementation_entities, :broader_context, :sources
           ],
           indicators: [
-            :p_code, :i_codes, :ind_type, :ind_name, :attainment_date, :ind_unit,
-            :ind_authority, :ind_sources, :ind_tracking, :ind_tracking_notes,
-            :ind_status, :sources
+            :policy_code, :i_codes, :type, :name, :attainment_date, :unit,
+            :responsible_authority, :data_source_link, :tracking_frequency, :tracking_notes,
+            :status, :sources
           ],
           milestones: [
-            :p_code, :i_milestone, :m_responsibility, :m_date, :m_source, :m_status
+            :policy_code, :name, :responsible_authority, :date, :data_source_link, :status
           ],
-          sources: [
-            :source_s_name, :source_l_name, :source_description, :source_link
-          ]
+          sources: [:code, :name, :description, :link]
   # rubocop:enable Layout/IndentArray
 
   POLICIES_FILEPATH = "#{CW_FILES_PREFIX}climate_policies/policies.csv".freeze
@@ -91,10 +90,10 @@ class ImportClimatePolicies
 
   def source_attributes(row)
     {
-      code: row[:source_s_name],
-      name: row[:source_l_name],
-      description: row[:source_description],
-      link: row[:source_link]
+      code: row[:code],
+      name: row[:name],
+      description: row[:description],
+      link: row[:link]
     }
   end
 
@@ -106,15 +105,24 @@ class ImportClimatePolicies
 
   def climate_policy_attributes(row)
     {
-      code: row[:p_code],
-      policy_type: row[:type_policy],
-      sector: row[:category],
-      title: row[:title_policy],
-      description: row[:description_policy],
-      authority: row[:authority_policy],
+      code: row[:code],
+      policy_type: row[:type],
+      sector: normalize_policy_sector(row[:category]),
+      title: row[:title],
+      description: row[:description],
+      authority: row[:authority],
       tracking: row[:tracking]&.downcase == 'yes',
-      tracking_description: row[:tracking_description]
+      tracking_description: row[:tracking_description],
+      status: row[:status],
+      progress: row[:progress],
+      key_policy: row[:is_a_key_policy]&.downcase == 'yes'
     }
+  end
+
+  def normalize_policy_sector(category)
+    return 'Other' if category.nil? || category == '?'
+
+    category
   end
 
   def import_instruments
@@ -125,17 +133,17 @@ class ImportClimatePolicies
 
   def instrument_attributes(row)
     {
-      policy: ClimatePolicy::Policy.find_by(code: row[:p_code]),
-      code: row[:i_code],
-      name: row[:s_name_instrument],
-      description: row[:description_instrument],
-      policy_scheme: row[:p_scheme],
-      scheme: row[:scheme_instrument],
-      policy_status: row[:status_instrument],
-      key_milestones: row[:milestone_instrument],
-      implementation_entities: row[:entities_instrument],
-      broader_context: row[:context_instrument],
-      source: row[:source]
+      policy: ClimatePolicy::Policy.find_by(code: row[:policy_code]),
+      policy_scheme: row[:policy_scheme],
+      code: row[:code],
+      name: row[:name],
+      description: row[:description],
+      scheme: row[:scheme],
+      policy_status: row[:status],
+      key_milestones: row[:key_milestones],
+      implementation_entities: row[:implementation_entities],
+      broader_context: row[:broader_context],
+      source: row[:sources]
     }
   end
 
@@ -147,16 +155,16 @@ class ImportClimatePolicies
 
   def indicator_attributes(row)
     {
-      policy: ClimatePolicy::Policy.find_by(code: row[:p_code]),
-      category: row[:ind_type]&.titleize,
-      name: row[:ind_name],
-      attainment_date: parse_date(row[:attainment_date]),
-      value: row[:ind_unit],
-      responsible_authority: row[:ind_authority],
-      data_source_link: row[:ind_sources],
-      tracking_frequency: row[:ind_tracking],
-      tracking_notes: row[:ind_tracking_notes],
-      status: row[:ind_status],
+      policy: ClimatePolicy::Policy.find_by(code: row[:policy_code]),
+      category: row[:type]&.titleize,
+      name: row[:name],
+      attainment_date: normalize_date(row[:attainment_date]),
+      value: row[:unit],
+      responsible_authority: row[:responsible_authority],
+      data_source_link: row[:data_source_link],
+      tracking_frequency: row[:tracking_frequency],
+      tracking_notes: row[:tracking_notes],
+      status: row[:status],
       sources: row[:sources]
     }
   end
@@ -169,18 +177,27 @@ class ImportClimatePolicies
 
   def milestone_attributes(row)
     {
-      policy: ClimatePolicy::Policy.find_by(code: row[:p_code]),
-      name: row[:i_milestone],
-      responsible_authority: row[:m_responsibility],
-      date: parse_date(row[:m_date]),
-      data_source_link: row[:m_source],
-      status: row[:m_status]
+      policy: ClimatePolicy::Policy.find_by(code: row[:policy_code]),
+      name: row[:name],
+      responsible_authority: row[:responsible_authority],
+      date: normalize_date(row[:date]),
+      data_source_link: row[:data_source_link],
+      status: row[:status]
     }
   end
 
-  def parse_date(date)
-    Date.strptime(date, '%b-%y').strftime('%Y-%m')
+  def normalize_date(date)
+    return if date.nil?
+
+    expected_formats = ['%b-%y', '%b-%Y', '%B-%y', '%B-%Y',
+                        '%y-%b', '%Y-%b', '%y-%B', '%Y-%B']
+
+    expected_formats.select { |format| parse_date(date, format) }.first || date
+  end
+
+  def parse_date(date, format)
+    Date.strptime(date, format)
   rescue ArgumentError
-    date
+    nil
   end
 end

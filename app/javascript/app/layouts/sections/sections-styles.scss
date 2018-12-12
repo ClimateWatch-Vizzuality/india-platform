@@ -21,23 +21,17 @@
   }
 }
 
-.stickyWrapper {
-  max-height: 34px;
-
-  :global {
-    .sticky-inner-wrapper {
-      background-color: $action-color;
-    }
-  }
-}
-
 .row {
   @include row();
 }
 
 .nav {
   display: flex;
-  padding-top: $gutter-padding / 2;
+  height: 70px;
+}
+
+.active {
+  border-bottom: 3px solid $theme-color;
 }
 
 .sectionTitle {
