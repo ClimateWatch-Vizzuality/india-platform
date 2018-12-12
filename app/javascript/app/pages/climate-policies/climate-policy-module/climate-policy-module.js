@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 import { climatePolicies } from './climate-policy-module-selectors';
 import * as actions from './climate-policy-module-actions';
 
-import Component from './climate-policy-module-component';
+import ClimatePolicyComponent from './climate-policy-module-component';
 
 class ClimatePolicyContainer extends PureComponent {
   onSearchChange = value => {
@@ -20,8 +21,36 @@ class ClimatePolicyContainer extends PureComponent {
     }
   };
 
+  handleCheckboxChange = (event, selectedTab) => {
+    const { query, updateFiltersSelected } = this.props;
+    const key = [ selectedTab.slug ];
+    const input = event.target.id;
+    const selectedTabFilters = query && query[key];
+    const isFilterActive = selectedTabFilters &&
+      selectedTabFilters.includes(input);
+    let updatedFilters;
+    if (isFilterActive) {
+      updatedFilters = { ...query, [key]: query[key].filter(f => f !== input) };
+    } else {
+      updatedFilters = selectedTabFilters
+        ? { [key]: [ ...query[key], input ] }
+        : { [key]: [ input ] };
+    }
+    updatedFilters = isEmpty(updatedFilters[key]) ? {} : { ...updatedFilters };
+    if (isEmpty(updatedFilters[key])) {
+      delete query[key];
+    }
+    updateFiltersSelected({ query: { ...query, ...updatedFilters } });
+  };
+
   render() {
-    return <Component {...this.props} onSearchChange={this.onSearchChange} />;
+    return (
+      <ClimatePolicyComponent
+        {...this.props}
+        onSearchChange={this.onSearchChange}
+        onCheckboxChange={this.handleCheckboxChange}
+      />
+    );
   }
 }
 

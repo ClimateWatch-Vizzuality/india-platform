@@ -16,7 +16,13 @@ const title = 'Policy module';
 const description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.';
 
 const ClimatePolicies = (
-  { policiesListBySector, sectors, authorities, onSearchChange }
+  {
+    policiesListBySector,
+    sectors,
+    authorities,
+    onSearchChange,
+    onCheckboxChange
+  }
 ) => (
   <div>
     <section className={styles.pageIntro}>
@@ -33,7 +39,8 @@ const ClimatePolicies = (
             <div className={styles.description}>{description}</div>
             <div className={styles.filterContainer}>
               <SearchCategoriesBox
-                onSearchChange={value => onSearchChange(value)}
+                onSearchChange={onSearchChange}
+                onCheckboxChange={onCheckboxChange}
                 placeholder="Search and filter policies"
                 tabs={SEARCHBOX_TABS}
                 checkBoxes={{ sector: sectors, authority: authorities }}
@@ -81,7 +88,8 @@ ClimatePolicies.propTypes = {
   policiesListBySector: PropTypes.shape({}),
   sectors: PropTypes.arrayOf(PropTypes.string),
   authorities: PropTypes.arrayOf(PropTypes.string),
-  onSearchChange: PropTypes.func.isRequired
+  onSearchChange: PropTypes.func.isRequired,
+  onCheckboxChange: PropTypes.func.isRequired
 };
 
 ClimatePolicies.defaultProps = {
