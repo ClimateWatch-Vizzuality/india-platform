@@ -3,18 +3,21 @@ import PropTypes from 'prop-types';
 import ClimatePoliciesProvider from 'providers/climate-policies-provider';
 import PoliciesCard from 'components/policies-card';
 import SearchCategoriesBox from 'components/search-categories-box';
+import { NoContent } from 'cw-components';
 
 import styles from './climate-policy-module-styles';
 
 const SEARCHBOX_TABS = [
-  { slug: 'sectors', name: 'Sector' },
-  { slug: 'responsible_authority', name: 'Responsible Authority' }
+  { slug: 'sector', name: 'Sector' },
+  { slug: 'authority', name: 'Responsible Authority' }
 ];
 const title = 'Policy module';
 // eslint-disable-next-line max-len
 const description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.';
 
-const ClimatePolicies = ({ policiesListBySector, sectors, authorities }) => (
+const ClimatePolicies = (
+  { policiesListBySector, sectors, authorities, onSearchChange }
+) => (
   <div>
     <section className={styles.pageIntro}>
       <div className={styles.pageLayout}>
@@ -30,38 +33,45 @@ const ClimatePolicies = ({ policiesListBySector, sectors, authorities }) => (
             <div className={styles.description}>{description}</div>
             <div className={styles.filterContainer}>
               <SearchCategoriesBox
-                onChange={value => console.info(value)}
+                onSearchChange={value => onSearchChange(value)}
                 placeholder="Search and filter policies"
                 tabs={SEARCHBOX_TABS}
-                checkBoxes={{ sectors, responsible_authority: authorities }}
+                checkBoxes={{ sector: sectors, authority: authorities }}
               />
             </div>
           </div>
         </div>
       </section>
-      {Object.keys(policiesListBySector).map(sector => (
-        <section className={styles.policyTypeSection} key={sector}>
-          <h3 className={styles.title}>{sector}</h3>
-          <div className={styles.policiesCardsContainer}>
-            {policiesListBySector[sector].map(policy => (
-              <PoliciesCard
-                key={policy.title}
-                title={policy.title}
-                description={policy.description}
-                responsibleAuthority={policy.authority}
-                action={{
-                  type: 'location/CLIMATE_POLICY_DETAIL',
-                  payload: {
-                    policy: policy.code,
-                    section: 'overview',
-                    data: policy
-                  }
-                }}
-              />
-            ))}
-          </div>
-        </section>
-      ))}
+      {
+        policiesListBySector ? Object.keys(policiesListBySector).map(sector => (
+          <section className={styles.policyTypeSection} key={sector}>
+            <h3 className={styles.title}>{sector}</h3>
+            <div className={styles.policiesCardsContainer}>
+              {policiesListBySector[sector].map(policy => (
+                <PoliciesCard
+                  key={policy.title}
+                  title={policy.title}
+                  description={policy.description}
+                  responsibleAuthority={policy.authority}
+                  action={{
+                      type: 'location/CLIMATE_POLICY_DETAIL',
+                      payload: {
+                        policy: policy.code,
+                        section: 'overview',
+                        data: policy
+                      }
+                    }}
+                />
+                ))}
+            </div>
+          </section>
+          )) : (
+            <NoContent
+              minHeight={330}
+              message="No data found with this search"
+            />
+)
+      }
       <ClimatePoliciesProvider />
     </div>
   </div>
@@ -70,7 +80,8 @@ const ClimatePolicies = ({ policiesListBySector, sectors, authorities }) => (
 ClimatePolicies.propTypes = {
   policiesListBySector: PropTypes.shape({}),
   sectors: PropTypes.arrayOf(PropTypes.string),
-  authorities: PropTypes.arrayOf(PropTypes.string)
+  authorities: PropTypes.arrayOf(PropTypes.string),
+  onSearchChange: PropTypes.func.isRequired
 };
 
 ClimatePolicies.defaultProps = {
