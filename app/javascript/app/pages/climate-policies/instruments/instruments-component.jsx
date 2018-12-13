@@ -25,14 +25,14 @@ const handleOnClick = () => window.open('https://www.google.com', '_blank');
 const renderInfoIcon = () => <InfoButton dark slugs="" />;
 
 const table = instrument => (
-  <React.Fragment>
+  <React.Fragment key={`${instrument.title}-table`}>
     <div className={styles.header}>
       <span className={styles.date}>
         Last update: {formatDate(instrument.updated_at)}
       </span>
       {renderInfoIcon()}
     </div>
-    <table key={`${instrument.title}-table`} className={styles.table}>
+    <table className={styles.table}>
       <tbody>
         {Object.keys(columnNames).map(column => (
           <tr
