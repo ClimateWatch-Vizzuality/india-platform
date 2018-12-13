@@ -6,7 +6,7 @@ module Api
         attributes :category, :attainment_date, :value,
                    :responsible_authority, :data_source_link,
                    :tracking_frequency, :tracking_notes,
-                   :status, :sources
+                   :status, :sources, :updated_at
       end
     end
   end

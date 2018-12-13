@@ -23,6 +23,7 @@
   display: flex;
   justify-content: center;
   background-color: $link-water;
+  border-bottom: 1px solid rgba($jakarta, 0.3);
   color: $downriver;
 }
 
@@ -78,8 +79,26 @@
   cursor: pointer;
 }
 
-.accordion {
-  .title {
-    text-align: center;
-  }
+.accordionTitle {
+  justify-content: center;
+  padding-right: 0;
+}
+
+.accordionHeader {
+  background-color: rgba($link-water, 0.2);
+  border-bottom: 1px solid rgba($jakarta, 0.2);
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($link-water, 0.2);
+  border-bottom: 1px solid rgba($jakarta, 0.2);
+  padding: 20px;
+}
+
+.date {
+  color: $elephant-blue;
+  opacity: 0.4;
 }

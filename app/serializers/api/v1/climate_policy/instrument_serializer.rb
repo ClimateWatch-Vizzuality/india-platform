@@ -5,7 +5,7 @@ module Api
         attribute :name, key: :title
         attributes :code, :description, :policy_scheme, :scheme,
                    :policy_status, :key_milestones, :implementation_entities,
-                   :broader_context, :source
+                   :broader_context, :source, :updated_at
       end
     end
   end
