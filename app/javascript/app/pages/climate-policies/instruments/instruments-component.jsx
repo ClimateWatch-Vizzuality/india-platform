@@ -3,7 +3,6 @@ import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DateTime from 'luxon/src/datetime';
-import ClimatePoliciesProvider from 'providers/climate-policies-provider';
 import ClimatePolicyProvider from 'providers/climate-policy-provider';
 import InfoButton from 'components/info-button';
 import { Accordion, Icon } from 'cw-components';
@@ -109,7 +108,6 @@ class Instruments extends PureComponent {
             </button>
           </div>
         </div>
-        <ClimatePoliciesProvider />
         <ClimatePolicyProvider params={{ policyCode }} />
       </div>
     );
