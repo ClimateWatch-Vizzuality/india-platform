@@ -36,6 +36,7 @@
 .cell {
   padding: 20px;
   color: $downriver;
+  line-height: 1.5;
 }
 
 .nameColumn {
@@ -75,4 +76,10 @@
   align-items: center;
   font-size: $font-size;
   cursor: pointer;
+}
+
+.accordion {
+  .title {
+    text-align: center;
+  }
 }

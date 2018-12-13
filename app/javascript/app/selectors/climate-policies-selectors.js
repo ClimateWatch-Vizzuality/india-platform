@@ -19,6 +19,19 @@ export const getClimatePolicyDetails = createSelector(
   }
 );
 
+export const getInstruments = createSelector(
+  [ getClimatePolicyDetails ],
+  policyDetails => {
+    if (!policyDetails) return null;
+
+    const instruments = policyDetails && policyDetails.instruments;
+    return instruments.map(instrument => ({
+      ...instrument,
+      slug: instrument.code
+    }));
+  }
+);
+
 export const policiesListBySector = createSelector(
   getClimatePoliciesList,
   list => {
@@ -40,5 +53,6 @@ export const climatePolicies = createStructuredSelector({
   policiesListBySector,
   policiesByCode,
   policyCode: getPolicyCode,
-  policyDetails: getClimatePolicyDetails
+  policyDetails: getClimatePolicyDetails,
+  instruments: getInstruments
 });
