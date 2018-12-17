@@ -7,6 +7,31 @@ export const getClimatePoliciesList = ({ ClimatePolicies }) =>
 export const getPolicyCode = ({ location }) =>
   location && location.payload && location.payload.policy;
 
+export const getClimatePoliciesDetails = ({ ClimatePoliciesDetails }) =>
+  ClimatePoliciesDetails && (ClimatePoliciesDetails.data || null);
+
+export const getClimatePolicyDetails = createSelector(
+  [ getClimatePoliciesDetails, getPolicyCode ],
+  (climatePoliciesDetails, policyCode) => {
+    if (!climatePoliciesDetails || !policyCode) return null;
+
+    return climatePoliciesDetails[policyCode];
+  }
+);
+
+export const getInstruments = createSelector(
+  [ getClimatePolicyDetails ],
+  policyDetails => {
+    if (!policyDetails) return null;
+
+    const instruments = policyDetails && policyDetails.instruments;
+    return instruments.map(instrument => ({
+      ...instrument,
+      slug: instrument.code
+    }));
+  }
+);
+
 export const policiesListBySector = createSelector(
   getClimatePoliciesList,
   list => {
@@ -27,5 +52,7 @@ export const climatePolicies = createStructuredSelector({
   policiesList: getClimatePoliciesList,
   policiesListBySector,
   policiesByCode,
-  policyCode: getPolicyCode
+  policyCode: getPolicyCode,
+  policyDetails: getClimatePolicyDetails,
+  instruments: getInstruments
 });
