@@ -1,7 +1,7 @@
 @import '~styles/ui-extends.scss';
 @import '~styles/layout.scss';
 
-$iconSize: 15px;
+$iconSize: 60px;
 $borderSize: 4px;
 
 .page {
@@ -40,6 +40,7 @@ $borderSize: 4px;
 
 .table {
   width: 100%;
+  margin-bottom: 100px;
 }
 
 .row {
@@ -58,6 +59,28 @@ $borderSize: 4px;
   height: $iconSize;
   width: $iconSize;
   position: absolute;
-  top: 50%;
   right: calc(-1 * (#{$iconSize} / 2 + #{$borderSize} / 2)); // icon in the middle of the border
+  z-index: 2;
+  cursor: inherit;
+}
+
+.status {
+  padding-right: 20px;
+}
+
+.description {
+  margin-left: 50px;
+  margin-top: 50px;
+
+  p {
+    margin-bottom: 5px;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+.name {
+  font-weight: bold;
 }
