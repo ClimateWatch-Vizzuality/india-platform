@@ -6,12 +6,14 @@ import iconInfo from 'assets/icons/info';
 import darkInfo from 'assets/icons/info-fill';
 import ReactTooltip from 'react-tooltip';
 import ModalMetadata from 'components/modal-metadata';
+import { handleAnalytics } from 'utils/analytics';
 import styles from './info-button-styles.scss';
 
 class InfoButton extends PureComponent {
   handleInfoClick = () => {
     const { slugs, setModalMetadata } = this.props;
     if (slugs) {
+      handleAnalytics('Info Window', 'Open', slugs);
       setModalMetadata({ slugs, open: true });
     }
   };
