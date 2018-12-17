@@ -14,7 +14,6 @@ export const getClimatePolicyDetails = createSelector(
   [ getClimatePoliciesDetails, getPolicyCode ],
   (climatePoliciesDetails, policyCode) => {
     if (!climatePoliciesDetails || !policyCode) return null;
-
     return climatePoliciesDetails[policyCode];
   }
 );
