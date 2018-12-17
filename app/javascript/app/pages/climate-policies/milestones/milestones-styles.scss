@@ -2,7 +2,8 @@
 @import '~styles/layout.scss';
 
 $iconSize: 60px;
-$borderSize: 4px;
+$borderSize: 5px;
+$correction: 1px;
 
 .page {
   margin-bottom: 50px;
@@ -36,6 +37,7 @@ $borderSize: 4px;
   font-weight: bold;
   border-right: $borderSize solid $elephant-blue;
   position: relative;
+  width: 200px;
 }
 
 .table {
@@ -59,7 +61,7 @@ $borderSize: 4px;
   height: $iconSize;
   width: $iconSize;
   position: absolute;
-  right: calc(-1 * (#{$iconSize} / 2 + #{$borderSize} / 2)); // icon in the middle of the border
+  right: calc((-1 * (#{$iconSize} / 2 + #{$borderSize} / 2)) + #{$correction}); // icon in the middle of the border
   z-index: 2;
   cursor: inherit;
 }
