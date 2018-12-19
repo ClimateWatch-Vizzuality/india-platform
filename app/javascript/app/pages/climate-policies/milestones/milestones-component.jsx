@@ -11,10 +11,11 @@ import { Icon } from 'cw-components';
 import attained from 'assets/icons/attained';
 import issued from 'assets/icons/issued';
 import estimated from 'assets/icons/estimated';
+import launched from 'assets/icons/launched';
 
 import styles from './milestones-styles';
 
-const ICONS = { attained, issued, estimated };
+const ICONS = { attained, issued, estimated, launched };
 
 const formatDate = date => DateTime.fromISO(date).toFormat('MMMM yyyy');
 
