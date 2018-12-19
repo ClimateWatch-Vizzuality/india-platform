@@ -6,6 +6,7 @@ import capitalize from 'lodash/capitalize';
 import DateTime from 'luxon/src/datetime';
 import cx from 'classnames';
 import ClimatePolicyProvider from 'providers/climate-policy-provider';
+import { TabletLandscape, TabletPortraitOnly } from 'components/responsive';
 import { Icon } from 'cw-components';
 
 import attained from 'assets/icons/attained';
@@ -28,15 +29,20 @@ const table = milestones => (
           className={styles.row}
         >
           <td className={cx(styles.statusColumn, styles.cell)}>
-            <span className={styles.status}>
-              {capitalize(milestone.status)}
-            </span>
+            <TabletLandscape>
+              <span className={styles.status}>
+                {capitalize(milestone.status)}
+              </span>
+            </TabletLandscape>
             <Icon
               icon={ICONS[lowerCase(milestone.status)]}
               theme={{ icon: cx(styles.statusIcon) }}
             />
           </td>
           <td className={cx(styles.cell, styles.description)}>
+            <TabletPortraitOnly>
+              <p>{capitalize(milestone.status)}</p>
+            </TabletPortraitOnly>
             <p>{formatDate(milestone.date)}</p>
             {
               milestone.name &&

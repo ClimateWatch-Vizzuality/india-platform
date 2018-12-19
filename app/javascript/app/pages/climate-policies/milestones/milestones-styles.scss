@@ -3,7 +3,7 @@
 
 $iconSize: 60px;
 $borderSize: 5px;
-$correction: 1px;
+$correction: 1.5px;
 
 .page {
   margin-bottom: 50px;
@@ -35,7 +35,7 @@ $correction: 1px;
   justify-content: flex-end;
   align-items: center;
   font-weight: bold;
-  border-right: $borderSize solid $elephant-blue;
+  border-right: $borderSize solid $theme-color;
   position: relative;
   width: 200px;
 }
