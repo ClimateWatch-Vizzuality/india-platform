@@ -22,3 +22,7 @@ platforms:
           - indicators
           - milestones
           - sources
+      - name: metadata
+        importer: ImportDataSources
+        datasets:
+          - data_sources

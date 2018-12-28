@@ -6,8 +6,11 @@
 #  authority            :text
 #  code                 :string           not null
 #  description          :text
+#  key_policy           :boolean          default(FALSE), not null
 #  policy_type          :string           not null
+#  progress             :string
 #  sector               :string           not null
+#  status               :string
 #  title                :text             not null
 #  tracking             :boolean
 #  tracking_description :text

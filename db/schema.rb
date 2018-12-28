@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_11_085948) do
+ActiveRecord::Schema.define(version: 2018_12_28_191557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,17 @@ ActiveRecord::Schema.define(version: 2018_12_11_085948) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_climate_policy_sources_on_code", unique: true
+  end
+
+  create_table "data_sources", force: :cascade do |t|
+    t.string "short_title"
+    t.string "title"
+    t.string "source_organization"
+    t.string "learn_more_link"
+    t.text "citation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["short_title"], name: "index_data_sources_on_short_title", unique: true
   end
 
   create_table "datasets", force: :cascade do |t|

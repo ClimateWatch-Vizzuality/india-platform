@@ -4,6 +4,7 @@ namespace :db do
     Rake::Task['locations:import'].invoke
     Rake::Task['historical_emissions:import'].invoke
     Rake::Task['climate_policies:import'].invoke
+    Rake::Task['data_sources:import'].invoke
     puts 'All done!'
   end
 end
