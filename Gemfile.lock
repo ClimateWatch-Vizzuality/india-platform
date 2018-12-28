@@ -14,6 +14,10 @@ GIT
       pg
       rubyzip
       sidekiq
+
+PATH
+  remote: ../climate-watch-gems
+  specs:
     cw_historical_emissions (1.5.0)
       active_model_serializers (~> 0.10.0)
       aws-sdk-s3 (~> 1)
@@ -21,10 +25,6 @@ GIT
       cw_locations (~> 1.4.0)
       pg
       rails (~> 5.2.0)
-
-PATH
-  remote: ../climate-watch-gems
-  specs:
     cw_locations (1.4.0)
       active_model_serializers (~> 0.10.0)
       aws-sdk-s3 (~> 1)
