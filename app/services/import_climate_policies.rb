@@ -192,7 +192,7 @@ class ImportClimatePolicies
     expected_formats = ['%b-%y', '%b-%Y', '%B-%y', '%B-%Y',
                         '%y-%b', '%Y-%b', '%y-%B', '%Y-%B']
 
-    expected_formats.select { |format| parse_date(date, format) }.first || date
+    expected_formats.map { |format| parse_date(date, format) }.compact.first || date
   end
 
   def parse_date(date, format)
