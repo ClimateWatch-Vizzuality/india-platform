@@ -4,8 +4,10 @@ require 'rails_helper'
 correct_files = {
   ImportSocioeconomics::INDICATORS_FILEPATH => <<~END_OF_CSV,
     Ind_code,Indicator,category,Unit,Definition
-    Export,Exports of Goods and Services At Constant Prices,₹ Billion,1990-2011; Base Year : 2004; 2012-2017, Base Year : 2034
-    Import,Import of Goods and Services At Constant Prices,₹ Billion,1990-2011; Base Year : 2004; 2012-2017, Base Year : 2035
+    Export,Exports of Goods and Services At Constant Prices,,₹ Billion,1990-2011; Base Year : 2004; 2012-2017, Base Year : 2034
+    Import,Import of Goods and Services At Constant Prices,,₹ Billion,1990-2011; Base Year : 2004; 2012-2017, Base Year : 2035
+    energy_consumption,Energy consumption,,PJ,
+    energy_consumption_cap,Per capita energy consumption,,MJ,
   END_OF_CSV
   ImportSocioeconomics::VALUES_FILEPATH => <<~END_OF_CSV,
     Source,ind_code,iso_code3,2015,2016,2017
@@ -13,10 +15,9 @@ correct_files = {
     CSO,Import,IND,26676.57553265,25107.52859992,25686.80,
   END_OF_CSV
   ImportSocioeconomics::SECTORAL_INFO_FILEPATH => <<~END_OF_CSV,
-    Source,iso_code3,ind_code,category,unit,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018
-    PEC,IND,Energy consumption,,PJ,,,,,,,16571,17878,18936,21408,22458,23872,25128,25755,27589,28258,,
-    PEC,IND,Per capita energy consumption,,MJ,,,,,,,14612,15577,16303,18212,18998,19567,20347,20588,21775,22042,,
-    PEC,IND,Energy Intensity,,MJ/rupee,,,,,,,0.4649,0.4588,0.4553,0.474,0.4566,0.2945,0.294,0.2835,0.2836,0.271,,
+    Source,iso_code3,ind_code,category,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018
+    PEC,IND,energy_consumption,,,,,,,16571,17878,18936,21408,22458,23872,25128,25755,27589,28258,,
+    PEC,IND,energy_consumption_cap,,,,,,,14612,15577,16303,18212,18998,19567,20347,20588,21775,22042,,
   END_OF_CSV
 }
 missing_headers_files = correct_files.merge(
@@ -60,13 +61,11 @@ RSpec.describe ImportSocioeconomics do
     end
 
     it 'Creates new indicators' do
-      # 2 from indicators file and 3 from sectoral info file
-      expect { subject }.to change { Socioeconomic::Indicator.count }.by(5)
+      expect { subject }.to change { Socioeconomic::Indicator.count }.by(4)
     end
 
     it 'Creates new indicator values' do
-      # 2 from values file and 3 from sectoral info file
-      expect { subject }.to change { Socioeconomic::Value.count }.by(5)
+      expect { subject }.to change { Socioeconomic::Value.count }.by(4)
     end
   end
 
@@ -97,7 +96,7 @@ RSpec.describe ImportSocioeconomics do
 
     it 'does not create any indicator value with missing location' do
       # missing location in sectoral info file
-      expect { importer.call }.to change { Socioeconomic::Value.count }.by(4)
+      expect { importer.call }.to change { Socioeconomic::Value.count }.by(3)
     end
 
     it 'has errors on row' do

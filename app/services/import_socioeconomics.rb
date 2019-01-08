@@ -2,8 +2,7 @@ class ImportSocioeconomics
   include ClimateWatchEngine::CSVImporter
 
   headers indicators: [:ind_code, :indicator, :category, :unit, :definition],
-          values: [:iso_code3, :ind_code, :source],
-          sectoral_info: [:iso_code3, :ind_code, :category, :unit, :source]
+          values: [:iso_code3, :ind_code, :source]
 
   INDICATORS_FILEPATH = "#{CW_FILES_PREFIX}socioeconomic/indicators.csv".freeze
   VALUES_FILEPATH = "#{CW_FILES_PREFIX}socioeconomic/values.csv".freeze
@@ -16,8 +15,8 @@ class ImportSocioeconomics
       cleanup
 
       import_indicators
-      import_values
-      import_sectoral_info
+      import_values(values_csv, VALUES_FILEPATH)
+      import_values(sectoral_info_csv, SECTORAL_INFO_FILEPATH)
     end
   end
 
@@ -32,7 +31,7 @@ class ImportSocioeconomics
     [
       valid_headers?(indicators_csv, INDICATORS_FILEPATH, headers[:indicators]),
       valid_headers?(values_csv, VALUES_FILEPATH, headers[:values]),
-      valid_headers?(sectoral_info_csv, SECTORAL_INFO_FILEPATH, headers[:sectoral_info])
+      valid_headers?(sectoral_info_csv, SECTORAL_INFO_FILEPATH, headers[:values])
     ].all?(true)
   end
 
@@ -60,29 +59,11 @@ class ImportSocioeconomics
     end
   end
 
-  def import_values
-    import_each_with_logging(values_csv, INDICATORS_FILEPATH) do |row|
+  def import_values(csv, filepath)
+    import_each_with_logging(csv, filepath) do |row|
       Socioeconomic::Value.create!(
         location: Location.find_by(iso_code3: row[:iso_code3]),
         indicator: Socioeconomic::Indicator.find_by(code: row[:ind_code]),
-        category: row[:category],
-        source: row[:source],
-        values: values(row)
-      )
-    end
-  end
-
-  def import_sectoral_info
-    import_each_with_logging(sectoral_info_csv, SECTORAL_INFO_FILEPATH) do |row|
-      indicator = Socioeconomic::Indicator.find_or_create_by!(
-        code: row[:ind_code].parameterize.underscore,
-        name: row[:ind_code],
-        unit: row[:unit]
-      )
-
-      Socioeconomic::Value.create!(
-        location: Location.find_by(iso_code3: row[:iso_code3]),
-        indicator: indicator,
         category: row[:category],
         source: row[:source],
         values: values(row)
