@@ -72,8 +72,7 @@ class ImportSocioeconomics
   end
 
   def values(row)
-    row.headers.grep(/\d{4}/).map do |year|
-      {year: year.to_s, value: row[year]&.delete('%,', ',')&.to_f}
-    end
+    to_year_value = ->(year) { {year: year.to_s, value: row[year]&.delete('%,', ',')&.to_f} }
+    row.headers.grep(/\d{4}/).map(&to_year_value).reject { |v| v[:value].blank? }
   end
 end
