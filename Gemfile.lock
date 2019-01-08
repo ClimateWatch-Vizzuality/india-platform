@@ -1,15 +1,11 @@
 GIT
   remote: https://github.com/ClimateWatch-Vizzuality/climate-watch-gems.git
-  revision: a5590a5bcda709af9541c9125032372f05e55413
+  revision: 2bb8728c3a5b03534e28f8da7c8a4aff5fb2a9b1
   specs:
     climate_watch_engine (1.4.3)
       aws-sdk-s3 (~> 1)
       rails (~> 5.2.0)
-
-PATH
-  remote: ../climate-watch-gems
-  specs:
-    cw_data_uploader (0.4.3)
+    cw_data_uploader (0.4.4)
       activeadmin
       aws-sdk-rails (~> 2)
       aws-sdk-s3 (~> 1)
@@ -103,7 +99,7 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     aws-eventstream (1.0.1)
-    aws-partitions (1.128.0)
+    aws-partitions (1.129.0)
     aws-sdk-core (3.44.2)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
