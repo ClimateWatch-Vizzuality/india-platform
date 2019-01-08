@@ -68,6 +68,7 @@ class SearchCategoriesBoxComponent extends PureComponent {
                 <CheckInput
                   key={option}
                   id={option}
+                  toggleFirst
                   onChange={e => onCheckboxChange(e, selectedTab)}
                   theme={checkboxTheme}
                   label={option}

@@ -1,21 +1,27 @@
 @import '~styles/settings.scss';
 
-.slider {
-  display: none;
-}
-
 .switch {
-  align-items: center;
   height: auto;
   cursor: pointer;
 }
 
-.switch input {
-  display: block;
+.slider {
+  border-radius: 3px !important;
+  width: 15px;
+  min-width: 15px;
+  height: 15px;
+  background-color: $white;
+  border: 1px solid $link-water;
+  top: 3px;
+}
+
+input:checked ~ .slider {
+  background-color: $theme-color;
+  border: none;
 }
 
 .label {
-  margin-left: 10px;
+  margin-left: 4px;
   font-family: $font-family-1;
   font-size: $font-size;
   font-weight: $font-weight;
@@ -26,4 +32,22 @@ input:checked ~ .label {
   font-family: $font-family-1;
   font-size: $font-size;
   font-weight: $font-weight;
+}
+
+.slider::before {
+  content: "";
+  background-color: $white;
+  height: 0;
+  position: absolute;
+  width: 0;
+  display: none;
+}
+
+input:checked ~ .slider::before {
+  content: "\2714";
+  display: block;
+  color: white;
+  left: -10px;
+  top: 0;
+  font-size: $font-size-xs;
 }
