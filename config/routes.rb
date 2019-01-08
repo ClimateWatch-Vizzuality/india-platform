@@ -11,6 +11,9 @@ Rails.application.routes.draw do
         resources :policies, only: [:index, :show], param: :code
         resources :sources, only: [:index]
       end
+      namespace :socioeconomic do
+        resources :indicators, only: [:index]
+      end
     end
   end
 

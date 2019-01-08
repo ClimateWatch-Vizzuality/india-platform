@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_28_191557) do
+ActiveRecord::Schema.define(version: 2019_01_03_104433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,6 +205,29 @@ ActiveRecord::Schema.define(version: 2018_12_28_191557) do
     t.index ["platform_id"], name: "index_sections_on_platform_id"
   end
 
+  create_table "socioeconomic_indicators", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "unit", null: false
+    t.string "category"
+    t.string "definition"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_socioeconomic_indicators_on_code", unique: true
+  end
+
+  create_table "socioeconomic_values", force: :cascade do |t|
+    t.bigint "location_id"
+    t.bigint "indicator_id"
+    t.string "category"
+    t.string "source"
+    t.jsonb "values"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["indicator_id"], name: "index_socioeconomic_values_on_indicator_id"
+    t.index ["location_id"], name: "index_socioeconomic_values_on_location_id"
+  end
+
   create_table "worker_logs", force: :cascade do |t|
     t.integer "state"
     t.string "jid"
@@ -231,5 +254,7 @@ ActiveRecord::Schema.define(version: 2018_12_28_191557) do
   add_foreign_key "location_members", "locations", column: "member_id", on_delete: :cascade
   add_foreign_key "location_members", "locations", on_delete: :cascade
   add_foreign_key "sections", "platforms"
+  add_foreign_key "socioeconomic_values", "locations", on_delete: :cascade
+  add_foreign_key "socioeconomic_values", "socioeconomic_indicators", column: "indicator_id", on_delete: :cascade
   add_foreign_key "worker_logs", "sections"
 end

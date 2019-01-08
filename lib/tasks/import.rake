@@ -5,6 +5,7 @@ namespace :db do
     Rake::Task['historical_emissions:import'].invoke
     Rake::Task['climate_policies:import'].invoke
     Rake::Task['data_sources:import'].invoke
+    Rake::Task['socioeconomic:import'].invoke
     puts 'All done!'
   end
 end

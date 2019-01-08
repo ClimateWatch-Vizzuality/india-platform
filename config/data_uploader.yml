@@ -22,6 +22,12 @@ platforms:
           - indicators
           - milestones
           - sources
+      - name: socioeconomic
+        importer: ImportSocioeconomics
+        datasets:
+          - indicators
+          - values
+          - sectoral_info
       - name: metadata
         importer: ImportDataSources
         datasets:
