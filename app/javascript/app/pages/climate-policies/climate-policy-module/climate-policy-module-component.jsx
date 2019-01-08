@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 import ClimatePoliciesProvider from 'providers/climate-policies-provider';
 import PoliciesCard from 'components/policies-card';
 import SearchCategoriesBox from 'components/search-categories-box';
@@ -49,36 +50,40 @@ const ClimatePolicies = (
           </div>
         </div>
       </section>
-      {
-        policiesListBySector ? Object.keys(policiesListBySector).map(sector => (
-          <section className={styles.policyTypeSection} key={sector}>
-            <h3 className={styles.title}>{sector}</h3>
-            <div className={styles.policiesCardsContainer}>
-              {policiesListBySector[sector].map(policy => (
-                <PoliciesCard
-                  key={policy.title}
-                  title={policy.title}
-                  description={policy.description}
-                  responsibleAuthority={policy.authority}
-                  action={{
-                      type: 'location/CLIMATE_POLICY_DETAIL',
-                      payload: {
-                        policy: policy.code,
-                        section: 'overview',
-                        data: policy
-                      }
-                    }}
-                />
-                ))}
-            </div>
-          </section>
-          )) : (
-            <NoContent
-              minHeight={330}
-              message="No data found with this search"
-            />
+      <section className={styles.policyTypeSectionWrapper}>
+        {
+          !isEmpty(policiesListBySector)
+            ? Object.keys(policiesListBySector).map(sector => (
+              <section className={styles.policyTypeSection} key={sector}>
+                <h3 className={styles.title}>{sector}</h3>
+                <div className={styles.policiesCardsContainer}>
+                  {policiesListBySector[sector].map(policy => (
+                    <PoliciesCard
+                      key={policy.title}
+                      title={policy.title}
+                      description={policy.description}
+                      responsibleAuthority={policy.authority}
+                      action={{
+                        type: 'location/CLIMATE_POLICY_DETAIL',
+                        payload: {
+                          policy: policy.code,
+                          section: 'overview',
+                          data: policy
+                        }
+                      }}
+                    />
+                  ))}
+                </div>
+              </section>
+            ))
+            : (
+              <NoContent
+                minHeight={300}
+                message="No data found with this search"
+              />
 )
-      }
+        }
+      </section>
       <ClimatePoliciesProvider />
     </div>
   </div>
