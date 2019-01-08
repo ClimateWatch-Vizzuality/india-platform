@@ -9,7 +9,7 @@ import {
 
 const getQuery = ({ location }) => location && (location.query || null);
 
-const getFilterdPolicies = createSelector(
+const getFilteredPolicies = createSelector(
   [ getQuery, getClimatePoliciesList ],
   (query, policies) => {
     if (!policies || isEmpty(policies)) return null;
@@ -33,7 +33,7 @@ const getFilterdPolicies = createSelector(
 );
 
 const getFilteredPoliciesBySector = createSelector(
-  getFilterdPolicies,
+  getFilteredPolicies,
   policies => {
     if (!policies) return null;
     return groupBy(policies, 'sector');
@@ -42,7 +42,7 @@ const getFilteredPoliciesBySector = createSelector(
 
 export const climatePolicies = createStructuredSelector({
   query: getQuery,
-  policiesList: getFilterdPolicies,
+  policiesList: getFilteredPolicies,
   policiesListBySector: getFilteredPoliciesBySector,
   sectors: getSectors,
   authorities: getResponsibleAuthorities
