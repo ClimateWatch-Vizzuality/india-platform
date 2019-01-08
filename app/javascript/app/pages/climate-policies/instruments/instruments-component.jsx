@@ -5,8 +5,7 @@ import cx from 'classnames';
 import DateTime from 'luxon/src/datetime';
 import ClimatePolicyProvider from 'providers/climate-policy-provider';
 import InfoButton from 'components/info-button';
-import { Accordion, Icon } from 'cw-components';
-import openInNew from 'assets/icons/open_in_new';
+import { Accordion } from 'cw-components';
 
 import styles from './instruments-styles';
 
@@ -18,8 +17,6 @@ const columnNames = {
 };
 
 const formatDate = date => DateTime.fromISO(date).toFormat('dd/M/yyyy');
-
-const handleOnClick = () => window.open('https://www.google.com', '_blank');
 
 const renderInfoIcon = () => <InfoButton dark slugs="" />;
 
@@ -92,22 +89,6 @@ class Instruments extends PureComponent {
           </Accordion>
             )
         }
-        <div className={styles.pageLayout}>
-          <div className={styles.section}>
-            <button
-              type="button"
-              className={styles.document}
-              onClick={handleOnClick}
-            >
-              <span className={styles.link}>Government tracking documents</span>
-              <Icon
-                alt="open in new tab"
-                icon={openInNew}
-                theme={{ icon: styles.icon }}
-              />
-            </button>
-          </div>
-        </div>
         <ClimatePolicyProvider params={{ policyCode }} />
       </div>
     );
