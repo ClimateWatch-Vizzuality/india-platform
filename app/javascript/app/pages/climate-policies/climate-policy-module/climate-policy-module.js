@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import { isEmpty, isArray } from 'lodash';
 import { climatePolicies } from './climate-policy-module-selectors';
 import * as actions from './climate-policy-module-actions';
 
@@ -30,7 +30,11 @@ class ClimatePolicyContainer extends PureComponent {
       selectedTabFilters.includes(input);
     let updatedFilters;
     if (isFilterActive) {
-      updatedFilters = { ...query, [key]: query[key].filter(f => f !== input) };
+      const foldedFilter = isArray(query[key]) ? query[key] : [ query[key] ];
+      updatedFilters = {
+        ...query,
+        [key]: foldedFilter.filter(f => f !== input)
+      };
     } else {
       updatedFilters = selectedTabFilters
         ? { [key]: [ ...query[key], input ] }
