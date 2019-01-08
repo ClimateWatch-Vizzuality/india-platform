@@ -1,8 +1,12 @@
 @import '~styles/ui-extends.scss';
 
 .container {
-  position: absolute;
+  position: relative;
   width: 100%;
+
+  @media #{$tablet-landscape} {
+    position: absolute;
+  }
 }
 
 .inputWrapper {
