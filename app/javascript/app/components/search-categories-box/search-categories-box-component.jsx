@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { Input } from 'cw-components';
+import { Input, CheckInput } from 'cw-components';
 
+import checkboxTheme from 'styles/themes/checkBox.scss';
 import styles from './search-categories-box-styles.scss';
 
 class SearchCategoriesBoxComponent extends PureComponent {
@@ -64,21 +65,18 @@ class SearchCategoriesBoxComponent extends PureComponent {
           <div className={styles.optionsContainer}>
             {checkBoxes[selectedTab.slug].map(option => (
               <div key={option} className={styles.option}>
-                <label htmlFor={option} className={styles.inputCombo}>
-                  <input
-                    type="checkbox"
-                    name={option}
-                    id={option}
-                    onChange={e => onCheckboxChange(e, selectedTab)}
-                    className={styles.checkbox}
-                    checked={
-                      foldedFilters &&
-                        foldedFilters[selectedTab.slug] &&
-                        foldedFilters[selectedTab.slug].some(q => q === option)
-                    }
-                  />
-                  {option}
-                </label>
+                <CheckInput
+                  key={option}
+                  id={option}
+                  onChange={e => onCheckboxChange(e, selectedTab)}
+                  theme={checkboxTheme}
+                  label={option}
+                  checked={
+                    foldedFilters &&
+                      foldedFilters[selectedTab.slug] &&
+                      foldedFilters[selectedTab.slug].some(q => q === option)
+                  }
+                />
               </div>
             ))}
           </div>

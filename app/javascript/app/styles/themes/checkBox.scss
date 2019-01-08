@@ -1,0 +1,29 @@
+@import '~styles/settings.scss';
+
+.slider {
+  display: none;
+}
+
+.switch {
+  align-items: center;
+  height: auto;
+  cursor: pointer;
+}
+
+.switch input {
+  display: block;
+}
+
+.label {
+  margin-left: 10px;
+  font-family: $font-family-1;
+  font-size: $font-size;
+  font-weight: $font-weight;
+}
+
+input:checked ~ .label {
+  color: $theme-color;
+  font-family: $font-family-1;
+  font-size: $font-size;
+  font-weight: $font-weight;
+}
