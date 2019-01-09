@@ -6,9 +6,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1, defaults: { format: :json } do
+      resources :metadata, only: [:index]
       namespace :climate_policy do
         resources :policies, only: [:index, :show], param: :code
         resources :sources, only: [:index]
+      end
+      namespace :socioeconomic do
+        resources :indicators, only: [:index]
       end
     end
   end
