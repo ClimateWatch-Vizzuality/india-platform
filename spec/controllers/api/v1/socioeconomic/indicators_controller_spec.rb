@@ -15,13 +15,13 @@ describe Api::V1::Socioeconomic::IndicatorsController, type: :controller do
         :socioeconomic_value,
         location: location,
         indicator: ind_pop_total,
-        values: {year: '2012', value: 222}
+        values: [{year: '2012', value: 222}]
       )
       FactoryBot.create(
         :socioeconomic_value,
         location: location,
         indicator: ind_capacity,
-        values: {year: '2012', value: 10}
+        values: [{year: '2012', value: 10}]
       )
     end
     let!(:assam_indicators) do
@@ -30,13 +30,13 @@ describe Api::V1::Socioeconomic::IndicatorsController, type: :controller do
         :socioeconomic_value,
         location: location,
         indicator: ind_pop_total,
-        values: {year: '2012', value: 100}
+        values: [{year: '2012', value: 100}]
       )
       FactoryBot.create(
         :socioeconomic_value,
         location: location,
         indicator: ind_capacity,
-        values: {year: '2012', value: 1}
+        values: [{year: '2012', value: 1}]
       )
     end
 
@@ -46,6 +46,13 @@ describe Api::V1::Socioeconomic::IndicatorsController, type: :controller do
       it 'returns a successful 200 response' do
         get :index, format: :json
         expect(response).to be_successful
+      end
+
+      it 'responds to csv' do
+        get :index, format: :csv
+        expect(response.content_type).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).
+          to eq('attachment; filename=indicators.csv')
       end
 
       it 'lists all indicators and values' do
