@@ -101,7 +101,7 @@ class Indicators extends PureComponent {
           </div>
         </div>
         {
-          indicators && indicators && (
+          indicators && (
           <Accordion
             loading={false}
             data={indicators}
@@ -112,10 +112,10 @@ class Indicators extends PureComponent {
                   header: styles.accordionHeader
                 }}
           >
-            {indicators.map(indicator => (
+            {indicators.map(({ content }) => (
               <Accordion
                 loading={false}
-                data={indicator.content}
+                data={content}
                 openSlug={openSecondLevelAccordionSlug}
                 handleOnClick={this.handleSecondAccordionOnClick}
                 theme={{
@@ -123,7 +123,7 @@ class Indicators extends PureComponent {
                       header: styles.secondAccordionHeader
                     }}
               >
-                {indicator.content.map(ind => table(ind))}
+                {content.map(ind => table(ind))}
               </Accordion>
                 ))}
           </Accordion>
