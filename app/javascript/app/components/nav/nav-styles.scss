@@ -47,9 +47,12 @@
   font-weight: normal;
   letter-spacing: 0;
 
-  &.active::after {
-    height: 6px;
-    background-color: $butterscotch;
+  &.active {
+    color: rgba($white, 1);
+    ::after {
+      height: 6px;
+      background-color: $butterscotch;
+    }
   }
 }
 

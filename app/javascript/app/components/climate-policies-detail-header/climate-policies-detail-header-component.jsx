@@ -13,7 +13,7 @@ const ClimatePoliciesDetailHeaderComponent = (
       to={{ type: 'location/CLIMATE_POLICIES' }}
       className={styles.backLink}
     >
-      Back to Climate Policies
+      &#x0003C; Back to Climate Policies
     </Link>
     <div className={styles.sectionTitle}>
       {policyDetails && policyDetails.title}

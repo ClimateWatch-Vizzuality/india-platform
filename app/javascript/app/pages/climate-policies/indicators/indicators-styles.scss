@@ -83,11 +83,13 @@
 
 .accordionTitle {
   @extend %accordionTitleDefaults;
+
   text-transform: uppercase;
 }
 
 .secondAccordionTitle {
   @extend %accordionTitleDefaults;
+
   font-weight: bold;
 }
 
@@ -98,11 +100,13 @@
 
 .accordionHeader {
   @extend %accordionHeaderDefaults;
+
   background-color: $white;
 }
 
 .secondAccordionHeader {
   @extend %accordionHeaderDefaults;
+
   background-color: rgba($link-water, 0.2);
   font-size: $font-size-x-m;
 }
