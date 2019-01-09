@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { Input, CheckInput, Icon, Tag } from 'cw-components';
 import searchIcon from 'assets/icons/search.svg';
 import arrowIcon from 'assets/icons/arrow.svg';
+import ReactTooltip from 'react-tooltip';
 
 import checkboxTheme from 'styles/themes/checkBox.scss';
 import styles from './search-categories-box-styles.scss';
@@ -14,6 +15,8 @@ class SearchCategoriesBoxComponent extends PureComponent {
     const { tabs } = this.props;
     this.state = { selectedTab: tabs[0], open: false };
   }
+
+  getId = string => string.substring(string.length - 5, string.length);
 
   handleTabChange = event => {
     const tab = event.target.textContent;
@@ -49,7 +52,7 @@ class SearchCategoriesBoxComponent extends PureComponent {
             placeholder={placeholder}
             theme={{ input: styles.inputWrapper }}
             icon={null}
-            value={description || null}
+            value={description || ''}
           />
           <Icon
             icon={searchIcon}
@@ -118,13 +121,18 @@ class SearchCategoriesBoxComponent extends PureComponent {
           !open && plainFilters && (
           <div className={styles.tagsWrapper}>
             {plainFilters.map(f => (
-              <Tag
-                key={f}
-                label={f}
-                canRemove
-                theme={styles}
-                onRemove={handleTagRemove}
-              />
+              <React.Fragment>
+                <Tag
+                  key={f}
+                  data={{ title: f }}
+                  label={f}
+                  canRemove
+                  theme={styles}
+                  onRemove={handleTagRemove}
+                  tooltipId={this.getId(f)}
+                />
+                <ReactTooltip key={f} id={this.getId(f)} effect="solid" />
+              </React.Fragment>
                 ))}
             <Tag
               label="Clear all"
