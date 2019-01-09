@@ -18,6 +18,25 @@ export const getClimatePolicyDetails = createSelector(
   }
 );
 
+export const getIndicators = createSelector(
+  [ getClimatePolicyDetails ],
+  policyDetails => {
+    if (!policyDetails) return null;
+
+    const indicators = policyDetails && policyDetails.indicators;
+    const sluggedIndicators = indicators.map(indicator => ({
+      ...indicator,
+      slug: indicator.title
+    }));
+
+    const groupedByCategory = groupBy(sluggedIndicators, 'category');
+
+    return Object
+      .keys(groupedByCategory)
+      .map(cat => ({ slug: cat, title: cat, content: groupedByCategory[cat] }));
+  }
+);
+
 export const getInstruments = createSelector(
   [ getClimatePolicyDetails ],
   policyDetails => {
@@ -78,5 +97,6 @@ export const climatePolicies = createStructuredSelector({
   policyCode: getPolicyCode,
   policyDetails: getClimatePolicyDetails,
   instruments: getInstruments,
-  milestones: getMilestones
+  milestones: getMilestones,
+  indicators: getIndicators
 });
