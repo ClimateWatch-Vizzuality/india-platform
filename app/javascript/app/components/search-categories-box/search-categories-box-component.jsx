@@ -34,6 +34,7 @@ class SearchCategoriesBoxComponent extends PureComponent {
       checkBoxes,
       foldedFilters,
       plainFilters,
+      description,
       onCheckboxChange,
       handleTagRemove,
       handleAllTagsRemove
@@ -48,6 +49,7 @@ class SearchCategoriesBoxComponent extends PureComponent {
             placeholder={placeholder}
             theme={{ input: styles.inputWrapper }}
             icon={null}
+            value={description || null}
           />
           <Icon
             icon={searchIcon}
@@ -140,6 +142,7 @@ class SearchCategoriesBoxComponent extends PureComponent {
 
 SearchCategoriesBoxComponent.propTypes = {
   placeholder: PropTypes.string.isRequired,
+  description: PropTypes.string,
   tabs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   plainFilters: PropTypes.arrayOf(PropTypes.string),
   checkBoxes: PropTypes.shape({}).isRequired,
@@ -151,6 +154,7 @@ SearchCategoriesBoxComponent.propTypes = {
 };
 
 SearchCategoriesBoxComponent.defaultProps = {
+  description: null,
   foldedFilters: null,
   plainFilters: null
 };

@@ -22,7 +22,9 @@ const ClimatePolicies = (
     sectors,
     authorities,
     onSearchChange,
-    onCheckboxChange
+    onCheckboxChange,
+    handleTagRemove,
+    handleAllTagsRemove
   }
 ) => (
   <div>
@@ -42,6 +44,8 @@ const ClimatePolicies = (
               <SearchCategoriesBox
                 onSearchChange={onSearchChange}
                 onCheckboxChange={onCheckboxChange}
+                handleTagRemove={handleTagRemove}
+                handleAllTagsRemove={handleAllTagsRemove}
                 placeholder="Search and filter policies"
                 tabs={SEARCHBOX_TABS}
                 checkBoxes={{ sector: sectors, authority: authorities }}
@@ -94,6 +98,8 @@ ClimatePolicies.propTypes = {
   sectors: PropTypes.arrayOf(PropTypes.string),
   authorities: PropTypes.arrayOf(PropTypes.string),
   onSearchChange: PropTypes.func.isRequired,
+  handleTagRemove: PropTypes.func.isRequired,
+  handleAllTagsRemove: PropTypes.func.isRequired,
   onCheckboxChange: PropTypes.func.isRequired
 };
 

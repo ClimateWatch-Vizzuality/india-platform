@@ -47,12 +47,40 @@ class ClimatePolicyContainer extends PureComponent {
     updateFiltersSelected({ query: { ...query, ...updatedFilters } });
   };
 
+  handleTagRemove = filter => {
+    const { query, updateFiltersSelected } = this.props;
+    const updatedFilters = Object.keys(query).reduce((acc, key) => {
+      if (isArray(query[key])) {
+        return query[key].includes(filter)
+          ? { ...acc, [key]: query[key].filter(i => i !== filter) }
+          : { ...acc, [key]: query[key] };
+      }
+      return query[key].includes(filter)
+        ? { ...acc, [key]: [] }
+        : { ...acc, [key]: query[key] };
+    }, {});
+    Object.keys(updatedFilters).forEach(k => {
+      if (isEmpty(updatedFilters[k])) {
+        delete query[k];
+        delete updatedFilters[k];
+      }
+    });
+    updateFiltersSelected({ query: { ...query, ...updatedFilters } });
+  };
+
+  handleAllTagsRemove = () => {
+    const { updateFiltersSelected } = this.props;
+    updateFiltersSelected({ query: null });
+  };
+
   render() {
     return (
       <ClimatePolicyComponent
         {...this.props}
         onSearchChange={this.onSearchChange}
         onCheckboxChange={this.handleCheckboxChange}
+        handleTagRemove={this.handleTagRemove}
+        handleAllTagsRemove={this.handleAllTagsRemove}
       />
     );
   }
