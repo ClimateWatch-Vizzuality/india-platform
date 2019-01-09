@@ -23,12 +23,11 @@
   display: flex;
   justify-content: center;
   background-color: $link-water;
-  border-bottom: 1px solid rgba($jakarta, 0.3);
   color: $downriver;
 }
 
 .title {
-  padding: 30px;
+  padding: 52px;
   text-transform: uppercase;
   font-size: $font-size-large;
   font-weight: bold;
@@ -52,6 +51,7 @@
 .row {
   display: flex;
   border-bottom: 1px solid rgba($jakarta, 0.2);
+  padding: 26px;
 
   > * {
     flex: 0 1 33%;
@@ -64,7 +64,9 @@
 
 .link {
   text-decoration: underline;
-  color: $dark-blue;
+  color: $elephant-blue;
+  cursor: pointer;
+  font-size: $font-size;
 }
 
 .document {
@@ -74,19 +76,35 @@
   cursor: pointer;
 }
 
-.accordionTitle {
+%accordionTitleDefaults {
   justify-content: center;
   padding-right: 0;
 }
 
+.accordionTitle {
+  @extend %accordionTitleDefaults;
+  text-transform: uppercase;
+}
+
+.secondAccordionTitle {
+  @extend %accordionTitleDefaults;
+  font-weight: bold;
+}
+
+%accordionHeaderDefaults {
+  padding: 36px;
+  border-bottom: 1px solid $iron;
+}
+
 .accordionHeader {
+  @extend %accordionHeaderDefaults;
   background-color: $white;
-  border-bottom: 1px solid rgba($jakarta, 0.2);
 }
 
 .secondAccordionHeader {
+  @extend %accordionHeaderDefaults;
   background-color: rgba($link-water, 0.2);
-  border-bottom: 1px solid rgba($jakarta, 0.2);
+  font-size: $font-size-x-m;
 }
 
 .header {

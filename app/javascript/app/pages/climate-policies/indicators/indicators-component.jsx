@@ -10,19 +10,23 @@ import { Accordion } from 'cw-components';
 import styles from './indicators-styles';
 
 const columnNames = {
-  attainment_date: 'Date of attainment',
-  value: 'Indicator value',
-  responsible_authority: 'Responsible authority',
-  data_source_link: 'Data source',
-  tracking_frequency: 'Tracking frequency',
-  tracking_notes: 'Notes on tracking methods',
-  status: 'Status',
-  sources: 'Sources'
+  attainment_date: 'Date of attainment:',
+  value: 'Indicator value:',
+  responsible_authority: 'Responsible authority:',
+  data_source_link: 'Data source:',
+  tracking_frequency: 'Tracking frequency:',
+  tracking_notes: 'Notes on tracking methods:',
+  status: 'Status:',
+  sources: 'Sources:'
 };
+
+const isLink = columnName => columnName === 'data_source_link';
 
 const formatDate = date => DateTime.fromISO(date).toFormat('dd/M/yyyy');
 
 const renderInfoIcon = () => <InfoButton dark slugs="" />;
+
+const handleOpenLink = link => window.open(link, '_blank');
 
 const table = indicator => (
   <React.Fragment key={`${indicator.title}-table`}>
@@ -45,7 +49,17 @@ const table = indicator => (
             <td className={cx(styles.cell)}>
               {
                 indicator[column] &&
-                  <ReactMarkdown source={indicator[column]} />
+                  (isLink(column)
+                    ? (
+                      <button
+                        type="button"
+                        onClick={() => handleOpenLink(indicator[column])}
+                        className={styles.link}
+                      >
+                      Link
+                      </button>
+)
+                    : <ReactMarkdown source={indicator[column]} />)
               }
             </td>
           </tr>
@@ -105,7 +119,7 @@ class Indicators extends PureComponent {
                 openSlug={openSecondLevelAccordionSlug}
                 handleOnClick={this.handleSecondAccordionOnClick}
                 theme={{
-                      title: styles.accordionTitle,
+                      title: styles.secondAccordionTitle,
                       header: styles.secondAccordionHeader
                     }}
               >
