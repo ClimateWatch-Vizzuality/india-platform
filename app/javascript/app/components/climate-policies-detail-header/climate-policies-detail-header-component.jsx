@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'redux-first-router-link';
 import ClimatePolicyProvider from 'providers/climate-policy-provider';
+import { Icon } from 'cw-components';
+import goBackArrow from 'assets/icons/left-arrow';
 
 import styles from './climate-policies-detail-header-styles';
 
@@ -13,7 +15,10 @@ const ClimatePoliciesDetailHeaderComponent = (
       to={{ type: 'location/CLIMATE_POLICIES' }}
       className={styles.backLink}
     >
-      &#x0003C; Back to Climate Policies
+      <div className={styles.iconTextWrapper}>
+        <Icon icon={goBackArrow} theme={{ icon: styles.icon }} />
+        <span>Back to Climate Policies</span>
+      </div>
     </Link>
     <div className={styles.sectionTitle}>
       {policyDetails && policyDetails.title}
