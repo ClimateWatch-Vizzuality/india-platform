@@ -2,7 +2,6 @@ module Api
   module V1
     module Socioeconomic
       class IndicatorsController < ApiController
-        # rubocop:disable AbcSize
         def index
           indicators = ::Socioeconomic::Indicator.all
           indicators = indicators.where(code: codes) if codes
@@ -30,7 +29,6 @@ module Api
             end
           end
         end
-        # rubocop:enable AbcSize
 
         private
 
