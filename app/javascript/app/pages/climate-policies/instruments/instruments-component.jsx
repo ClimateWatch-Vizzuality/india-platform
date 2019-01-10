@@ -75,18 +75,18 @@ class Instruments extends PureComponent {
         </div>
         {
           instruments && instruments && (
-          <Accordion
-            loading={false}
-            data={instruments}
-            openSlug={openSlug}
-            handleOnClick={this.handleAccordionOnClick}
-            theme={{
+              <Accordion
+                loading={false}
+                data={instruments}
+                openSlug={openSlug}
+                handleOnClick={this.handleAccordionOnClick}
+                theme={{
                   title: styles.accordionTitle,
                   header: styles.accordionHeader
                 }}
-          >
-            {instruments.map(instrument => table(instrument))}
-          </Accordion>
+              >
+                {instruments.map(instrument => table(instrument))}
+              </Accordion>
             )
         }
         <ClimatePolicyProvider params={{ policyCode }} />

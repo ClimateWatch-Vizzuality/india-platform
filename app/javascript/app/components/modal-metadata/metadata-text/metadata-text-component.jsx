@@ -22,18 +22,24 @@ const MetadataProp = ({ title, data }) =>
   data &&
     (title === 'logo'
       ? <img src={`https:${data}`} alt="Metadata provider logo" />
-      : <p className={styles.text}>
-        <span className={styles.textHighlight}>{upperFirst(title)}: </span>
-        {
-          urlTitles.includes(title) ? <a className={styles.link} href={data}>
+      : (
+        <p className={styles.text}>
+          <span className={styles.textHighlight}>{upperFirst(title)}: </span>
+          {
+          urlTitles.includes(title) ? (
+            <a className={styles.link} href={data}>
               {data}
-            </a> : <span
-              className={cx({ [styles.empty]: data === 'Not specified' })}
-            >
-              {data}
-            </span>
+            </a>
+) : (
+  <span
+    className={cx({ [styles.empty]: data === 'Not specified' })}
+  >
+    {data}
+  </span>
+)
         }
-      </p>);
+        </p>
+));
 
 MetadataProp.propTypes = {
   title: PropTypes.string.isRequired,
@@ -52,7 +58,8 @@ class MetadataText extends PureComponent {
         className={cx(styles.textContainer, className)}
       >
         {
-          showAll ? <MetadataAllProps data={data} /> : <div>
+          showAll ? <MetadataAllProps data={data} /> : (
+            <div>
               {title && <MetadataProp title="Title" data={title} />}
               {
                 sourceOrganization &&
@@ -65,9 +72,9 @@ class MetadataText extends PureComponent {
               }
               {
                 learnMoreLink && (
-                    <MetadataProp
-                      title="Read more"
-                      data={
+                <MetadataProp
+                  title="Read more"
+                  data={
                         (
                           <a
                             key="link"
@@ -79,11 +86,12 @@ class MetadataText extends PureComponent {
                           </a>
                         )
                       }
-                    />
+                />
                   )
               }
               {citation && <MetadataProp title="Citation" data={citation} />}
             </div>
+)
         }
       </div>
     );

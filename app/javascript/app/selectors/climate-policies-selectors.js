@@ -39,7 +39,8 @@ export const getMilestones = createSelector(
   }
 );
 
-export const policiesListBySector = createSelector(
+export const getPoliciesListBySector = createSelector(
+  // export const policiesListBySector = createSelector(
   getClimatePoliciesList,
   list => {
     if (!list) return null;
@@ -47,6 +48,21 @@ export const policiesListBySector = createSelector(
   }
 );
 
+export const getSectors = createSelector(
+  getPoliciesListBySector,
+  policiesBySector => {
+    if (!policiesBySector) return null;
+    return Object.keys(policiesBySector);
+  }
+);
+
+export const getResponsibleAuthorities = createSelector(
+  getClimatePoliciesList,
+  list => {
+    if (!list) return null;
+    return Object.keys(groupBy(list, 'authority'));
+  }
+);
 export const policiesByCode = createSelector(getClimatePoliciesList, list => {
   if (!list) return null;
   const groupedByCode = groupBy(list, 'code');
@@ -57,7 +73,7 @@ export const policiesByCode = createSelector(getClimatePoliciesList, list => {
 
 export const climatePolicies = createStructuredSelector({
   policiesList: getClimatePoliciesList,
-  policiesListBySector,
+  policiesListBySector: getPoliciesListBySector,
   policiesByCode,
   policyCode: getPolicyCode,
   policyDetails: getClimatePolicyDetails,

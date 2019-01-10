@@ -1,1 +1,177 @@
 @import '~styles/ui-extends.scss';
+
+.container {
+  position: relative;
+  width: 100%;
+
+  @media #{$tablet-landscape} {
+    position: absolute;
+  }
+}
+
+.searchInput {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0;
+  left: 0;
+  fill: $theme-color;
+}
+
+.arrowIconOpen {
+  width: 8px;
+  position: absolute;
+  top: 16px;
+  right: 20px;
+}
+
+.arrowIconClose {
+  width: 8px;
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  transform: rotate(180deg);
+}
+
+.inputWrapper {
+  border: 2px solid $ash-gray;
+  box-shadow: none;
+  padding-left: 50px;
+
+  &:hover {
+    box-shadow: none;
+  }
+}
+
+.inputCombo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.boxWrapper {
+  position: relative;
+  width: 100%;
+  bottom: 3px;
+  border: 2px solid $ash-gray;
+}
+
+.tabsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 15px;
+  background-color: $ash-gray;
+}
+
+.tab {
+  position: relative;
+  padding: 15px 0;
+  margin-right: 40px;
+  color: $dark-gray;
+
+  &::after {
+    content: '';
+    height: 0;
+    transition: all 0.2s;
+  }
+
+  &.active {
+    color: $theme-color;
+  }
+
+  &.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: $butterscotch;
+    height: 5px;
+    width: 100%;
+  }
+}
+
+.tabName {
+  @extend %bodyText;
+
+  color: inherit;
+  cursor: pointer;
+}
+
+.tabIndex {
+  font-size: 0.7rem;
+  color: $butterscotch;
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  font-weight: 600;
+}
+
+.option {
+  padding-bottom: 25px;
+}
+
+.optionsContainer {
+  padding: 25px;
+  background-color: $white;
+
+  &:last-child() {
+    padding-bottom: 0;
+  }
+}
+
+.tagsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.tag {
+  height: 24px;
+  width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border: 2px solid $soft-gray;
+  border-radius: 4px;
+  font-size: $font-size-sm;
+  color: $dark-gray;
+  box-shadow: none;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.label {
+  width: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon {
+  fill: $dark-gray;
+}
+
+.dot {
+  display: none;
+}
+
+.clearTag {
+  cursor: pointer;
+  height: 24px;
+  width: 71px;
+  border-radius: 4px;
+  font-size: $font-size-sm;
+  color: $white;
+  background-color: $dark-blue;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}

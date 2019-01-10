@@ -6,7 +6,6 @@
 }
 
 .pageIntro {
-  width: 100vw;
   background-image: $blue-gradient;
   position: relative;
   left: 0;
@@ -52,10 +51,22 @@
   }
 
   .content {
-    @include columns((7, 4));
+    @include columns();
 
-    > :last-child {
-      @include column-offset(1, $gutters: true);
+    > * {
+      @include setGutters('vertical');
+    }
+
+    @media #{$tablet-landscape} {
+      @include columns((7, 5));
+    }
+
+    @media #{$desktop} {
+      @include columns((7, 4));
+
+      > :last-child {
+        @include column-offset(1, $gutters: true);
+      }
     }
   }
 
@@ -64,6 +75,14 @@
 
     color: $text-dark-blue;
   }
+
+  .filterContainer {
+    position: relative;
+  }
+}
+
+.policyTypeSectionWrapper {
+  min-height: 800px;
 }
 
 .policyTypeSection {
@@ -77,9 +96,17 @@
 }
 
 .policiesCardsContainer {
-  @include columns(4);
+  @include columns();
 
   > * {
     @include setGutters('vertical');
+  }
+
+  @media #{$tablet-portrait} {
+    @include columns(6);
+  }
+
+  @media #{$desktop} {
+    @include columns(4);
   }
 }
