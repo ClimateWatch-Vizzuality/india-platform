@@ -1,6 +1,8 @@
 @import '~styles/ui-extends.scss';
 @import '~styles/layout.scss';
 
+$iconSize: 10px;
+
 .headerContainer {
   @include row();
 }
@@ -23,4 +25,17 @@
 
   color: $white;
   padding-bottom: $gutter-padding;
+  opacity: 0.75;
+}
+
+.iconTextWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.icon {
+  height: $iconSize;
+  width: $iconSize;
+  margin-right: 3px;
 }
