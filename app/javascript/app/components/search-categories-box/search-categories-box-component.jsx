@@ -134,7 +134,11 @@ class SearchCategoriesBoxComponent extends PureComponent {
                   onRemove={handleTagRemove}
                   tooltipId={this.getId(f)}
                 />
-                <ReactTooltip key={f} id={this.getId(f)} effect="solid" />
+                <ReactTooltip
+                  key={`tooltipfor-${f}`}
+                  id={this.getId(f)}
+                  effect="solid"
+                />
               </React.Fragment>
                 ))}
             <button
