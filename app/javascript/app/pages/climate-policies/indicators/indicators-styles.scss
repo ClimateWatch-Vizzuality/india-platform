@@ -107,7 +107,7 @@
 .secondAccordionHeader {
   @extend %accordionHeaderDefaults;
 
-  background-color: rgba($link-water, 0.2);
+  background-color: $link-water;
   font-size: $font-size-x-m;
 }
 
