@@ -16,11 +16,13 @@
 }
 
 input:checked ~ .slider {
-  background-color: $theme-color;
+  background-color: $dark-blue;
   border: none;
 }
 
 .label {
+  color: $theme-color;
+  opacity: 0.5;
   margin-left: 4px;
   font-family: $font-family-1;
   font-size: $font-size;
@@ -28,7 +30,7 @@ input:checked ~ .slider {
 }
 
 input:checked ~ .label {
-  color: $theme-color;
+  opacity: 1;
   font-family: $font-family-1;
   font-size: $font-size;
   font-weight: $font-weight;

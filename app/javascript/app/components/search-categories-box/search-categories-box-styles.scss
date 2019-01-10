@@ -17,28 +17,34 @@
   position: absolute;
   width: 50px;
   height: 50px;
-  top: 1px;
-  left: -7px;
-  fill: $mid-gray;
+  top: 0;
+  left: 0;
+  fill: $theme-color;
 }
 
 .arrowIconOpen {
+  width: 8px;
   position: absolute;
   top: 16px;
-  right: 10px;
+  right: 20px;
 }
 
 .arrowIconClose {
+  width: 8px;
   position: absolute;
   top: 16px;
-  right: 10px;
+  right: 20px;
   transform: rotate(180deg);
 }
 
 .inputWrapper {
-  border: 1px solid $mid-gray;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.09);
-  padding-left: 30px;
+  border: 2px solid $ash-gray;
+  box-shadow: none;
+  padding-left: 50px;
+
+  &:hover {
+    box-shadow: none;
+  }
 }
 
 .inputCombo {
@@ -55,27 +61,31 @@
   position: relative;
   width: 100%;
   bottom: 3px;
-  border: 1px solid $mid-gray;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.09);
+  border: 2px solid $ash-gray;
 }
 
 .tabsContainer {
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  padding: 0 25px;
-  background-color: #f5f6f7;
+  padding: 0 15px;
+  background-color: $ash-gray;
 }
 
 .tab {
   position: relative;
   padding: 15px 0;
   margin-right: 40px;
+  color: $dark-gray;
 
   &::after {
     content: '';
     height: 0;
     transition: all 0.2s;
+  }
+
+  &.active {
+    color: $theme-color;
   }
 
   &.active::after {
@@ -92,7 +102,7 @@
 .tabName {
   @extend %bodyText;
 
-  color: $theme-color;
+  color: inherit;
   cursor: pointer;
 }
 
@@ -125,16 +135,16 @@
 }
 
 .tag {
-  height: 18px;
-  padding: 0 10px;
+  height: 24px;
   width: 80px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border: 1px solid $theme-color;
-  border-radius: 15px;
-  font-size: $font-size-s;
-  color: $theme-color;
+  border: 2px solid $soft-gray;
+  border-radius: 4px;
+  font-size: $font-size-sm;
+  color: $dark-gray;
+  box-shadow: none;
   margin-right: 5px;
   margin-bottom: 5px;
 }
@@ -146,29 +156,22 @@
   white-space: nowrap;
 }
 
+.icon {
+  fill: $dark-gray;
+}
+
 .dot {
   display: none;
 }
 
 .clearTag {
-  height: 18px;
-  padding: 0 5px;
-  width: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-radius: 15px;
-  font-size: $font-size-s;
+  cursor: pointer;
+  height: 24px;
+  width: 71px;
+  border-radius: 4px;
+  font-size: $font-size-sm;
   color: $white;
-  background-color: $theme-color;
+  background-color: $dark-blue;
   margin-right: 5px;
   margin-bottom: 5px;
-
-  span {
-    display: none;
-  }
-
-  svg {
-    fill: $white;
-  }
 }

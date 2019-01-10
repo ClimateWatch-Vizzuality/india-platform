@@ -95,7 +95,10 @@ class SearchCategoriesBoxComponent extends PureComponent {
             </div>
             <div className={styles.optionsContainer}>
               {checkBoxes[selectedTab.slug].map(option => (
-                <div key={option} className={styles.option}>
+                <div
+                  key={`${selectedTab.slug}-${option}`}
+                  className={styles.option}
+                >
                   <CheckInput
                     key={option}
                     id={option}
@@ -134,12 +137,13 @@ class SearchCategoriesBoxComponent extends PureComponent {
                 <ReactTooltip key={f} id={this.getId(f)} effect="solid" />
               </React.Fragment>
                 ))}
-            <Tag
-              label="Clear all"
-              theme={{ tag: styles.clearTag }}
-              canRemove
-              onRemove={handleAllTagsRemove}
-            />
+            <button
+              type="button"
+              className={styles.clearTag}
+              onClick={handleAllTagsRemove}
+            >
+                  Clear all
+            </button>
           </div>
             )
         }
