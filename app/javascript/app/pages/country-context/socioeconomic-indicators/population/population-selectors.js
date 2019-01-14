@@ -185,7 +185,7 @@ const getBarChartData = createSelector(
             label: isPercentage(unit) ? 'Percentage' : 'People',
             format: isPercentage(unit)
               ? getCustomYLabelFormat(unit)
-              : value => `${format(',')(`${value * DATA_SCALE}`)}`
+              : value => `${format(',r')(`${value * DATA_SCALE}`)}`
           },
           x: { label: 'Year' },
           indicator: label
