@@ -6,8 +6,8 @@ import Chart from 'components/chart';
 import { Dropdown } from 'cw-components';
 
 import dropdownStyles from 'styles/themes/dropdown';
-import CustomTooltip from '../population/bar-chart-tooltip';
-import styles from '../population/population-styles';
+import CustomTooltip from '../shared/bar-chart-tooltip';
+import styles from '../socioeconomic-indicators-styles';
 
 class Economy extends PureComponent {
   handleFilterChange = (filter, selected) => {

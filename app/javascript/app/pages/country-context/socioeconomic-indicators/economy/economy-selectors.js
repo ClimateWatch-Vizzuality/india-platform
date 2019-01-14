@@ -11,7 +11,7 @@ import {
   getTheme,
   getDomain,
   getAxes
-} from '../selectors/socioeconomic-selectors';
+} from '../shared/socioeconomic-selectors';
 
 const { COUNTRY_ISO } = process.env;
 
@@ -149,10 +149,8 @@ const getNationalBarChartData = createSelector(
       });
     }
 
-    const formatsForTooltip = {
-      'billion Rupiahs': value => `${format(',.2f')(value / DATA_SCALE)}`,
-      'million Rupiahs': value => value
-    };
+    const tooltipFormat = value =>
+      unit === 'billion Rupiahs' ? format(',.2f')(value / DATA_SCALE) : value;
 
     return {
       data: selectedData,
@@ -160,7 +158,7 @@ const getNationalBarChartData = createSelector(
       config: {
         axes: getAxes('Years', 'GDP'),
         tooltip: {
-          y: { label: capitalize(unit), format: formatsForTooltip[unit] },
+          y: { label: capitalize(unit), format: tooltipFormat },
           x: { label: 'Year' },
           indicator: selectedOptions[queryName] &&
             selectedOptions[queryName].label

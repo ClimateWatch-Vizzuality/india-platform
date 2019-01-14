@@ -10,9 +10,10 @@ import {
   getTheme,
   getDomain,
   getAxes
-} from '../selectors/socioeconomic-selectors';
+} from '../shared/socioeconomic-selectors';
 
 const DEFAULT_STATE = 'Delhi';
+// Total population
 const DEFAULT_INDICATOR = 'population_3';
 const INDICATOR_CODES = {
   CAIT: [
@@ -215,7 +216,7 @@ const getPopStateBarChartData = createSelector(
             label: 'People',
             format: value => `${format(',.2r')(`${value * DATA_SCALE}`)}`
           },
-          indicator: 'Population'
+          indicator: { label: 'Population', value: 'Population' }
         },
         animation: false,
         columns: {
