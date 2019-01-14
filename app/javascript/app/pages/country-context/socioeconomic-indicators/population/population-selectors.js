@@ -1,7 +1,16 @@
 import { createStructuredSelector, createSelector } from 'reselect';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
-import isEmpty from 'lodash/isEmpty';
+import {
+  getQuery,
+  getIndicators,
+  getNationalIndicators,
+  getFirstChartFilter,
+  getXColumn,
+  getTheme,
+  getDomain,
+  getAxes
+} from '../selectors/socioeconomic-selectors';
 
 const DEFAULT_STATE = 'Delhi';
 const DEFAULT_INDICATOR = 'population_3';
@@ -20,14 +29,9 @@ const DATA_SCALE = 1000;
 
 const { COUNTRY_ISO } = process.env;
 
-export const getQuery = ({ location }) => location && location.query || null;
-
-export const getIndicators = ({ indicators }) => indicators && indicators.data;
-
 const getSelectedIndicatorCodes = createSelector(getQuery, query => {
-  const { source } = query;
-  if (!source) return INDICATOR_CODES.CAIT;
-  return INDICATOR_CODES[source];
+  if (!query || !query.populationSource) return INDICATOR_CODES.CAIT;
+  return INDICATOR_CODES[query.populationSource];
 });
 
 // Y LABEL FORMATS
@@ -40,17 +44,6 @@ const getCustomYLabelFormat = unit => {
 };
 
 // POPULATION CHARTS
-export const getNationalIndicators = createSelector(
-  [ getIndicators ],
-  nationalIndicators => {
-    if (!nationalIndicators || isEmpty(nationalIndicators)) return null;
-    return nationalIndicators.values &&
-      nationalIndicators.values.filter(
-        ind => ind.location_iso_code3 === COUNTRY_ISO
-      );
-  }
-);
-
 const getNationalIndicatorsForPopulation = createSelector(
   [ getNationalIndicators, getSelectedIndicatorCodes ],
   (indicators, selectedIndicatorCodes) => {
@@ -131,23 +124,6 @@ const getSelectedOptions = createStructuredSelector({
   popNationalIndicator: getFieldSelected('popNationalIndicator'),
   popState: getFieldSelected('popState')
 });
-
-export const getFirstChartFilter = (queryName, selectedOptions) => {
-  const label = selectedOptions[queryName] && selectedOptions[queryName].label;
-
-  return [ { label } ];
-};
-
-export const getDomain = () => ({ x: [ 'auto', 'auto' ], y: [ 0, 'auto' ] });
-
-export const getAxes = (xName, yName) => ({
-  xBottom: { name: xName, unit: '', format: 'string' },
-  yLeft: { name: yName, unit: '', format: 'number' }
-});
-
-export const getXColumn = () => [ { label: 'year', value: 'x' } ];
-
-export const getTheme = color => ({ y: { stroke: color, fill: color } });
 
 const getBarChartData = createSelector(
   [ getIndicators, getNationalIndicatorsForPopulation, getSelectedOptions ],
