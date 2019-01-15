@@ -11,8 +11,11 @@ const mapStateToProps = getEconomy;
 class EconomyContainer extends PureComponent {
   onFilterChange = filter => {
     const { updateFiltersSelected, query } = this.props;
-
-    updateFiltersSelected({ query: { ...query, ...filter } });
+    const updatedFilter = { ...filter };
+    if (Object.keys(filter).includes('economySource')) {
+      updatedFilter.economyNationalIndicator = undefined;
+    }
+    updateFiltersSelected({ query: { ...query, ...updatedFilter } });
   };
 
   render() {

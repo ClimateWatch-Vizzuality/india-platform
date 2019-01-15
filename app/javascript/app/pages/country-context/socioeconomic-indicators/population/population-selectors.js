@@ -41,6 +41,11 @@ const getSelectedIndicatorCodes = createSelector(getQuery, query => {
   return INDICATOR_CODES[query.populationSource];
 });
 
+const getSourceIndicatorCode = createSelector(
+  getQuery,
+  query => !query || !query.populationSource ? 'CAIT' : query.populationSource
+);
+
 const getDefaultIndicator = createSelector(getQuery, query => {
   if (!query || !query.populationSource) return DEFAULT_INDICATOR.CAIT;
   return DEFAULT_INDICATOR[query.populationSource];
@@ -255,5 +260,6 @@ export const getPopulation = createStructuredSelector({
   nationalIndicatorsOptions: getNationalIndicatorsForPopulationOptions,
   popStatesOptions: getStateIndicatorsForPopulationOptions,
   selectedOptions: getSelectedOptions,
+  selectedSource: getSourceIndicatorCode,
   loading: getLoading
 });

@@ -4,6 +4,7 @@ import SectionTitle from 'components/section-title';
 import InfoDownloadToolbox from 'components/info-download-toolbox';
 import Chart from 'components/chart';
 import { Dropdown } from 'cw-components';
+import Switch from 'components/switch';
 
 import dropdownStyles from 'styles/themes/dropdown';
 import CustomTooltip from '../shared/bar-chart-tooltip';
@@ -18,15 +19,16 @@ class Economy extends PureComponent {
   render() {
     const {
       nationalChartData,
-      provincialChartData,
+      stateChartData,
       nationalOptions,
-      provincesOptions,
+      statesOptions,
       selectedOptions,
+      selectedSource,
       loading
     } = this.props;
 
     const nationalIndLabel = 'National Indicator';
-    const provinceIndLabel = 'State';
+    const stateIndLabel = 'State';
 
     return (
       <div className={styles.page}>
@@ -34,17 +36,29 @@ class Economy extends PureComponent {
           title="Economic profile"
           description="Economic profile description"
         />
+        <Switch
+          options={[
+            { name: 'Gross Domestic Product', value: 'GDP' },
+            { name: 'Employment', value: 'Employment' }
+          ]}
+          value={selectedSource}
+          handleChange={selected =>
+            this.handleFilterChange('economySource', selected)}
+        />
         <div className={styles.container}>
           <div className="first-column">
             <div className={styles.toolbox}>
               <div className={styles.dropdown}>
                 <Dropdown
                   key={nationalIndLabel}
-                  label={provinceIndLabel}
+                  label={nationalIndLabel}
                   options={nationalOptions || []}
                   onValueChange={selected =>
-                    this.handleFilterChange('gdpNationalIndicator', selected)}
-                  value={selectedOptions.gdpNationalIndicator}
+                    this.handleFilterChange(
+                      'economyNationalIndicator',
+                      selected
+                    )}
+                  value={selectedOptions.economyNationalIndicator}
                   theme={{ select: dropdownStyles.select }}
                   hideResetButton
                 />
@@ -82,12 +96,12 @@ class Economy extends PureComponent {
             <div className={styles.toolbox}>
               <div className={styles.dropdown}>
                 <Dropdown
-                  key={provinceIndLabel}
-                  label={provinceIndLabel}
-                  options={provincesOptions || []}
+                  key={stateIndLabel}
+                  label={stateIndLabel}
+                  options={statesOptions || []}
                   onValueChange={selected =>
-                    this.handleFilterChange('gdpProvince', selected)}
-                  value={selectedOptions.gdpProvince}
+                    this.handleFilterChange('economyState', selected)}
+                  value={selectedOptions.economyState}
                   theme={{ select: dropdownStyles.select }}
                   hideResetButton
                 />
@@ -99,23 +113,21 @@ class Economy extends PureComponent {
               />
             </div>
             {
-              provincialChartData &&
+              stateChartData &&
                 (
                   <Chart
                     type="line"
                     loading={loading}
                     dots={false}
                     lineType="linear"
-                    config={provincialChartData.config}
+                    config={stateChartData.config}
                     theme={{ legend: styles.legend }}
                     customTooltip={<CustomTooltip />}
-                    dataOptions={provincialChartData.dataOptions || []}
-                    dataSelected={provincialChartData.dataSelected}
-                    getCustomYLabelFormat={
-                      provincialChartData.config.yLabelFormat
-                    }
-                    data={provincialChartData.data}
-                    domain={provincialChartData.domain}
+                    dataOptions={stateChartData.dataOptions || []}
+                    dataSelected={stateChartData.dataSelected}
+                    getCustomYLabelFormat={stateChartData.config.yLabelFormat}
+                    data={stateChartData.data}
+                    domain={stateChartData.domain}
                     height={300}
                   />
                 )
@@ -130,17 +142,18 @@ class Economy extends PureComponent {
 Economy.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   nationalChartData: PropTypes.object,
-  provincialChartData: PropTypes.object,
+  stateChartData: PropTypes.object,
   nationalOptions: PropTypes.array,
-  provincesOptions: PropTypes.array,
+  statesOptions: PropTypes.array,
   selectedOptions: PropTypes.object,
+  selectedSource: PropTypes.string.isRequired,
   loading: PropTypes.bool
 };
 
 Economy.defaultProps = {
   nationalChartData: {},
-  provincialChartData: {},
-  provincesOptions: [],
+  stateChartData: {},
+  statesOptions: [],
   nationalOptions: [],
   selectedOptions: {},
   loading: false

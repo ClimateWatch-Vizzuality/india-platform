@@ -18,9 +18,12 @@ const { COUNTRY_ISO } = process.env;
 
 const DEFAULT_STATE = 'Delhi';
 const DATA_SCALE = '1000000';
-const getSourceIndicatorCode = createSelector(
+export const getSourceIndicatorCode = createSelector(
   getQuery,
-  query => !query || !query.economySource ? 'GDP' : 'Employment'
+  query =>
+    !query || !query.economySource || query.economySource === 'GDP'
+      ? 'GDP'
+      : 'Employment'
 );
 
 const getNationalIndicatorsForEconomy = createSelector(
@@ -55,13 +58,13 @@ const getNationalIndicatorsForEconomyOptions = createSelector(
   }
 );
 
-const getProvinceIndicatorsForEconomyOptions = createSelector(
+const getStateIndicatorsForEconomyOptions = createSelector(
   [ getIndicators, getSourceIndicatorCode ],
   (indicators, sourceCode) => {
     if (!indicators) return null;
 
     const options = [];
-    const economyProvinces = indicators &&
+    const economyStates = indicators &&
       indicators.values &&
       indicators.values.filter(
         ind =>
@@ -69,8 +72,8 @@ const getProvinceIndicatorsForEconomyOptions = createSelector(
             ind.indicator_code === sourceCode
       );
 
-    if (economyProvinces) {
-      economyProvinces.forEach(
+    if (economyStates) {
+      economyStates.forEach(
         province =>
           options.push({ label: province.location, value: province.location })
       );
@@ -81,19 +84,19 @@ const getProvinceIndicatorsForEconomyOptions = createSelector(
 );
 
 const getFilterOptions = createStructuredSelector({
-  gdpNationalIndicator: getNationalIndicatorsForEconomyOptions,
-  gdpProvince: getProvinceIndicatorsForEconomyOptions
+  economyNationalIndicator: getNationalIndicatorsForEconomyOptions,
+  economyState: getStateIndicatorsForEconomyOptions
 });
 
 const getDefaults = createSelector(
   [ getFilterOptions, getSourceIndicatorCode ],
   (options, sourceCode) => ({
-    gdpNationalIndicator: options &&
-      options.gdpNationalIndicator &&
-      options.gdpNationalIndicator.find(o => o.value === sourceCode),
-    gdpProvince: options &&
-      options.gdpProvince &&
-      options.gdpProvince.find(o => o.value === DEFAULT_STATE)
+    economyNationalIndicator: options &&
+      options.economyNationalIndicator &&
+      options.economyNationalIndicator.find(o => o.value === sourceCode),
+    economyState: options &&
+      options.economyState &&
+      options.economyState.find(o => o.value === DEFAULT_STATE)
   })
 );
 
@@ -107,8 +110,8 @@ const getFieldSelected = field => state => {
 };
 
 const getSelectedOptions = createStructuredSelector({
-  gdpNationalIndicator: getFieldSelected('gdpNationalIndicator'),
-  gdpProvince: getFieldSelected('gdpProvince')
+  economyNationalIndicator: getFieldSelected('economyNationalIndicator'),
+  economyState: getFieldSelected('economyState')
 });
 
 // Y LABEL FORMATS
@@ -125,12 +128,13 @@ const getNationalBarChartData = createSelector(
   [
     getIndicatorsWithLabels,
     getNationalIndicatorsForEconomy,
-    getSelectedOptions
+    getSelectedOptions,
+    getSourceIndicatorCode
   ],
-  (indicatorsWithLabels, indicators, selectedOptions) => {
+  (indicatorsWithLabels, indicators, selectedOptions, source) => {
     if (!indicators || !indicatorsWithLabels) return null;
 
-    const queryName = 'gdpNationalIndicator';
+    const queryName = 'economyNationalIndicator';
 
     const selectedIndicator = indicators.find(
       ind => ind.indicator_code === selectedOptions[queryName].value
@@ -140,7 +144,6 @@ const getNationalBarChartData = createSelector(
     const indicator = indicatorsWithLabels &&
       indicatorsWithLabels.find(ind => ind.code === code);
     const unit = indicator && indicator.unit;
-
     const selectedData = [];
     if (selectedIndicator && selectedIndicator.values) {
       selectedIndicator.values.forEach(d => {
@@ -157,9 +160,12 @@ const getNationalBarChartData = createSelector(
       data: selectedData,
       domain: getDomain(),
       config: {
-        axes: getAxes('Years', 'GDP'),
+        axes: getAxes('Years', source === 'GDP' ? 'GDP' : 'Employment'),
         tooltip: {
-          y: { label: capitalize(unit), format: tooltipFormat },
+          y: {
+            label: source === 'GDP' ? capitalize(unit) : 'People',
+            format: tooltipFormat
+          },
           x: { label: 'Year' },
           indicator: selectedOptions[queryName] &&
             selectedOptions[queryName].label
@@ -184,7 +190,7 @@ const getNationalBarChartData = createSelector(
   }
 );
 
-const getProvincialBarChartData = createSelector(
+const getStateBarChartData = createSelector(
   [
     getIndicatorsWithLabels,
     getIndicators,
@@ -194,7 +200,7 @@ const getProvincialBarChartData = createSelector(
   (indicatorsWithLabels, indicators, selectedOptions, sourceCode) => {
     if (!indicators || !indicatorsWithLabels) return null;
 
-    const queryName = 'gdpProvince';
+    const queryName = 'economyState';
 
     const selectedIndicator = indicators &&
       indicators.values &&
@@ -213,23 +219,33 @@ const getProvincialBarChartData = createSelector(
       });
     }
 
+    const indicatorLabel = sourceCode === 'GDP' ? 'GDP Price' : 'Employment';
     return {
       data: selectedData,
       domain: getDomain(),
       config: {
-        axes: getAxes('Years', 'GDP'),
+        axes: getAxes('Years', sourceCode === 'GDP' ? 'GDP' : 'Employment'),
         tooltip: {
-          y: { label: 'Rupiahs', format: value => `${format(',')(value)}` },
+          y: {
+            label: sourceCode === 'GDP' ? 'Rupiahs' : 'People',
+            format: value => `${format(',')(value)}`
+          },
           x: { label: 'Year' },
-          indicator: 'GDP at current price'
+          indicator: sourceCode === 'GDP'
+            ? 'GDP at current price'
+            : 'Employment'
         },
         animation: false,
-        columns: { x: getXColumn(), y: [ { label: 'GDP Price', value: 'y' } ] },
+        columns: {
+          x: getXColumn(),
+          y: [ { label: indicatorLabel, value: 'y' } ]
+        },
         theme: getTheme('#FC7E4B'),
-        yLabelFormat: value => `${format('.2s')(value)}R`
+        yLabelFormat: value =>
+          `${format('.2s')(value)}${sourceCode === 'GDP' ? 'R' : ''}`
       },
-      dataOptions: [ { label: 'GDP Price' } ],
-      dataSelected: [ { label: 'GDP Price' } ]
+      dataOptions: [ { label: indicatorLabel } ],
+      dataSelected: [ { label: indicatorLabel } ]
     };
   }
 );
@@ -237,9 +253,10 @@ const getProvincialBarChartData = createSelector(
 export const getEconomy = createStructuredSelector({
   query: getQuery,
   nationalChartData: getNationalBarChartData,
-  provincialChartData: getProvincialBarChartData,
+  stateChartData: getStateBarChartData,
   nationalOptions: getNationalIndicatorsForEconomyOptions,
-  provincesOptions: getProvinceIndicatorsForEconomyOptions,
+  statesOptions: getStateIndicatorsForEconomyOptions,
   selectedOptions: getSelectedOptions,
-  loading: getLoading
+  loading: getLoading,
+  selectedSource: getSourceIndicatorCode
 });

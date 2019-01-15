@@ -22,6 +22,7 @@ class Population extends PureComponent {
       nationalIndicatorsOptions,
       popStatesOptions,
       selectedOptions,
+      selectedSource,
       loading
     } = this.props;
 
@@ -36,7 +37,7 @@ class Population extends PureComponent {
             { name: 'Age and gender', value: 'age_and_gender' },
             { name: 'Human Development Index', value: 'hdi' }
           ]}
-          value="CAIT"
+          value={selectedSource}
           handleChange={selected =>
             this.handleFilterChange('populationSource', selected)}
         />
@@ -138,6 +139,7 @@ Population.propTypes = {
   nationalIndicatorsOptions: PropTypes.array.isRequired,
   popStatesOptions: PropTypes.array.isRequired,
   selectedOptions: PropTypes.object.isRequired,
+  selectedSource: PropTypes.string.isRequired,
   loading: PropTypes.bool
 };
 
