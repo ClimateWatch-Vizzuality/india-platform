@@ -1,6 +1,6 @@
 import React from 'react';
 import { Chart, ChartComposed } from 'cw-components';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import styles from './chart-styles';
 
 const ChartComponent = props => {

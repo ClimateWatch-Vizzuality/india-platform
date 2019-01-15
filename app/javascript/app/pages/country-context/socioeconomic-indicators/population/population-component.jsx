@@ -4,7 +4,7 @@ import SectionTitle from 'components/section-title';
 import InfoDownloadToolbox from 'components/info-download-toolbox';
 import Chart from 'components/chart';
 import { Dropdown } from 'cw-components';
-
+import Switch from 'components/switch';
 import dropdownStyles from 'styles/themes/dropdown';
 import CustomTooltip from '../shared/bar-chart-tooltip';
 import styles from '../socioeconomic-indicators-styles';
@@ -30,6 +30,16 @@ class Population extends PureComponent {
     return (
       <div className={styles.page}>
         <SectionTitle title="Population" description="Population description" />
+        <Switch
+          options={[
+            { name: 'CAIT', value: 'CAIT' },
+            { name: 'Age and gender', value: 'age_and_gender' },
+            { name: 'Human Development Index', value: 'hdi' }
+          ]}
+          value="CAIT"
+          handleChange={selected =>
+            this.handleFilterChange('populationSource', selected)}
+        />
         <div className={styles.container}>
           <div className="first-column">
             <div className={styles.toolbox}>

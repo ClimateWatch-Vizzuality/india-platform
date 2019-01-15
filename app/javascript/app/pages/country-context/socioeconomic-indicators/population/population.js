@@ -11,8 +11,11 @@ const mapStateToProps = getPopulation;
 class PopulationContainer extends PureComponent {
   onFilterChange = filter => {
     const { updateFiltersSelected, query } = this.props;
-
-    updateFiltersSelected({ query: { ...query, ...filter } });
+    const updatedFilter = { ...filter };
+    if (Object.keys(filter).includes('populationSource')) {
+      updatedFilter.popNationalIndicator = undefined;
+    }
+    updateFiltersSelected({ query: { ...query, ...updatedFilter } });
   };
 
   render() {

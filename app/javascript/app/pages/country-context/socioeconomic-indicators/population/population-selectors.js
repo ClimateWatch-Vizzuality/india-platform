@@ -1,8 +1,10 @@
 import { createStructuredSelector, createSelector } from 'reselect';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
+import isEmpty from 'lodash/isEmpty';
 import {
   getQuery,
+  getLoading,
   getIndicators,
   getNationalIndicators,
   getFirstChartFilter,
@@ -14,7 +16,11 @@ import {
 
 const DEFAULT_STATE = 'Delhi';
 // Total population
-const DEFAULT_INDICATOR = 'population_3';
+const DEFAULT_INDICATOR = {
+  CAIT: 'population_3',
+  age_and_gender: 'Sex_ratio',
+  hdi: 'hdi'
+};
 const INDICATOR_CODES = {
   CAIT: [
     'population_1',
@@ -23,7 +29,7 @@ const INDICATOR_CODES = {
     'population_4',
     'pop_density'
   ],
-  age_and_gender: [ 'Sex_ratio', 'Sex_ratio_child' ],
+  age_and_gender: [ 'Sex_ratio' ],
   hdi: [ 'hdi' ]
 };
 const DATA_SCALE = 1000;
@@ -33,6 +39,11 @@ const { COUNTRY_ISO } = process.env;
 const getSelectedIndicatorCodes = createSelector(getQuery, query => {
   if (!query || !query.populationSource) return INDICATOR_CODES.CAIT;
   return INDICATOR_CODES[query.populationSource];
+});
+
+const getDefaultIndicator = createSelector(getQuery, query => {
+  if (!query || !query.populationSource) return DEFAULT_INDICATOR.CAIT;
+  return DEFAULT_INDICATOR[query.populationSource];
 });
 
 // Y LABEL FORMATS
@@ -49,9 +60,14 @@ const getNationalIndicatorsForPopulation = createSelector(
   [ getNationalIndicators, getSelectedIndicatorCodes ],
   (indicators, selectedIndicatorCodes) => {
     if (!indicators) return null;
-    return selectedIndicatorCodes.map(
-      indCode => indicators.find(ind => ind.indicator_code === indCode)
-    );
+    const selectedIndicators = [];
+    selectedIndicatorCodes.forEach(indCode => {
+      const selectedIndicator = indicators.find(
+        ind => ind.indicator_code === indCode
+      );
+      if (selectedIndicator) selectedIndicators.push(selectedIndicator);
+    });
+    return selectedIndicators;
   }
 );
 
@@ -59,7 +75,6 @@ const getNationalIndicatorsForPopulationOptions = createSelector(
   [ getIndicators, getSelectedIndicatorCodes ],
   (indicators, selectedIndicatorCodes) => {
     if (!indicators) return null;
-
     const options = [];
 
     selectedIndicatorCodes.forEach(indicatorCode => {
@@ -76,11 +91,9 @@ const getNationalIndicatorsForPopulationOptions = createSelector(
 );
 
 const getStateIndicatorsForPopulationOptions = createSelector(
-  [ getIndicators ],
-  indicators => {
+  [ getIndicators, getDefaultIndicator ],
+  (indicators, defaultIndicator) => {
     if (!indicators) return null;
-
-    const POPULATION_INDICATOR = DEFAULT_INDICATOR;
     const options = [];
 
     const populationStates = indicators &&
@@ -88,7 +101,7 @@ const getStateIndicatorsForPopulationOptions = createSelector(
       indicators.values.filter(
         ind =>
           ind.location_iso_code3 !== COUNTRY_ISO &&
-            ind.indicator_code === POPULATION_INDICATOR
+            ind.indicator_code === defaultIndicator
       );
 
     if (populationStates) {
@@ -105,9 +118,12 @@ const getFilterOptions = createStructuredSelector({
   popState: getStateIndicatorsForPopulationOptions
 });
 
-const getDefaults = createSelector(getFilterOptions, options => ({
+const getDefaults = createSelector([ getFilterOptions, getDefaultIndicator ], (
+  options,
+  defaultIndicator
+) => ({
   popNationalIndicator: options.popNationalIndicator.find(
-    o => o.value === DEFAULT_INDICATOR
+    o => o.value === defaultIndicator
   ),
   popState: options.popState.find(o => o.value === DEFAULT_STATE)
 }));
@@ -115,9 +131,9 @@ const getDefaults = createSelector(getFilterOptions, options => ({
 const getFieldSelected = field => state => {
   const { query } = state.location;
   if (!query || !query[field]) return getDefaults(state)[field];
-  const queryValue = query[field];
   const options = getFilterOptions(state)[field];
-
+  if (isEmpty(options)) return getDefaults(state)[field];
+  const queryValue = query[field];
   return options.find(o => o.value === queryValue);
 };
 
@@ -134,7 +150,7 @@ const getBarChartData = createSelector(
     const selectedIndicator = indicators.find(
       ind => ind.indicator_code === selectedOptions[queryName].value
     );
-
+    if (!selectedIndicator) return null;
     const code = selectedIndicator && selectedIndicator.indicator_code;
     const indicator = data &&
       data.indicators &&
@@ -179,8 +195,8 @@ const getBarChartData = createSelector(
 );
 
 const getPopStateBarChartData = createSelector(
-  [ getIndicators, getSelectedOptions ],
-  (indicators, selectedOptions) => {
+  [ getIndicators, getSelectedOptions, getDefaultIndicator ],
+  (indicators, selectedOptions, defaultIndicator) => {
     if (!indicators || !selectedOptions) return null;
     const queryName = 'popState';
 
@@ -189,12 +205,12 @@ const getPopStateBarChartData = createSelector(
       indicators.values.find(
         ind =>
           ind.location === selectedOptions[queryName].value &&
-            ind.indicator_code === DEFAULT_INDICATOR
+            ind.indicator_code === defaultIndicator
       );
 
     const indicator = indicators &&
       indicators.indicators &&
-      indicators.indicators.find(ind => ind.code === DEFAULT_INDICATOR);
+      indicators.indicators.find(ind => ind.code === defaultIndicator);
     const unit = indicator && indicator.unit;
 
     const selectedData = [];
@@ -238,5 +254,6 @@ export const getPopulation = createStructuredSelector({
   popStateChartData: getPopStateBarChartData,
   nationalIndicatorsOptions: getNationalIndicatorsForPopulationOptions,
   popStatesOptions: getStateIndicatorsForPopulationOptions,
-  selectedOptions: getSelectedOptions
+  selectedOptions: getSelectedOptions,
+  loading: getLoading
 });
