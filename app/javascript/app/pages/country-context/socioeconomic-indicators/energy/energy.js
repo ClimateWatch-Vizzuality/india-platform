@@ -11,13 +11,14 @@ const mapStateToProps = getEnergy;
 class EnergyContainer extends PureComponent {
   onFilterChange = filter => {
     const { updateFiltersSelected, query } = this.props;
+    const updatedFilter = { ...filter };
+    let oldQuery = { ...query };
 
-    let oldQuery = query;
-    if (filter && filter.energyInd) {
-      oldQuery = {};
+    if (filter && filter.energyIndicator) oldQuery = {};
+    if (Object.keys(filter).includes('populationSource')) {
+      updatedFilter.popNationalIndicator = undefined;
     }
-
-    updateFiltersSelected({ query: { ...oldQuery, ...filter } });
+    updateFiltersSelected({ query: { ...oldQuery, ...updatedFilter } });
   };
 
   render() {

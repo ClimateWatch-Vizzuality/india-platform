@@ -5,7 +5,7 @@ import InfoDownloadToolbox from 'components/info-download-toolbox';
 import Chart from 'components/chart';
 import { Dropdown } from 'cw-components';
 import isArray from 'lodash/isArray';
-
+import Switch from 'components/switch';
 import dropdownStyles from 'styles/themes/dropdown.scss';
 import styles from './energy-styles.scss';
 
@@ -22,13 +22,28 @@ class Energy extends PureComponent {
   };
 
   render() {
-    const { chartData, selectedOptions, options, loading } = this.props;
+    const {
+      chartData,
+      selectedOptions,
+      options,
+      loading,
+      selectedSource
+    } = this.props;
 
     const indicatorLabel = 'Indicators';
 
     return (
       <div className={styles.page}>
         <SectionTitle title="Energy" description="Energy description" />
+        <Switch
+          options={[
+            { name: 'Energy Supply', value: 'energy_supply' },
+            { name: 'Energy Consumption', value: 'energy_consumption' }
+          ]}
+          value={selectedSource}
+          handleChange={selected =>
+            this.handleFilterChange('energySource', selected)}
+        />
         <div className={styles.container}>
           <div className={styles.toolbox}>
             <div className={styles.dropdown}>
@@ -38,8 +53,8 @@ class Energy extends PureComponent {
                 placeholder={`Filter by ${indicatorLabel}`}
                 options={options || []}
                 onValueChange={selected =>
-                  this.handleFilterChange('energyInd', selected)}
-                value={selectedOptions.energyInd}
+                  this.handleFilterChange('energyIndicator', selected)}
+                value={selectedOptions.energyIndicator}
                 theme={{ select: dropdownStyles.select }}
                 hideResetButton
               />
@@ -82,6 +97,7 @@ Energy.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   chartData: PropTypes.object,
   selectedOptions: PropTypes.object,
+  selectedSource: PropTypes.string.isRequired,
   options: PropTypes.array,
   loading: PropTypes.bool
 };

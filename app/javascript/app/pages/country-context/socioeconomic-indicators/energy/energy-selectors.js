@@ -13,39 +13,52 @@ import {
 } from '../shared/socioeconomic-selectors';
 
 const { COUNTRY_ISO } = process.env;
-const INDICATOR_CODE = 'energy_consumption';
-const ENERGY_INDICATORS = [
-  'energy_consumption',
-  'installed_capacity',
-  'energy_consumption_cap',
-  'energy_intensity'
-];
-const INDICATOR_QUERY_NAME = 'energyInd';
+const ENERGY_INDICATORS = {
+  energy_supply: [ 'energy_consumption', 'energy_consumption_cap' ],
+  energy_consumption: [ 'installed_capacity', 'energy_intensity' ]
+};
+
+const INDICATOR_QUERY_NAME = 'energyIndicator';
 const CATEGORIES_QUERY_NAME = 'categories';
+
+const getSource = createSelector(
+  getQuery,
+  query =>
+    !query || !query.energySource ? 'energy_supply' : 'energy_consumption'
+);
 
 export const AXES_CONFIG = (yName, yUnit) => ({
   xBottom: { name: 'Year', unit: 'date', format: 'YYYY' },
   yLeft: { name: yName, unit: yUnit, format: 'number' }
 });
 
-const getEnergyData = createSelector([ getIndicators ], indicators => {
-  if (!indicators) return null;
+const getEnergyData = createSelector([ getIndicators, getSource ], (
+  indicators,
+  selectedSource
+) =>
+  {
+    if (!indicators) return null;
 
-  return indicators.values &&
-    indicators.values.filter(
-      ind =>
-        ENERGY_INDICATORS.includes(ind.indicator_code) &&
-          ind.location_iso_code3 === COUNTRY_ISO
-    );
-});
+    return indicators.values &&
+      indicators.values.filter(
+        ind =>
+          ENERGY_INDICATORS[selectedSource].includes(ind.indicator_code) &&
+            ind.location_iso_code3 === COUNTRY_ISO
+      );
+  });
 
-const getEnergyIndicator = createSelector([ getIndicators ], indicators => {
-  if (!indicators) return null;
-
-  return indicators &&
-    indicators.indicators &&
-    indicators.indicators.filter(ind => ENERGY_INDICATORS.includes(ind.code));
-});
+const getEnergyIndicator = createSelector([ getIndicators, getSource ], (
+  indicators,
+  selectedSource
+) =>
+  {
+    if (!indicators) return null;
+    return indicators &&
+      indicators.indicators &&
+      indicators.indicators.filter(
+        ind => ENERGY_INDICATORS[selectedSource].includes(ind.code)
+      );
+  });
 
 const getOptions = createSelector([ getEnergyIndicator ], energyIndicator => {
   if (!energyIndicator) return null;
@@ -54,12 +67,12 @@ const getOptions = createSelector([ getEnergyIndicator ], energyIndicator => {
 });
 
 const getDefaultCategories = createSelector(
-  [ getEnergyData, getEnergyIndicator ],
-  (energyData, energyIndicator) => {
+  [ getEnergyData, getEnergyIndicator, getSource ],
+  (energyData, energyIndicator, selectedSource) => {
     if (!energyData || !energyIndicator) return null;
 
     const defaultCategories = {};
-    ENERGY_INDICATORS.forEach(indicator => {
+    ENERGY_INDICATORS[selectedSource].forEach(indicator => {
       const data = energyData.filter(e => e.indicator_code === indicator);
       defaultCategories[indicator] = [];
       data.forEach(
@@ -84,14 +97,13 @@ const getFilterOptions = createSelector([ getOptions, getDefaultCategories ], (
   [CATEGORIES_QUERY_NAME]: categories
 }));
 
-const getDefaults = createSelector([ getOptions, getDefaultCategories ], (
-  options,
-  defaultCategories
-) => ({
-  [INDICATOR_QUERY_NAME]: options &&
-    options.find(o => o.value === INDICATOR_CODE),
-  [CATEGORIES_QUERY_NAME]: defaultCategories
-}));
+const getDefaults = createSelector(
+  [ getOptions, getDefaultCategories, getSource ],
+  (options, defaultCategories, source) => ({
+    [INDICATOR_QUERY_NAME]: options && options.find(o => o.value === source),
+    [CATEGORIES_QUERY_NAME]: defaultCategories
+  })
+);
 
 const findOption = (options, value) =>
   options && options.find(o => o.value === value || o.name === value);
@@ -102,24 +114,21 @@ const getFieldSelected = field => state => {
   const categoriesField = field === CATEGORIES_QUERY_NAME;
   const categoriesInQuery = query && query[CATEGORIES_QUERY_NAME];
   const indicatorInQuery = query && query[INDICATOR_QUERY_NAME];
-
-  if (categoriesField && !query)
-    return getDefaults(state)[field] &&
-      getDefaults(state)[field][INDICATOR_CODE];
-  if (categoriesField && indicatorInQuery && !categoriesInQuery) {
-    return getDefaults(state)[field] &&
-      getDefaults(state)[field][query[INDICATOR_QUERY_NAME]];
+  const defaultField = getDefaults(state)[field];
+  const source = getSource(state);
+  const defaultFieldIndicator = defaultField && defaultField[source];
+  if (categoriesField) {
+    if (!query) return defaultFieldIndicator;
+    if (indicatorInQuery && !categoriesInQuery) {
+      return defaultField && defaultField[query[INDICATOR_QUERY_NAME]];
+    }
+    if (!categoriesInQuery) return defaultFieldIndicator;
   }
-  if (categoriesField && !categoriesInQuery) {
-    return getDefaults(state)[field] &&
-      getDefaults(state)[field][INDICATOR_CODE];
-  }
-  if (!query || !query[field]) return getDefaults(state)[field];
+  if (!query || !query[field]) return defaultField;
   const queryValue = query[field];
 
   const getFilterOptionsForCategories = (s, f) => {
-    if (!query[INDICATOR_QUERY_NAME])
-      return getFilterOptions(s)[f][INDICATOR_CODE];
+    if (!query[INDICATOR_QUERY_NAME]) return getFilterOptions(s)[f][source];
     return getFilterOptions(s)[f][query[INDICATOR_QUERY_NAME]];
   };
 
@@ -145,7 +154,6 @@ const getYears = createSelector([ getEnergyData, getSelectedOptions ], (
 ) =>
   {
     if (!energyData) return null;
-
     const valuesCollected = energyData
       .filter(
         e => e.indicator_code === selectedOptions[INDICATOR_QUERY_NAME].value
@@ -291,5 +299,6 @@ export const getEnergy = createStructuredSelector({
   chartData: getChartData,
   selectedOptions: getSelectedOptions,
   query: getQuery,
-  loading: getLoading
+  loading: getLoading,
+  selectedSource: getSource
 });
