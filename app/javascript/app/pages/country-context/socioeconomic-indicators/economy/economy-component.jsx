@@ -21,7 +21,8 @@ class Economy extends PureComponent {
       provincialChartData,
       nationalOptions,
       provincesOptions,
-      selectedOptions
+      selectedOptions,
+      loading
     } = this.props;
 
     const nationalIndLabel = 'National Indicator';
@@ -40,7 +41,7 @@ class Economy extends PureComponent {
                 <Dropdown
                   key={nationalIndLabel}
                   label={provinceIndLabel}
-                  options={nationalOptions}
+                  options={nationalOptions || []}
                   onValueChange={selected =>
                     this.handleFilterChange('gdpNationalIndicator', selected)}
                   value={selectedOptions.gdpNationalIndicator}
@@ -61,10 +62,11 @@ class Economy extends PureComponent {
                     type="line"
                     dots={false}
                     lineType="linear"
+                    loading={loading}
                     config={nationalChartData.config}
                     theme={{ legend: styles.legend }}
                     customTooltip={<CustomTooltip />}
-                    dataOptions={nationalChartData.dataOptions}
+                    dataOptions={nationalChartData.dataOptions || []}
                     dataSelected={nationalChartData.dataSelected}
                     getCustomYLabelFormat={
                       nationalChartData.config.yLabelFormat
@@ -82,7 +84,7 @@ class Economy extends PureComponent {
                 <Dropdown
                   key={provinceIndLabel}
                   label={provinceIndLabel}
-                  options={provincesOptions}
+                  options={provincesOptions || []}
                   onValueChange={selected =>
                     this.handleFilterChange('gdpProvince', selected)}
                   value={selectedOptions.gdpProvince}
@@ -101,12 +103,13 @@ class Economy extends PureComponent {
                 (
                   <Chart
                     type="line"
+                    loading={loading}
                     dots={false}
                     lineType="linear"
                     config={provincialChartData.config}
                     theme={{ legend: styles.legend }}
                     customTooltip={<CustomTooltip />}
-                    dataOptions={provincialChartData.dataOptions}
+                    dataOptions={provincialChartData.dataOptions || []}
                     dataSelected={provincialChartData.dataSelected}
                     getCustomYLabelFormat={
                       provincialChartData.config.yLabelFormat
@@ -130,7 +133,8 @@ Economy.propTypes = {
   provincialChartData: PropTypes.object,
   nationalOptions: PropTypes.array,
   provincesOptions: PropTypes.array,
-  selectedOptions: PropTypes.object
+  selectedOptions: PropTypes.object,
+  loading: PropTypes.bool
 };
 
 Economy.defaultProps = {
@@ -138,7 +142,8 @@ Economy.defaultProps = {
   provincialChartData: {},
   provincesOptions: [],
   nationalOptions: [],
-  selectedOptions: {}
+  selectedOptions: {},
+  loading: false
 };
 
 export default Economy;

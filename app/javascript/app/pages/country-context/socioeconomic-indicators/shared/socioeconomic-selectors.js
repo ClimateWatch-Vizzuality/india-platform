@@ -6,6 +6,7 @@ const { COUNTRY_ISO } = process.env;
 export const getQuery = ({ location }) => location && location.query || null;
 
 export const getIndicators = ({ indicators }) => indicators && indicators.data;
+export const getLoading = ({ indicators }) => !indicators;
 
 export const getNationalIndicators = createSelector(
   [ getIndicators ],

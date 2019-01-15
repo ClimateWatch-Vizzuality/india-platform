@@ -6,7 +6,11 @@ import { format } from 'd3-format';
 
 import { getThemeConfig, getTooltipConfig } from 'utils/graphs';
 
-import { getIndicators, getQuery } from '../shared/socioeconomic-selectors';
+import {
+  getIndicators,
+  getQuery,
+  getLoading
+} from '../shared/socioeconomic-selectors';
 
 const { COUNTRY_ISO } = process.env;
 const INDICATOR_CODE = 'energy_consumption';
@@ -272,8 +276,8 @@ const getChartData = createSelector(
           tooltip: getTooltipConfig(configYColumns),
           animation: false,
           yLabelFormat: unit === '%'
-            ? value => `${value}`
-            : value => `${format('.2s')(value)}`
+            ? value => value
+            : value => format('.2s')(value)
         },
         dataSelected: legendDataSelected,
         dataOptions: categories
@@ -286,5 +290,6 @@ export const getEnergy = createStructuredSelector({
   years: getYears,
   chartData: getChartData,
   selectedOptions: getSelectedOptions,
-  query: getQuery
+  query: getQuery,
+  loading: getLoading
 });

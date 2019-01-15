@@ -4,6 +4,7 @@ import sortBy from 'lodash/sortBy';
 import capitalize from 'lodash/capitalize';
 import {
   getQuery,
+  getLoading,
   getIndicators,
   getNationalIndicators,
   getFirstChartFilter,
@@ -239,5 +240,6 @@ export const getEconomy = createStructuredSelector({
   provincialChartData: getProvincialBarChartData,
   nationalOptions: getNationalIndicatorsForEconomyOptions,
   provincesOptions: getProvinceIndicatorsForEconomyOptions,
-  selectedOptions: getSelectedOptions
+  selectedOptions: getSelectedOptions,
+  loading: getLoading
 });

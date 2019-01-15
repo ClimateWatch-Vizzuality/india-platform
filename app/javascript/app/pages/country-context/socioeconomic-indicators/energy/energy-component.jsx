@@ -22,7 +22,7 @@ class Energy extends PureComponent {
   };
 
   render() {
-    const { chartData, selectedOptions, options } = this.props;
+    const { chartData, selectedOptions, options, loading } = this.props;
 
     const indicatorLabel = 'Indicators';
 
@@ -36,7 +36,7 @@ class Energy extends PureComponent {
                 key={indicatorLabel}
                 label={indicatorLabel}
                 placeholder={`Filter by ${indicatorLabel}`}
-                options={options}
+                options={options || []}
                 onValueChange={selected =>
                   this.handleFilterChange('energyInd', selected)}
                 value={selectedOptions.energyInd}
@@ -56,13 +56,14 @@ class Energy extends PureComponent {
               (
                 <Chart
                   type="line"
+                  loading={loading}
                   config={chartData.config}
                   theme={{ legend: styles.legend }}
                   data={chartData.data}
                   dots={false}
                   domain={chartData.domain}
                   getCustomYLabelFormat={chartData.config.yLabelFormat}
-                  dataOptions={chartData.dataOptions}
+                  dataOptions={chartData.dataOptions || []}
                   dataSelected={chartData.dataSelected}
                   height={500}
                   margin={{ left: '200px' }}
@@ -81,9 +82,15 @@ Energy.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   chartData: PropTypes.object,
   selectedOptions: PropTypes.object,
-  options: PropTypes.array
+  options: PropTypes.array,
+  loading: PropTypes.bool
 };
 
-Energy.defaultProps = { selectedOptions: {}, options: [], chartData: {} };
+Energy.defaultProps = {
+  selectedOptions: {},
+  options: [],
+  chartData: {},
+  loading: false
+};
 
 export default Energy;

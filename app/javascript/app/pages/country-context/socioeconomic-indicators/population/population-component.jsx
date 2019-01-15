@@ -21,7 +21,8 @@ class Population extends PureComponent {
       popStateChartData,
       nationalIndicatorsOptions,
       popStatesOptions,
-      selectedOptions
+      selectedOptions,
+      loading
     } = this.props;
 
     const nationalIndLabel = 'National Indicators';
@@ -56,6 +57,7 @@ class Population extends PureComponent {
                 (
                   <Chart
                     type="bar"
+                    loading={loading}
                     config={chartData.config}
                     data={chartData.data}
                     theme={{ legend: styles.legend }}
@@ -96,6 +98,7 @@ class Population extends PureComponent {
                 (
                   <Chart
                     type="bar"
+                    loading={loading}
                     config={popStateChartData.config}
                     theme={{ legend: styles.legend }}
                     customTooltip={<CustomTooltip />}
@@ -124,9 +127,10 @@ Population.propTypes = {
   popStateChartData: PropTypes.object.isRequired,
   nationalIndicatorsOptions: PropTypes.array.isRequired,
   popStatesOptions: PropTypes.array.isRequired,
-  selectedOptions: PropTypes.object.isRequired
+  selectedOptions: PropTypes.object.isRequired,
+  loading: PropTypes.bool
 };
 
-Population.defaultProps = { chartData: {} };
+Population.defaultProps = { chartData: {}, loading: false };
 
 export default Population;
