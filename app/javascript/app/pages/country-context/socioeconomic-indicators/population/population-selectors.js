@@ -216,7 +216,7 @@ const getPopStateBarChartData = createSelector(
             label: 'People',
             format: value => `${format(',.2r')(`${value * DATA_SCALE}`)}`
           },
-          indicator: { label: 'Population', value: 'Population' }
+          indicator: 'Population'
         },
         animation: false,
         columns: {
