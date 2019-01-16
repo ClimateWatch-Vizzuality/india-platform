@@ -14,6 +14,10 @@ class EnergyContainer extends PureComponent {
     const updatedFilter = { ...filter };
     if (Object.keys(filter).includes('energySource')) {
       updatedFilter.energyIndicator = undefined;
+      updatedFilter.categories = undefined;
+    }
+    if (Object.keys(filter).includes('energyIndicator')) {
+      updatedFilter.categories = undefined;
     }
     updateFiltersSelected({ query: { ...query, ...updatedFilter } });
   };

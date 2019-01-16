@@ -108,11 +108,14 @@ const getFilterOptions = createSelector([ getOptions, getDefaultCategories ], (
 
 const getDefaults = createSelector(
   [ getOptions, getDefaultCategories, getSource ],
-  (options, defaultCategories, source) => ({
-    [INDICATOR_QUERY_NAME]: options &&
-      options.find(o => o.value === DEFAULT_INDICATORS[source]),
-    [CATEGORIES_QUERY_NAME]: defaultCategories
-  })
+  (options, defaultCategories, source) =>
+    options
+      ? {
+        [INDICATOR_QUERY_NAME]: options &&
+          options.find(o => o.value === DEFAULT_INDICATORS[source]),
+        [CATEGORIES_QUERY_NAME]: defaultCategories
+      }
+      : null
 );
 
 const findOption = (options, value) =>
@@ -124,7 +127,8 @@ const getFieldSelected = field => state => {
   const categoriesField = field === CATEGORIES_QUERY_NAME;
   const categoriesInQuery = query && query[CATEGORIES_QUERY_NAME];
   const indicatorInQuery = query && query[INDICATOR_QUERY_NAME];
-  const defaultField = getDefaults(state)[field];
+  const defaults = getDefaults(state);
+  const defaultField = defaults && defaults[field];
   const source = getSource(state);
   const defaultFieldIndicator = defaultField &&
     defaultField[DEFAULT_INDICATORS[source]];
@@ -140,8 +144,11 @@ const getFieldSelected = field => state => {
   const queryValue = query[field];
 
   const getFilterOptionsForCategories = (s, f) => {
-    if (!query[INDICATOR_QUERY_NAME]) return getFilterOptions(s)[f][source];
-    return getFilterOptions(s)[f][query[INDICATOR_QUERY_NAME]];
+    const filterOptions = getFilterOptions(s)[f];
+    if (!filterOptions) return null;
+    if (!query[INDICATOR_QUERY_NAME])
+      return filterOptions[DEFAULT_INDICATORS[source]];
+    return filterOptions[query[INDICATOR_QUERY_NAME]];
   };
 
   const options = categoriesField
