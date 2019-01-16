@@ -2,7 +2,13 @@
 
 .sectionTitleContainer {
   display: flex;
+  justify-content: space-between;
   margin-bottom: $gutter-padding;
+  flex-direction: column;
+
+  @media #{$tablet-landscape} {
+    flex-direction: row;
+  }
 }
 
 .sectionTitle {

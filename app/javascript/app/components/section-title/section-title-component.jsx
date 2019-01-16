@@ -19,7 +19,8 @@ class SectionTitle extends PureComponent {
       infoButton,
       className,
       description,
-      noMarginBottom
+      noMarginBottom,
+      extraContent
     } = this.props;
     return (
       <React.Fragment>
@@ -49,6 +50,7 @@ class SectionTitle extends PureComponent {
             </button>
               )
           }
+          {extraContent}
         </div>
         {
           description &&
@@ -68,6 +70,7 @@ SectionTitle.propTypes = {
   theme: PropTypes.shape({ sectionTitle: PropTypes.string }),
   title: PropTypes.string,
   infoButton: PropTypes.bool,
+  extraContent: PropTypes.node,
   className: PropTypes.string,
   isSubtitle: PropTypes.bool,
   setOpen: PropTypes.func.isRequired,
@@ -78,6 +81,7 @@ SectionTitle.propTypes = {
 SectionTitle.defaultProps = {
   theme: {},
   title: '',
+  extraContent: null,
   isSubtitle: false,
   infoButton: false,
   className: null,

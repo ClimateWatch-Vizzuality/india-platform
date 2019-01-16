@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import SectionTitle from 'components/section-title';
 import InfoDownloadToolbox from 'components/info-download-toolbox';
 import Chart from 'components/chart';
-import { Dropdown } from 'cw-components';
+import cx from 'classnames';
+import { Dropdown, Button, Icon } from 'cw-components';
+import openInNew from 'assets/icons/open-in-new';
+
+import buttonThemes from 'styles/themes/button';
+import iconThemes from 'styles/themes/icon';
 import isArray from 'lodash/isArray';
 import Switch from 'components/switch';
 import dropdownStyles from 'styles/themes/dropdown.scss';
@@ -36,7 +41,28 @@ class Energy extends PureComponent {
 
     return (
       <div className={socioeconomicStyles.page}>
-        <SectionTitle title="Energy" description="Energy description" />
+        <div>
+          <SectionTitle
+            title="Energy"
+            description="Energy description"
+            extraContent={
+              (
+                <Button
+                  theme={{
+                    button: cx(buttonThemes.yellow, styles.powerExplorerButton)
+                  }}
+                  disabled
+                >
+                  Visit Power Explorer
+                  <Icon
+                    icon={openInNew}
+                    theme={{ icon: iconThemes.openInNew }}
+                  />
+                </Button>
+              )
+            }
+          />
+        </div>
         <Switch
           options={[
             { name: 'Energy Supply', value: 'energy_supply' },
