@@ -154,7 +154,7 @@ const getNationalBarChartData = createSelector(
     }
 
     const tooltipFormat = value =>
-      unit === 'billion Rupiahs' ? format(',.2f')(value / DATA_SCALE) : value;
+      format(',.4s')(unit === 'billion Rupiahs' ? value / DATA_SCALE : value);
 
     return {
       data: selectedData,
@@ -228,7 +228,7 @@ const getStateBarChartData = createSelector(
         tooltip: {
           y: {
             label: sourceCode === 'GDP' ? 'Rupiahs' : 'People',
-            format: value => `${format(',')(value)}`
+            format: value => `${format(',.5s')(value)}`
           },
           x: { label: 'Year' },
           indicator: sourceCode === 'GDP'
@@ -242,7 +242,9 @@ const getStateBarChartData = createSelector(
         },
         theme: getTheme('#FC7E4B'),
         yLabelFormat: value =>
-          `${format('.2s')(value)}${sourceCode === 'GDP' ? 'R' : ''}`
+          `${format('.2s')(value).replace('G', 'B')}${sourceCode === 'GDP'
+            ? 'R'
+            : ''}`
       },
       dataOptions: [ { label: indicatorLabel } ],
       dataSelected: [ { label: indicatorLabel } ]

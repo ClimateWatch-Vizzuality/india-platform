@@ -55,6 +55,7 @@ const getDefaultIndicator = createSelector(getQuery, query => {
 const getCustomYLabelFormat = unit => {
   const formatY = {
     thousand: value => `${format('.2s')(`${value * DATA_SCALE}`)}`,
+    million: value => `${format('.2s')(`${value}`).replace('G', 'B')}`,
     '%': value => `${value}%`
   };
   return formatY[unit];
@@ -183,7 +184,7 @@ const getBarChartData = createSelector(
             label: isPercentage(unit) ? 'Percentage' : 'People',
             format: isPercentage(unit)
               ? getCustomYLabelFormat(unit)
-              : value => `${format(',r')(`${value * DATA_SCALE}`)}`
+              : value => `${format(',.4s')(`${value}`).replace('G', 'B')}`
           },
           x: { label: 'Year' },
           indicator: label
@@ -235,7 +236,7 @@ const getPopStateBarChartData = createSelector(
         tooltip: {
           y: {
             label: 'People',
-            format: value => `${format(',.2r')(`${value * DATA_SCALE}`)}`
+            format: value => `${format(',.4s')(`${value}`)}`
           },
           indicator: 'Population'
         },
