@@ -3,12 +3,6 @@
 
 $dropdown-min-width: 265px;
 
-.page {
-  @include row();
-
-  margin-top: $gutter-padding;
-}
-
 .container {
   @include columns($columns: 12);
 

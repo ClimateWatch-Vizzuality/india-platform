@@ -7,6 +7,8 @@ import { Dropdown } from 'cw-components';
 import isArray from 'lodash/isArray';
 import Switch from 'components/switch';
 import dropdownStyles from 'styles/themes/dropdown.scss';
+import socioeconomicStyles from '../socioeconomic-indicators-styles';
+
 import styles from './energy-styles.scss';
 
 class Energy extends PureComponent {
@@ -33,7 +35,7 @@ class Energy extends PureComponent {
     const indicatorLabel = 'Indicators';
 
     return (
-      <div className={styles.page}>
+      <div className={socioeconomicStyles.page}>
         <SectionTitle title="Energy" description="Energy description" />
         <Switch
           options={[
