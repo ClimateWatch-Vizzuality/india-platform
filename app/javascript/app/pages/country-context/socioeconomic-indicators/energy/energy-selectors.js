@@ -2,6 +2,7 @@ import { createStructuredSelector, createSelector } from 'reselect';
 import capitalize from 'lodash/capitalize';
 import isArray from 'lodash/isArray';
 import uniqBy from 'lodash/uniqBy';
+import isEmpty from 'lodash/isEmpty';
 import { format } from 'd3-format';
 
 import { getThemeConfig, getTooltipConfig } from 'utils/graphs';
@@ -14,8 +15,17 @@ import {
 
 const { COUNTRY_ISO } = process.env;
 const ENERGY_INDICATORS = {
-  energy_supply: [ 'energy_consumption', 'energy_consumption_cap' ],
-  energy_consumption: [ 'installed_capacity', 'energy_intensity' ]
+  energy_consumption: [
+    'energy_consumption',
+    'electricity_consumption',
+    'energy_consumption_cap'
+  ],
+  energy_supply: [ 'installed_capacity', 'energy_intensity' ]
+};
+
+const DEFAULT_INDICATORS = {
+  energy_consumption: 'energy_consumption',
+  energy_supply: 'installed_capacity'
 };
 
 const INDICATOR_QUERY_NAME = 'energyIndicator';
@@ -23,8 +33,7 @@ const CATEGORIES_QUERY_NAME = 'categories';
 
 const getSource = createSelector(
   getQuery,
-  query =>
-    !query || !query.energySource ? 'energy_supply' : 'energy_consumption'
+  query => !query || !query.energySource ? 'energy_supply' : query.energySource
 );
 
 export const AXES_CONFIG = (yName, yUnit) => ({
@@ -38,7 +47,6 @@ const getEnergyData = createSelector([ getIndicators, getSource ], (
 ) =>
   {
     if (!indicators) return null;
-
     return indicators.values &&
       indicators.values.filter(
         ind =>
@@ -70,17 +78,18 @@ const getDefaultCategories = createSelector(
   [ getEnergyData, getEnergyIndicator, getSource ],
   (energyData, energyIndicator, selectedSource) => {
     if (!energyData || !energyIndicator) return null;
-
     const defaultCategories = {};
-    ENERGY_INDICATORS[selectedSource].forEach(indicator => {
-      const data = energyData.filter(e => e.indicator_code === indicator);
-      defaultCategories[indicator] = [];
+    ENERGY_INDICATORS[selectedSource].forEach(selectedIndicator => {
+      const data = energyData.filter(
+        e => e.indicator_code === selectedIndicator
+      );
+      defaultCategories[selectedIndicator] = [];
       data.forEach(
         d =>
-          defaultCategories[indicator].push({
+          defaultCategories[selectedIndicator].push({
             label: capitalize(d.category) ||
-              energyIndicator.find(e => e.code === indicator).name,
-            value: d.category || indicator
+              energyIndicator.find(e => e.code === selectedIndicator).name,
+            value: d.category || selectedIndicator
           })
       );
     });
@@ -100,7 +109,8 @@ const getFilterOptions = createSelector([ getOptions, getDefaultCategories ], (
 const getDefaults = createSelector(
   [ getOptions, getDefaultCategories, getSource ],
   (options, defaultCategories, source) => ({
-    [INDICATOR_QUERY_NAME]: options && options.find(o => o.value === source),
+    [INDICATOR_QUERY_NAME]: options &&
+      options.find(o => o.value === DEFAULT_INDICATORS[source]),
     [CATEGORIES_QUERY_NAME]: defaultCategories
   })
 );
@@ -116,7 +126,9 @@ const getFieldSelected = field => state => {
   const indicatorInQuery = query && query[INDICATOR_QUERY_NAME];
   const defaultField = getDefaults(state)[field];
   const source = getSource(state);
-  const defaultFieldIndicator = defaultField && defaultField[source];
+  const defaultFieldIndicator = defaultField &&
+    defaultField[DEFAULT_INDICATORS[source]];
+
   if (categoriesField) {
     if (!query) return defaultFieldIndicator;
     if (indicatorInQuery && !categoriesInQuery) {
@@ -132,7 +144,7 @@ const getFieldSelected = field => state => {
     return getFilterOptions(s)[f][query[INDICATOR_QUERY_NAME]];
   };
 
-  const options = field === CATEGORIES_QUERY_NAME
+  const options = categoriesField
     ? getFilterOptionsForCategories(state, field)
     : getFilterOptions(state)[field];
 
@@ -153,13 +165,12 @@ const getYears = createSelector([ getEnergyData, getSelectedOptions ], (
   selectedOptions
 ) =>
   {
-    if (!energyData) return null;
+    if (!energyData || isEmpty(energyData)) return null;
     const valuesCollected = energyData
       .filter(
         e => e.indicator_code === selectedOptions[INDICATOR_QUERY_NAME].value
       )
       .map(ind => ind.values);
-
     const years = valuesCollected[0]
       .filter(o => o.value)
       .map(o => o.year);
@@ -171,10 +182,15 @@ const getUnit = createSelector([ getSelectedOptions, getIndicators ], (
   indicators
 ) =>
   {
-    if (!selectedOptions) return null;
+    if (
+      !selectedOptions ||
+        !indicators ||
+        !indicators.indicators ||
+        isEmpty(indicators.indicators)
+    )
+      return null;
 
     const indicator = selectedOptions[INDICATOR_QUERY_NAME];
-
     return indicators &&
       indicators.indicators &&
       indicators.indicators.find(ind => ind.code === indicator.value).unit;
@@ -184,9 +200,7 @@ const getLegendDataSelected = createSelector(
   [ getSelectedOptions, getFilterOptions, getEnergyData ],
   (selectedOptions, options, energyData) => {
     if (!selectedOptions || !options || !energyData) return null;
-
     const dataSelected = selectedOptions[CATEGORIES_QUERY_NAME];
-
     return isArray(dataSelected) ? dataSelected : [ dataSelected ];
   }
 );
@@ -273,13 +287,12 @@ const getChartData = createSelector(
         label: y.label,
         value: `y${capitalize(y.value)}`
       }));
-
       return {
         data: selectedData,
         domain: { x: [ 'auto', 'auto' ], y: [ 0, 'auto' ] },
         config: {
           columns: { x: [ { label: 'year', value: 'x' } ], y: configYColumns },
-          axes: AXES_CONFIG(indicator.name, unit),
+          axes: AXES_CONFIG(indicator.label, unit),
           theme: getThemeConfig(configAllYColumns),
           tooltip: getTooltipConfig(configYColumns),
           animation: false,
