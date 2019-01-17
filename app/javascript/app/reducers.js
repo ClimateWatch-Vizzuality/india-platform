@@ -9,6 +9,9 @@ import {
   reduxModule as climatePoliciesDetails
 } from 'providers/climate-policy-provider';
 import { reduxModule as modalMetadata } from 'components/modal-metadata';
+import {
+  reduxModule as ndcContentOverview
+} from 'providers/ndc-content-overview-provider';
 
 // Router
 import router from './router';
@@ -16,7 +19,8 @@ import router from './router';
 const providersReducers = {
   ClimatePolicies: handleModule(climatePolicies),
   ClimatePoliciesDetails: handleModule(climatePoliciesDetails),
-  modalMetadata: handleModule(modalMetadata)
+  modalMetadata: handleModule(modalMetadata),
+  ndcContentOverview: handleModule(ndcContentOverview)
 };
 
 export default combineReducers({
