@@ -2,6 +2,7 @@ import { createStructuredSelector, createSelector } from 'reselect';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import isEmpty from 'lodash/isEmpty';
+import { upperCaseLabels } from 'utils/utils';
 import {
   getQuery,
   getLoading,
@@ -92,7 +93,8 @@ const getNationalIndicatorsForPopulationOptions = createSelector(
         options.push({ label: indicator.name, value: indicator.code });
       }
     });
-    return sortBy(options, 'label');
+
+    return upperCaseLabels(sortBy(options, 'label'));
   }
 );
 
@@ -115,7 +117,7 @@ const getStateIndicatorsForPopulationOptions = createSelector(
         state => options.push({ label: state.location, value: state.location })
       );
     }
-    return sortBy(options, 'label');
+    return upperCaseLabels(sortBy(options, 'label'));
   }
 );
 

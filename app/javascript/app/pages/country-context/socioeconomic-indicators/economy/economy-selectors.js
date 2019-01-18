@@ -2,6 +2,7 @@ import { createStructuredSelector, createSelector } from 'reselect';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import capitalize from 'lodash/capitalize';
+import { upperCaseLabels } from 'utils/utils';
 import {
   getQuery,
   getLoading,
@@ -51,9 +52,11 @@ const getNationalIndicatorsForEconomyOptions = createSelector(
   [ getIndicatorsWithLabels ],
   indicators => {
     if (!indicators) return null;
-    return sortBy(
-      indicators.map(ind => ({ label: ind.name, value: ind.code })),
-      'label'
+    return upperCaseLabels(
+      sortBy(
+        indicators.map(ind => ({ label: ind.name, value: ind.code })),
+        'label'
+      )
     );
   }
 );
@@ -79,7 +82,7 @@ const getStateIndicatorsForEconomyOptions = createSelector(
       );
     }
 
-    return sortBy(options, 'label');
+    return upperCaseLabels(sortBy(options, 'label'));
   }
 );
 
