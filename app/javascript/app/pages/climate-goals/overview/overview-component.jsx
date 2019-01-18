@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Button, Icon } from 'cw-components';
 import cx from 'classnames';
 import openInNewIcon from 'assets/icons/open_in_new';
+import iconThemes from 'styles/themes/icon';
 import NdcContentOverviewProvider from 'providers/ndc-content-overview-provider';
 import SectionTitle from 'components/section-title';
 import button from 'styles/themes/button';
@@ -152,7 +153,10 @@ class Overview extends PureComponent {
                 className={styles.buttonText}
                 dangerouslySetInnerHTML={{ __html: 'Compare NDCs' }}
               />
-              <Icon icon={openInNewIcon} />
+              <Icon
+                icon={openInNewIcon}
+                theme={{ icon: iconThemes.openInNew }}
+              />
             </Button>
           </div>
           <div className={styles.description}>
