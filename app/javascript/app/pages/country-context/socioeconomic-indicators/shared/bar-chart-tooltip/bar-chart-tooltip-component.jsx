@@ -1,15 +1,13 @@
 import React, { PureComponent } from 'react';
 import Proptypes from 'prop-types';
+import get from 'lodash/get';
 import styles from './bar-chart-tooltip-styles.scss';
 
 class CustomTooltip extends PureComponent {
   render() {
     const { content, config } = this.props;
     const hasContent = content && content.payload && content.payload.length > 0;
-    const payload = content &&
-      content.payload &&
-      content.payload[0] &&
-      content.payload[0].payload;
+    const payload = get(content, 'payload[0].payload');
     const tooltipConfig = config && config.tooltip;
     const yValueFormatFunction = tooltipConfig && tooltipConfig.y.format;
     return (
