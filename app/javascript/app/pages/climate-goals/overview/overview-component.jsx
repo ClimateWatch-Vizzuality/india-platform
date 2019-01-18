@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Icon } from 'cw-components';
 import cx from 'classnames';
-import openInNewIcon from 'assets/icons/open_in_new';
+import openInNewIcon from 'assets/icons/open-in-new';
 import iconThemes from 'styles/themes/icon';
 import NdcContentOverviewProvider from 'providers/ndc-content-overview-provider';
 import SectionTitle from 'components/section-title';
