@@ -1,0 +1,10 @@
+@import '~styles/settings.scss';
+
+.modalContent {
+  color: $midnightblue;
+  line-height: $line-height-small;
+
+  p {
+    padding-bottom: 1em;
+  }
+}

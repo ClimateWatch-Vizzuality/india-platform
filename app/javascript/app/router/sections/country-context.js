@@ -2,7 +2,7 @@ export default [
   {
     slug: 'socioeconomic-indicators',
     label: 'Socioeconomic indicators',
-    path: '/socioeconomic-indicators',
+    path: '/country-context',
     default: true
   }
 ];

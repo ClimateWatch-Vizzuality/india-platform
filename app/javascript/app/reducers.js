@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { handleModule } from 'redux-tools';
+import { reduxModule as indicators } from 'providers/indicators-provider';
 
 // Providers
 import {
@@ -27,7 +28,8 @@ const providersReducers = {
   ClimatePolicies: handleModule(climatePolicies),
   ClimatePoliciesDetails: handleModule(climatePoliciesDetails),
   modalMetadata: handleModule(modalMetadata),
-  ndcContentOverview: handleModule(ndcContentOverview)
+  ndcContentOverview: handleModule(ndcContentOverview),
+  indicators: handleModule(indicators)
 };
 
 export default combineReducers({

@@ -1,13 +1,22 @@
 @import "~styles/settings.scss";
 
+.sectionTitleContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $gutter-padding;
+  flex-direction: column;
+
+  @media #{$tablet-landscape} {
+    flex-direction: row;
+  }
+}
+
 .sectionTitle {
   font-weight: $font-weight-light;
   line-height: $line-height-small;
   font-family: $font-family-1;
   font-size: $font-size-x-large;
   color: $midnightblue;
-  margin-bottom: $gutter-padding;
-  margin-top: $gutter-padding * 2;
 }
 
 .sectionSubtitle {
@@ -17,4 +26,20 @@
   color: $midnightblue;
   margin-bottom: $gutter-padding;
   margin-top: $gutter-padding * 2;
+}
+
+.iconContainer {
+  margin: ($gutter-padding + 8px) 0 0 10px;
+}
+
+.sectionDescription {
+  font-size: $font-size;
+  color: $midnightblue;
+  line-height: 1.38;
+  margin-bottom: 20px;
+  padding-bottom: $gutter-padding;
+}
+
+.sectionContainerNoMarginBottom {
+  margin-bottom: 0;
 }

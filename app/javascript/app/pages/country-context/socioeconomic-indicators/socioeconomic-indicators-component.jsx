@@ -1,9 +1,20 @@
 import React, { PureComponent } from 'react';
+import IndicatorsProvider from 'providers/indicators-provider';
 import styles from './socioeconomic-indicators-styles.scss';
+import Population from './population';
+import Economy from './economy';
+import Energy from './energy';
 
 class SocioeconomicIndicators extends PureComponent {
   render() {
-    return <p className={styles.text}>The socioeconomic</p>;
+    return (
+      <div className={styles.socioeconomic}>
+        <Population />
+        <Economy />
+        <Energy />
+        <IndicatorsProvider />
+      </div>
+    );
   }
 }
 
