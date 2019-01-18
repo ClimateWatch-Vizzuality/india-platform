@@ -21,8 +21,26 @@
   color: $theme-color;
   background-color: $action-color;
 
-  &.disabled {
+  &.disabled,
+  &:disabled {
     color: $border-color;
+  }
+}
+
+.yellow {
+  @extend .default;
+
+  color: $theme-color;
+  background-color: $butterscotch;
+
+  &.disabled,
+  &:disabled {
+    background-color: lighten($butterscotch, 5%);
+    color: rgba($theme-color, 0.5);
+
+    > * {
+      fill: rgba($theme-color, 0.5);
+    }
   }
 }
 
