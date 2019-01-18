@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import NDCCountryAccordion from 'components/ndcs-country-accordion';
 
 // eslint-disable-next-line react/prefer-stateless-function
-class Mitigation extends PureComponent {
+class Sectoral extends PureComponent {
   render() {
-    return <NDCCountryAccordion category="mitigation" />;
+    return <NDCCountryAccordion category="sectoral_information" />;
   }
 }
 
-Mitigation.propTypes = {};
+Sectoral.propTypes = {};
 
-Mitigation.defaultProps = {};
+Sectoral.defaultProps = {};
 
-export default Mitigation;
+export default Sectoral;
