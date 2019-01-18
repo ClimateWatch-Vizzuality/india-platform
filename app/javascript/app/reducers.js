@@ -12,9 +12,16 @@ import { reduxModule as modalMetadata } from 'components/modal-metadata';
 import {
   reduxModule as ndcContentOverview
 } from 'providers/ndc-content-overview-provider';
+import {
+  reduxModule as ndcCountryAccordion
+} from 'components/ndcs-country-accordion';
 
 // Router
 import router from './router';
+
+const componentsReducers = {
+  ndcCountryAccordion: handleModule(ndcCountryAccordion)
+};
 
 const providersReducers = {
   ClimatePolicies: handleModule(climatePolicies),
@@ -25,5 +32,6 @@ const providersReducers = {
 
 export default combineReducers({
   location: router.reducer,
+  ...componentsReducers,
   ...providersReducers
 });
