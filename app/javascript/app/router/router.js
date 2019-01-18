@@ -3,6 +3,7 @@ import createHistory from 'history/createBrowserHistory';
 import queryString from 'query-string';
 
 import CountryContext from './sections/country-context';
+import ClimateGoals from './sections/climate-goals';
 import ClimatePolicyDetail from './sections/climate-policy-detail';
 
 const history = createHistory();
@@ -11,6 +12,7 @@ export const HOME = 'location/HOME';
 export const COUNTRY_CONTEXT = 'location/COUNTRY_CONTEXT';
 export const CLIMATE_POLICIES = 'location/CLIMATE_POLICIES';
 export const CLIMATE_POLICY_DETAIL = 'location/CLIMATE_POLICY_DETAIL';
+export const CLIMATE_GOALS = 'location/CLIMATE_GOALS';
 
 export const routes = {
   [HOME]: {
@@ -26,6 +28,14 @@ export const routes = {
     path: '/country-context/:section?',
     component: 'layouts/sections/sections',
     sections: CountryContext
+  },
+  [CLIMATE_GOALS]: {
+    nav: true,
+    label: 'Climate Goals',
+    link: '/climate-goals',
+    path: '/climate-goals/:section?',
+    component: 'layouts/sections/sections',
+    sections: ClimateGoals
   },
   [CLIMATE_POLICIES]: {
     nav: true,
