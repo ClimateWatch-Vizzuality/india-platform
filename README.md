@@ -131,7 +131,7 @@ For Thunk actions a slim wrapper around `createActions` is used, this allows us 
 Reducers inside a module are simple pure functions, no switch case is even present.
 The reducers file exports an object which keys are the actions constants and the value is the reducer that will react to that dispatched action.
 
-The exported actions are used for the keys since `redux-actions` returns the action constant when calling the `.toString()` method in the action creator.
+The exported actions are used for the keys since `redux-tools` returns the action constant when calling the `.toString()` method in the action creator.
 
 ### Modules boilerplate generator
 
@@ -150,7 +150,7 @@ The application actions file is free to import/export every module's actions ind
 ### App Reducers
 
 In the app reducers we will import all module's reducers and bind them to a key in the store using a `handleActions` wrapper.
-This wrapper uses `redux-actions`'s `handleActions` and glues all the individual reducers together to the matching actions.
+This wrapper uses `redux-tools`'s `handleActions` and glues all the individual reducers together to the matching actions.
 
 ### Domain description
 
