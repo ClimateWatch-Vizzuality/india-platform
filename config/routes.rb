@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1, defaults: { format: :json } do
       resources :metadata, only: [:index]
+      resources :climate_finance, only: [:index]
       namespace :climate_policy do
         resources :policies, only: [:index, :show], param: :code
         resources :sources, only: [:index]
