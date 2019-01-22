@@ -22,7 +22,7 @@ const CW_COMPARE_LINK = 'https://www.climatewatchdata.org/countries/compare?loca
 const renderButtons = () => (
   <div className={styles.buttons}>
     <div
-      data-for="blueTooltip"
+      data-for="buttonTooltip"
       data-tip="This is not official government information"
     >
       <Button
@@ -41,7 +41,7 @@ const renderButtons = () => (
       <Icon icon={openInNew} theme={{ icon: iconThemes.openInNew }} />
     </Button>
     <ReactTooltip
-      id="blueTooltip"
+      id="buttonTooltip"
       effect="solid"
       className="global_blueTooltip"
     />
