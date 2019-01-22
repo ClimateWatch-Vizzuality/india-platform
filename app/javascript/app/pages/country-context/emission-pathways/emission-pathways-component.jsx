@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import SectionTitle from 'components/section-title';
+import InfoDownloadToolbox from 'components/info-download-toolbox';
 import PropTypes from 'prop-types';
 import EspLocationsProvider from 'providers/esp-locations-provider';
 import EspModelsProvider from 'providers/esp-models-provider';
@@ -123,6 +124,11 @@ class EmissionPathways extends PureComponent {
                   onValueChange={option =>
                     handleSelectorChange(option, 'indicator')}
                   value={filtersSelected.indicator}
+                />
+                <InfoDownloadToolbox
+                  className={{ buttonWrapper: styles.buttonWrapper }}
+                  slugs=""
+                  downloadUri=""
                 />
               </div>
             </div>
