@@ -28,6 +28,10 @@ platforms:
           - indicators
           - values
           - sectoral_info
+      - name: climate_finance
+        importer: ImportClimateFinances
+        datasets:
+          - climate_finance
       - name: metadata
         importer: ImportDataSources
         datasets:
