@@ -98,7 +98,7 @@ const filterBySelectedOptions = (
   {
     const fieldPassesFilter = (selectedFilterOption, field, data) =>
       castArray(selectedFilterOption).some(
-        o => o.value === ALL_SELECTED || o.code === data[field]
+        o => o.value === ALL_SELECTED || o.label === data[field]
       );
     const absoluteMetric = METRIC_API_FILTER_NAMES.absolute;
 
