@@ -88,10 +88,9 @@ class HistoricalEmissions extends PureComponent {
     return [ allSelectedOption, ...options ];
   }
 
-  renderDropdown(field, multi, icons) {
+  renderDropdown(field, multi) {
     const { selectedOptions } = this.props;
     const value = selectedOptions && selectedOptions[field];
-    const iconsProp = icons ? { icons } : {};
     const label = startCase(field);
     if (multi) {
       const absoluteMetric = selectedOptions.metric.value ===
@@ -122,7 +121,7 @@ class HistoricalEmissions extends PureComponent {
         value={value || null}
         theme={{ select: dropdownStyles.select }}
         hideResetButton
-        {...iconsProp}
+        disabled /* Remove when Metric is ready */
       />
     );
   }
