@@ -42,7 +42,7 @@ const getUnit = createSelector([ getMetadata, getSelectedOptions ], (
   });
 
 export const getScale = createSelector([ getUnit ], unit => {
-  if (!unit) return null;
+  if (!unit) return 1;
   if (unit.startsWith('kt')) return 1000;
   return 1;
 });
@@ -133,7 +133,6 @@ const parseChartData = createSelector(
         !yColumnOptions
     )
       return null;
-
     const yearValues = emissionsData[0].emissions.map(d => d.year);
 
     const filteredData = filterBySelectedOptions(
@@ -141,7 +140,6 @@ const parseChartData = createSelector(
       selectedOptions.metric,
       selectedOptions
     );
-
     const dataParsed = [];
     yearValues.forEach(x => {
       const yItems = {};
@@ -157,6 +155,7 @@ const parseChartData = createSelector(
         }
       });
       const item = { x, ...yItems };
+
       if (!isEmpty({ ...yItems })) dataParsed.push(item);
     });
     return dataParsed;
@@ -166,15 +165,20 @@ const parseChartData = createSelector(
 let colorCache = {};
 
 export const getChartConfig = createSelector(
-  [ getEmissionsData, getSelectedOptions, getCorrectedUnit, getYColumnOptions ],
+  [ parseChartData, getSelectedOptions, getCorrectedUnit, getYColumnOptions ],
   (data, selectedOptions, unit, yColumnOptions) => {
     if (!data || isEmpty(data) || !selectedOptions.metric) return null;
-    const tooltip = getTooltipConfig(yColumnOptions);
-    const theme = getThemeConfig(yColumnOptions);
+
+    const columnsWithData = Object.keys(data[0]);
+    const yColumnsWithData = yColumnOptions.filter(
+      c => columnsWithData.includes(c.value)
+    );
+    const tooltip = getTooltipConfig(yColumnsWithData);
+    const theme = getThemeConfig(yColumnsWithData);
     colorCache = { ...theme, ...colorCache };
     const axes = {
       ...DEFAULT_AXES_CONFIG,
-      yLeft: { ...DEFAULT_AXES_CONFIG.yLeft, unit }
+      yLeft: { ...DEFAULT_AXES_CONFIG.yLeft, unit: unit || 't' }
     };
 
     const config = {
@@ -182,7 +186,10 @@ export const getChartConfig = createSelector(
       theme: colorCache,
       tooltip,
       animation: false,
-      columns: { x: [ { label: 'year', value: 'x' } ], y: yColumnOptions }
+      columns: {
+        x: [ { label: 'year', value: 'x' } ],
+        y: yColumnsWithData.map(c => ({ ...c, stackId: 'stack1' }))
+      }
     };
     return config;
   }
