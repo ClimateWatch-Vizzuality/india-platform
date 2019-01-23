@@ -112,7 +112,12 @@ const getBarChartData = createSelector(
       config: {
         axes: {
           xBottom: { name: 'Year', unit: '', format: 'date' },
-          yLeft: { name: 'USD million', unit: 'USD million', format: 'string' }
+          yLeft: {
+            name: 'USD million',
+            unit: 'USD million',
+            format: 'string',
+            label: { dy: 10, className: '' }
+          }
         },
         tooltip: getTooltipConfig(yColumns),
         animation: false,
@@ -121,7 +126,7 @@ const getBarChartData = createSelector(
           y: yColumns.map(c => ({ ...c, stackId: 'stack1' }))
         },
         theme: getThemeConfig(yColumns),
-        yLabelFormat: value => `${format('.2s')(`${value}`).replace('G', 'B')}`
+        yLabelFormat: value => format('.2s')(value).replace('G', 'B')
       },
       dataOptions: options,
       dataSelected

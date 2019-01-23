@@ -75,6 +75,7 @@ class ClimateFinance extends PureComponent {
                 )}
                 onLegendChange={this.handleFilterChange}
                 height={300}
+                chartMargin={{ left: 50 }}
                 barSize={30}
                 showUnit
               />
