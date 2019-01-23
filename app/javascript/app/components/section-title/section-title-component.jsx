@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import iconInfo from 'assets/icons/info';
 import { Icon } from 'cw-components';
+import { TabletLandscape, TabletPortraitOnly } from 'components/responsive';
 import styles from './section-title-styles.scss';
 
 class SectionTitle extends PureComponent {
@@ -10,6 +11,15 @@ class SectionTitle extends PureComponent {
     const { setOpen } = this.props;
     setOpen(true);
   };
+
+  renderExtraContent() {
+    const { extraContent } = this.props;
+    return (
+      <div className={styles.extraContent}>
+        {extraContent}
+      </div>
+    );
+  }
 
   render() {
     const {
@@ -19,8 +29,7 @@ class SectionTitle extends PureComponent {
       infoButton,
       className,
       description,
-      noMarginBottom,
-      extraContent
+      noMarginBottom
     } = this.props;
     return (
       <React.Fragment>
@@ -50,7 +59,9 @@ class SectionTitle extends PureComponent {
             </button>
               )
           }
-          {extraContent}
+          <TabletLandscape>
+            {this.renderExtraContent()}
+          </TabletLandscape>
         </div>
         {
           description &&
@@ -61,6 +72,9 @@ class SectionTitle extends PureComponent {
               />
             )
         }
+        <TabletPortraitOnly>
+          {this.renderExtraContent()}
+        </TabletPortraitOnly>
       </React.Fragment>
     );
   }

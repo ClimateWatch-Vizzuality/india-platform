@@ -70,3 +70,12 @@ export const getThemeConfig = (
 
 export const getColumnValue = column => upperFirst(camelCase(column));
 export const getYColumnValue = column => `y${getColumnValue(column)}`;
+
+function setBuffer(min) {
+  if (min <= 0.1) return min;
+  return min * 0.7;
+}
+
+export function setYAxisDomain() {
+  return [ setBuffer, 'auto' ];
+}

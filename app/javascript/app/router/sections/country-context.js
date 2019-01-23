@@ -7,6 +7,11 @@ export default [
     default: true
   },
   {
+    slug: 'emission-pathways',
+    label: 'Emission pathways',
+    path: '/country-context/emission-pathways'
+  },
+  {
     slug: 'climate-finance',
     label: 'Climate finance',
     path: '/country-context/climate-finance'
