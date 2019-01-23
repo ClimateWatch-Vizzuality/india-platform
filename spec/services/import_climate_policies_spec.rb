@@ -24,7 +24,7 @@ RSpec.describe ImportClimatePolicies do
   def missing_headers
     @missing_headers ||= {
       ImportClimatePolicies::POLICIES_FILEPATH => remove_headers(csv[:policies], :category),
-      ImportClimatePolicies::INSTRUMENTS_FILEPATH => remove_headers(csv[:instruments], :code),
+      ImportClimatePolicies::INSTRUMENTS_FILEPATH => remove_headers(csv[:instruments], :policy_code),
       ImportClimatePolicies::INDICATORS_FILEPATH => remove_headers(csv[:indicators], :name, :type),
       ImportClimatePolicies::MILESTONES_FILEPATH => remove_headers(csv[:milestones], :name),
       ImportClimatePolicies::SOURCES_FILEPATH => remove_headers(csv[:sources], :name)
@@ -61,7 +61,7 @@ RSpec.describe ImportClimatePolicies do
     end
 
     it 'Creates new source' do
-      expect { subject }.to change { ClimatePolicy::Source.count }.by(2)
+      expect { subject }.to change { ClimatePolicy::Source.count }.by(4)
     end
 
     describe 'Imported record' do
@@ -78,7 +78,11 @@ RSpec.describe ImportClimatePolicies do
       end
 
       describe 'instrument' do
-        subject { ClimatePolicy::Instrument.find_by!(code: 'ECBC.1') }
+        subject do
+          ClimatePolicy::Instrument.
+            includes(:policy).
+            find_by!(climate_policy_policies: {code: 'ECBC'})
+        end
 
         it 'has all attributes populated' do
           subject.attributes.each do |attr, value|

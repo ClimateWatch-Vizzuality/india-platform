@@ -31,7 +31,6 @@ module ClimatePolicy
     belongs_to :policy
     has_and_belongs_to_many :sources
 
-    validates_presence_of :code, :name
-    validates :code, uniqueness: true
+    validates_presence_of :name
   end
 end
