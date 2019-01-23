@@ -1,5 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import uniq from 'lodash/uniq';
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 
 export const CHART_COLORS = [
   '#00B4D2',
@@ -65,3 +67,6 @@ export const getThemeConfig = (
     });
     return { ...theme, ...colorCache };
   };
+
+export const getColumnValue = column => upperFirst(camelCase(column));
+export const getYColumnValue = column => `y${getColumnValue(column)}`;

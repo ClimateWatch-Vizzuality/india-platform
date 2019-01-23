@@ -3,19 +3,36 @@ import PropTypes from 'prop-types';
 import SectionTitle from 'components/section-title';
 import InfoDownloadToolbox from 'components/info-download-toolbox';
 import Chart from 'components/chart';
-import { Dropdown } from 'cw-components';
+import { Multiselect } from 'cw-components';
 import dropdownStyles from 'styles/themes/dropdown';
+import ClimateFinanceProvider from 'providers/climate-finance-provider';
+import castArray from 'lodash/castArray';
 import styles from './climate-finance-styles.scss';
 
 class ClimateFinance extends PureComponent {
+  handleFilterChange = selected => {
+    const { onFilterChange, selectedFund } = this.props;
+
+    const prevSelectedOptionValues = castArray(selectedFund).map(o => o.value);
+    const selectedArray = castArray(selected);
+    const newSelectedOption = selectedArray.find(
+      o => !prevSelectedOptionValues.includes(o.value)
+    );
+
+    const removedAnyPreviousOverride = selectedArray
+      .filter(v => v)
+      .filter(v => !v.override);
+
+    const values = newSelectedOption && newSelectedOption.override
+      ? newSelectedOption.value
+      : removedAnyPreviousOverride.map(v => v.value).join(',');
+
+    onFilterChange({ fund: values });
+  };
+
   render() {
-    const {
-      fundOptions,
-      selectedFund,
-      onFilterChange,
-      chartData,
-      loading
-    } = this.props;
+    const { fundOptions, selectedFund, chartData, loading } = this.props;
+
     return (
       <div className={styles.climateFinance}>
         <SectionTitle
@@ -24,13 +41,13 @@ class ClimateFinance extends PureComponent {
         />
         <div className={styles.toolbox}>
           <div className={styles.dropdown}>
-            <Dropdown
+            <Multiselect
               key="Fund"
               label="Fund"
               placeholder="Filter by Fund"
-              options={fundOptions}
-              onValueChange={onFilterChange}
-              value={selectedFund}
+              options={fundOptions || []}
+              onValueChange={this.handleFilterChange}
+              values={selectedFund ? castArray(selectedFund) : []}
               theme={{ select: dropdownStyles.select }}
               hideResetButton
             />
@@ -52,13 +69,18 @@ class ClimateFinance extends PureComponent {
                 theme={{ legend: styles.legend }}
                 getCustomYLabelFormat={chartData.config.yLabelFormat}
                 domain={chartData.domain}
-                dataOptions={chartData.dataOptions}
-                dataSelected={chartData.dataSelected}
+                dataOptions={chartData.dataOptions.filter(o => !o.override)}
+                dataSelected={castArray(
+                  chartData.dataSelected.filter(o => !o.override)
+                )}
+                onLegendChange={this.handleFilterChange}
                 height={300}
                 barSize={30}
+                showUnit
               />
             )
         }
+        <ClimateFinanceProvider />
       </div>
     );
   }
@@ -66,7 +88,7 @@ class ClimateFinance extends PureComponent {
 
 ClimateFinance.propTypes = {
   fundOptions: PropTypes.array,
-  selectedFund: PropTypes.object,
+  selectedFund: PropTypes.array,
   onFilterChange: PropTypes.func.isRequired,
   chartData: PropTypes.object,
   loading: PropTypes.bool

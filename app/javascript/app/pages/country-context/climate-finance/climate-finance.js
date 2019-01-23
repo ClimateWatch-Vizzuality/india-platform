@@ -9,9 +9,12 @@ import Component from './climate-finance-component';
 const mapStateToProps = getClimateFinance;
 
 class FinanceContainer extends PureComponent {
-  onFilterChange = selected => {
+  onFilterChange = filter => {
     const { updateFiltersSelected, query } = this.props;
-    updateFiltersSelected({ query: { ...query, fund: selected } });
+    updateFiltersSelected({
+      section: 'climate-finance',
+      query: { ...query, ...filter }
+    });
   };
 
   render() {

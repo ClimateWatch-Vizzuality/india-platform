@@ -14,6 +14,11 @@ import {
   reduxModule as ndcContentOverview
 } from 'providers/ndc-content-overview-provider';
 import {
+  reduxModule as climateFinance
+} from 'providers/climate-finance-provider';
+
+// Components
+import {
   reduxModule as ndcCountryAccordion
 } from 'components/ndcs-country-accordion';
 
@@ -29,7 +34,8 @@ const providersReducers = {
   ClimatePoliciesDetails: handleModule(climatePoliciesDetails),
   modalMetadata: handleModule(modalMetadata),
   ndcContentOverview: handleModule(ndcContentOverview),
-  indicators: handleModule(indicators)
+  indicators: handleModule(indicators),
+  climateFinance: handleModule(climateFinance)
 };
 
 export default combineReducers({
