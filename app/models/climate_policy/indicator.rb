@@ -5,10 +5,8 @@
 #  id                    :bigint(8)        not null, primary key
 #  attainment_date       :string
 #  category              :string
-#  data_source_link      :text
 #  name                  :text
 #  responsible_authority :text
-#  sources               :text
 #  status                :text
 #  tracking_frequency    :string
 #  tracking_notes        :text
@@ -29,5 +27,6 @@
 module ClimatePolicy
   class Indicator < ApplicationRecord
     belongs_to :policy
+    has_and_belongs_to_many :sources
   end
 end
