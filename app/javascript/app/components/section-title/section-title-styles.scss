@@ -43,3 +43,12 @@
 .sectionContainerNoMarginBottom {
   margin-bottom: 0;
 }
+
+.extraContent {
+  margin-bottom: $gutter-padding;
+
+  @media #{$tablet-landscape} {
+    margin-bottom: 0;
+    align-self: center;
+  }
+}
