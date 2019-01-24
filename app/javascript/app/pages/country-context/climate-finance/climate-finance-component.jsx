@@ -8,6 +8,7 @@ import dropdownStyles from 'styles/themes/dropdown';
 import ClimateFinanceProvider from 'providers/climate-finance-provider';
 import castArray from 'lodash/castArray';
 import styles from './climate-finance-styles.scss';
+import BarTooltipChart from './bar-tooltip-chart/bar-tooltip-chart-component';
 
 class ClimateFinance extends PureComponent {
   handleFilterChange = selected => {
@@ -75,8 +76,9 @@ class ClimateFinance extends PureComponent {
                 )}
                 onLegendChange={this.handleFilterChange}
                 height={300}
-                chartMargin={{ left: 50 }}
+                margin={{ top: 30, left: -35 }}
                 barSize={30}
+                customTooltip={<BarTooltipChart />}
                 showUnit
               />
             )
