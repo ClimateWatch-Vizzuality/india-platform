@@ -1,0 +1,32 @@
+@import '~styles/settings.scss';
+@import '~styles/layout.scss';
+
+.historicalEmissions {
+  @include row();
+
+  margin-top: $gutter-padding;
+  padding-bottom: $gutter-padding * 4;
+}
+
+.buttons {
+  display: flex;
+
+  :not(:first-child) {
+    margin-left: 1em;
+  }
+}
+
+.dropdowns {
+  @include columns();
+
+  @media #{$tablet-landscape} {
+    padding-left: $gutter-padding / 2;
+
+    @include columns($columns: (2, 2, 2, 1.5));
+  }
+}
+
+.buttonWrapper {
+  max-width: 100px;
+  margin-top: 22px;
+}

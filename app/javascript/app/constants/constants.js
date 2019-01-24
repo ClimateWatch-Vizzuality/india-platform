@@ -1,9 +1,7 @@
 export const ALL_SELECTED = 'all-selected';
-
 export const ALL_SELECTED_OPTION = {
-  value: ALL_SELECTED,
   label: 'All selected',
-  override: true
+  value: ALL_SELECTED
 };
 
 export const API_TARGET_DATA_SCALE = 1000;
