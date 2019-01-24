@@ -3,11 +3,7 @@ import isArray from 'lodash/isArray';
 import castArray from 'lodash/castArray';
 import isEmpty from 'lodash/isEmpty';
 import uniqBy from 'lodash/uniqBy';
-import {
-  ALL_SELECTED,
-  METRIC_API_FILTER_NAMES,
-  SECTOR_TOTAL
-} from 'constants/constants';
+import { ALL_SELECTED, METRIC, SECTOR_TOTAL } from 'constants/constants';
 
 import {
   getThemeConfig,
@@ -35,9 +31,7 @@ const getUnit = createSelector([ getMetadata, getSelectedOptions ], (
     if (!meta || !selectedOptions.metric) return null;
     const { metric: metrics } = meta;
     const metricObject = metrics &&
-      metrics.find(
-        m => METRIC_API_FILTER_NAMES[selectedOptions.metric] === m.code
-      );
+      metrics.find(m => METRIC[selectedOptions.metric] === m.code);
     return metricObject && metricObject.unit;
   });
 
@@ -100,10 +94,10 @@ const filterBySelectedOptions = (
       castArray(selectedFilterOption).some(
         o => o.value === ALL_SELECTED || o.label === data[field]
       );
-    const absoluteMetric = METRIC_API_FILTER_NAMES.absolute;
+    const absoluteMetric = METRIC.absolute;
 
     return emissionsData
-      .filter(d => d.metric === METRIC_API_FILTER_NAMES[metricSelected])
+      .filter(d => d.metric === METRIC[metricSelected])
       .filter(
         d =>
           d.metric === absoluteMetric && d.sector !== SECTOR_TOTAL ||
