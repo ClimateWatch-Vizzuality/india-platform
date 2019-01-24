@@ -3,6 +3,7 @@ import qs from 'query-string';
 
 const { API_URL } = process.env;
 const { CW_API_URL } = process.env;
+const { ESP_API_URL } = process.env;
 
 function handleResponse(d) {
   if (d.status >= 200 && d.status <= 300) {
@@ -54,3 +55,4 @@ class API {
 
 export const CWAPI = new API(CW_API_URL);
 export const INDIAAPI = new API(API_URL);
+export const ESPAPI = new API(ESP_API_URL);

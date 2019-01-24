@@ -19,11 +19,32 @@ import {
   reduxModule as ndcCountryAccordion
 } from 'components/ndcs-country-accordion';
 
+// Emission Pathways
+import {
+  reduxModule as espLocationsProvider
+} from 'providers/esp-locations-provider';
+import {
+  reduxModule as espTimeSeriesProvider
+} from 'providers/esp-time-series-provider';
+import {
+  reduxModule as espModelsProvider
+} from 'providers/esp-models-provider';
+import {
+  reduxModule as espScenariosProvider
+} from 'providers/esp-scenarios-provider';
+import {
+  reduxModule as espIndicatorsProvider
+} from 'providers/esp-indicators-provider';
+import {
+  reduxModule as espGraphComponent
+} from 'pages/country-context/emission-pathways/emission-pathways';
+
 // Router
 import router from './router';
 
 const componentsReducers = {
-  ndcCountryAccordion: handleModule(ndcCountryAccordion)
+  ndcCountryAccordion: handleModule(ndcCountryAccordion),
+  espGraph: handleModule(espGraphComponent)
 };
 
 const providersReducers = {
@@ -33,7 +54,12 @@ const providersReducers = {
   ndcContentOverview: handleModule(ndcContentOverview),
   indicators: handleModule(indicators),
   metadata: handleModule(metadata),
-  GHGEmissions: handleModule(ghgEmissions)
+  GHGEmissions: handleModule(ghgEmissions),
+  espModels: handleModule(espModelsProvider),
+  espScenarios: handleModule(espScenariosProvider),
+  espIndicators: handleModule(espIndicatorsProvider),
+  espLocations: handleModule(espLocationsProvider),
+  espTimeSeries: handleModule(espTimeSeriesProvider)
 };
 
 export default combineReducers({

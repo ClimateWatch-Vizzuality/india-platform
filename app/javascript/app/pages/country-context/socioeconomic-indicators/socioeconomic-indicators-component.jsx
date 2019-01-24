@@ -5,6 +5,7 @@ import Population from './population';
 import Economy from './economy';
 import Energy from './energy';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class SocioeconomicIndicators extends PureComponent {
   render() {
     return (
