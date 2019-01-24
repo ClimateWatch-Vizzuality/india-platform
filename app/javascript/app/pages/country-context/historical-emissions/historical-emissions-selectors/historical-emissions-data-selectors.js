@@ -178,7 +178,7 @@ export const getChartConfig = createSelector(
     colorCache = { ...theme, ...colorCache };
     const axes = {
       ...DEFAULT_AXES_CONFIG,
-      yLeft: { ...DEFAULT_AXES_CONFIG.yLeft, unit: unit || 't' }
+      yLeft: { ...DEFAULT_AXES_CONFIG.yLeft, unit: 'ktCO2e' }
     };
 
     const config = {

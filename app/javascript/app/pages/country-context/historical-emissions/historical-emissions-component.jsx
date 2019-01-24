@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import dropdownStyles from 'styles/dropdown.scss';
 
 import styles from './historical-emissions-styles.scss';
+import BarTooltipChart from './bar-tooltip-chart/bar-tooltip-chart-component';
 
 const CW_COMPARE_LINK = 'https://www.climatewatchdata.org/countries/compare?locations=IND';
 
@@ -148,7 +149,6 @@ class HistoricalEmissions extends PureComponent {
         <div className={styles.chartContainer}>
           {
             chartData &&
-              chartData.data &&
               (
                 <Chart
                   theme={{
@@ -164,6 +164,7 @@ class HistoricalEmissions extends PureComponent {
                   barSize={40}
                   loading={chartData.loading}
                   onLegendChange={v => this.handleFilterChange('sector', v)}
+                  customTooltip={<BarTooltipChart />}
                   showUnit
                 />
               )
