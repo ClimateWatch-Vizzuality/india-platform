@@ -6,11 +6,9 @@ module Api
         attributes :category, :attainment_date, :value,
                    :responsible_authority,
                    :tracking_frequency, :tracking_notes,
-                   :status, :sources, :updated_at
+                   :status, :updated_at
 
-        def sources
-          object.sources.map(&:link).join(' ')
-        end
+        has_many :sources, serializer: Api::V1::ClimatePolicy::SourceMiniSerializer
       end
     end
   end

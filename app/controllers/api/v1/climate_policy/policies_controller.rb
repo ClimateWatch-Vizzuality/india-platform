@@ -8,10 +8,17 @@ module Api
         end
 
         def show
-          policy = ::ClimatePolicy::Policy.find_by!(code: params[:code])
+          policy = ::ClimatePolicy::Policy.
+            includes(
+              instruments: [:sources],
+              indicators: [:sources],
+              milestones: [:source]
+            ).
+            find_by!(code: params[:code])
 
           render json: policy,
-                 serializer: Api::V1::ClimatePolicy::PolicyFullSerializer
+                 serializer: Api::V1::ClimatePolicy::PolicyFullSerializer,
+                 include: '**' # well this is weird but to get more than two levels...
         end
       end
     end
