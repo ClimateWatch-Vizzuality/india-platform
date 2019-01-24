@@ -58,7 +58,7 @@ const getDefaults = createSelector([ getFilterOptions, getAllSelectedOption ], (
 ) => ({
   metric: findOption(options.metric, METRIC_OPTIONS.ABSOLUTE_VALUE),
   sector: allSelectedOption,
-  gas: allSelectedOption
+  gas: findOption(options.gas, 'All GHG (CO2e)')
 }));
 
 // SELECTED

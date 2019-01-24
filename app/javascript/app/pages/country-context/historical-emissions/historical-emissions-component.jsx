@@ -81,7 +81,7 @@ class HistoricalEmissions extends PureComponent {
     if (absoluteMetric && field === 'sector') {
       options = options.filter(v => v.code !== SECTOR_TOTAL);
     }
-    const NON_ALL_SELECTED_KEYS = [ 'metric' ];
+    const NON_ALL_SELECTED_KEYS = [ 'metric', 'gas' ];
     const noAllSelected = NON_ALL_SELECTED_KEYS.includes(field);
     if (noAllSelected) return options;
 
