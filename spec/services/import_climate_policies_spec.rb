@@ -7,7 +7,8 @@ RSpec.describe ImportClimatePolicies do
       instruments: file_fixture('climate_policy/instruments.csv').read,
       indicators: file_fixture('climate_policy/indicators.csv').read,
       milestones: file_fixture('climate_policy/milestones.csv').read,
-      sources: file_fixture('climate_policy/sources.csv').read
+      sources: file_fixture('climate_policy/sources.csv').read,
+      progress: file_fixture('climate_policy/snapshot_of_progress_records.csv').read
     }
   end
 
@@ -17,6 +18,7 @@ RSpec.describe ImportClimatePolicies do
       ImportClimatePolicies::INSTRUMENTS_FILEPATH => csv[:instruments],
       ImportClimatePolicies::INDICATORS_FILEPATH => csv[:indicators],
       ImportClimatePolicies::MILESTONES_FILEPATH => csv[:milestones],
+      ImportClimatePolicies::PROGRESS_FILEPATH => csv[:progress],
       ImportClimatePolicies::SOURCES_FILEPATH => csv[:sources]
     }
   end
@@ -27,6 +29,7 @@ RSpec.describe ImportClimatePolicies do
       ImportClimatePolicies::INSTRUMENTS_FILEPATH => remove_headers(csv[:instruments], :policy_code),
       ImportClimatePolicies::INDICATORS_FILEPATH => remove_headers(csv[:indicators], :name, :type),
       ImportClimatePolicies::MILESTONES_FILEPATH => remove_headers(csv[:milestones], :name),
+      ImportClimatePolicies::PROGRESS_FILEPATH => remove_headers(csv[:milestones], :value),
       ImportClimatePolicies::SOURCES_FILEPATH => remove_headers(csv[:sources], :name)
     }
   end
@@ -62,6 +65,10 @@ RSpec.describe ImportClimatePolicies do
 
     it 'Creates new source' do
       expect { subject }.to change { ClimatePolicy::Source.count }.by(4)
+    end
+
+    it 'Creates new progress records' do
+      expect { subject }.to change { ClimatePolicy::ProgressRecord.count }.by(3)
     end
 
     describe 'Imported record' do
@@ -111,6 +118,16 @@ RSpec.describe ImportClimatePolicies do
         end
       end
 
+      describe 'progress record' do
+        subject { ClimatePolicy::ProgressRecord.first! }
+
+        it 'has all attributes populated' do
+          subject.attributes.each do |attr, value|
+            expect(value).not_to be_nil, "#{attr} not to be nil"
+          end
+        end
+      end
+
       describe 'source' do
         subject { ClimatePolicy::Source.first! }
 
@@ -150,6 +167,10 @@ RSpec.describe ImportClimatePolicies do
       expect { subject.call }.to change { ClimatePolicy::Source.count }.by(0)
     end
 
+    it 'does not create any progress record' do
+      expect { subject.call }.to change { ClimatePolicy::ProgressRecord.count }.by(0)
+    end
+
     it 'has missing headers for policy file' do
       subject.call
       expected_error = {
@@ -182,6 +203,15 @@ RSpec.describe ImportClimatePolicies do
       expected_error = {
         type: :missing_header,
         filename: File.basename(ImportClimatePolicies::MILESTONES_FILEPATH)
+      }
+      expect(subject.errors).to include(hash_including(expected_error))
+    end
+
+    it 'has missing headers for progress file' do
+      subject.call
+      expected_error = {
+        type: :missing_header,
+        filename: File.basename(ImportClimatePolicies::PROGRESS_FILEPATH)
       }
       expect(subject.errors).to include(hash_including(expected_error))
     end

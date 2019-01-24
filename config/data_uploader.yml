@@ -20,6 +20,7 @@ platforms:
           - policies
           - instruments
           - indicators
+          - snapshot_of_progress_records
           - milestones
           - sources
       - name: socioeconomic
