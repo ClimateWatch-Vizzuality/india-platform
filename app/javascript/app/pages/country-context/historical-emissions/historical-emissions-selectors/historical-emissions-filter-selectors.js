@@ -36,12 +36,11 @@ const getFieldOptions = field => createSelector([ getMetadata ], metadata => {
   if (field === 'metric') return METRIC_VALUE_OPTIONS;
   if (!metadata || !metadata[field]) return null;
 
-  const options = metadata[field].map(o => ({
-    label: o.label,
-    value: String(o.value),
-    code: o.code
-  }));
-
+  const options = metadata[field].map(o => {
+    const option = { label: o.label, value: String(o.value), code: o.code };
+    if (field === 'gas' && o.label === 'All GHG (CO2e)') option.override = true;
+    return option;
+  });
   return options.filter(o => o);
 });
 
