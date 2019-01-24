@@ -76,7 +76,7 @@ class ClimateFinance extends PureComponent {
                 )}
                 onLegendChange={this.handleFilterChange}
                 height={300}
-                margin={{ top: 30, left: -35 }}
+                margin={{ top: 30, left: -33 }}
                 barSize={30}
                 customTooltip={<BarTooltipChart />}
                 showUnit
