@@ -13,6 +13,8 @@ import { reduxModule as modalMetadata } from 'components/modal-metadata';
 import {
   reduxModule as ndcContentOverview
 } from 'providers/ndc-content-overview-provider';
+import { reduxModule as ghgEmissions } from 'providers/ghg-emissions-provider';
+import { reduxModule as metadata } from 'providers/metadata-provider';
 import {
   reduxModule as ndcCountryAccordion
 } from 'components/ndcs-country-accordion';
@@ -51,6 +53,8 @@ const providersReducers = {
   modalMetadata: handleModule(modalMetadata),
   ndcContentOverview: handleModule(ndcContentOverview),
   indicators: handleModule(indicators),
+  metadata: handleModule(metadata),
+  GHGEmissions: handleModule(ghgEmissions),
   espModels: handleModule(espModelsProvider),
   espScenarios: handleModule(espScenariosProvider),
   espIndicators: handleModule(espIndicatorsProvider),

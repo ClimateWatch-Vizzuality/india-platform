@@ -68,6 +68,11 @@ export const getThemeConfig = (
     return { ...theme, ...colorCache };
   };
 
+export const DEFAULT_AXES_CONFIG = {
+  xBottom: { name: 'Year', unit: 'date', format: 'YYYY' },
+  yLeft: { name: 'Emissions', unit: 'CO<sub>2</sub>e', format: 'number' }
+};
+
 export const getColumnValue = column => upperFirst(camelCase(column));
 export const getYColumnValue = column => `y${getColumnValue(column)}`;
 

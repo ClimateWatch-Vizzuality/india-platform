@@ -7,6 +7,11 @@ export default [
     exact: true
   },
   {
+    slug: 'historical-emissions',
+    label: 'Historical emissions',
+    path: '/country-context/historical-emissions'
+  },
+  {
     slug: 'emission-pathways',
     label: 'Emission pathways',
     path: '/country-context/emission-pathways'
