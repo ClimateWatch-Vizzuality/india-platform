@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_24_185806) do
+ActiveRecord::Schema.define(version: 2019_01_25_103525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2019_01_24_185806) do
     t.bigint "policy_id"
     t.string "category"
     t.text "name"
-    t.string "value"
+    t.string "unit"
     t.string "attainment_date"
     t.text "responsible_authority"
     t.string "tracking_frequency"
@@ -58,6 +58,10 @@ ActiveRecord::Schema.define(version: 2019_01_24_185806) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "code"
+    t.string "progress_display"
+    t.float "target_numeric"
+    t.string "target_text"
+    t.string "target_year"
     t.index ["code"], name: "index_climate_policy_indicators_on_code", unique: true
     t.index ["policy_id"], name: "index_climate_policy_indicators_on_policy_id"
   end

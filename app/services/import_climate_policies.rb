@@ -14,8 +14,8 @@ class ImportClimatePolicies
           ],
           indicators: [
             :policy_code, :code, :type, :name, :attainment_date, :unit,
-            :responsible_authority, :tracking_frequency, :tracking_notes,
-            :status, :sources
+            :responsible_authority, :tracking_frequency, :tracking_notes, :status,
+            :target_text, :target_numeric, :target_year, :progress_display, :sources
           ],
           progress: [
             :indicator_code, :axis_x, :category, :value
@@ -173,10 +173,14 @@ class ImportClimatePolicies
       category: row[:type]&.titleize,
       name: row[:name],
       attainment_date: normalize_date(row[:attainment_date]),
-      value: row[:unit],
+      unit: row[:unit],
       responsible_authority: row[:responsible_authority],
       tracking_frequency: row[:tracking_frequency],
       tracking_notes: row[:tracking_notes],
+      target_text: row[:target_text],
+      target_numeric: row[:target_numeric]&.delete('%,', ',')&.to_f,
+      target_year: row[:target_year],
+      progress_display: row[:progress_display],
       status: row[:status]
     }
   end
