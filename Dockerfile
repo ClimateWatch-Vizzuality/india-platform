@@ -5,6 +5,7 @@ ENV NAME=cw-india
 ENV RAKE_ENV=production
 ENV RAILS_ENV=production
 ENV CW_API_URL="https://www.climatewatchdata.org/api/v1"
+ENV ESP_API_URL="https://data.emissionspathways.org/api/v1"
 ENV API_URL="/api/v1"
 ENV S3_BUCKET_NAME="wri-sites"
 ENV COUNTRY_ISO=IND
