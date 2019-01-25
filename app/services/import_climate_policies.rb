@@ -8,17 +8,17 @@ class ImportClimatePolicies
             :status, :progress, :is_a_key_policy
           ],
           instruments: [
-            :policy_code, :policy_scheme, :code, :name, :description,
+            :policy_code, :policy_scheme, :name, :description,
             :scheme, :status, :key_milestones,
             :implementation_entities, :broader_context, :sources
           ],
           indicators: [
-            :policy_code, :i_codes, :type, :name, :attainment_date, :unit,
-            :responsible_authority, :data_source_link, :tracking_frequency, :tracking_notes,
+            :policy_code, :type, :name, :attainment_date, :unit,
+            :responsible_authority, :tracking_frequency, :tracking_notes,
             :status, :sources
           ],
           milestones: [
-            :policy_code, :name, :responsible_authority, :date, :data_source_link, :status
+            :policy_code, :name, :responsible_authority, :date, :status, :source
           ],
           sources: [:code, :name, :description, :link]
   # rubocop:enable Layout/IndentArray
@@ -127,45 +127,45 @@ class ImportClimatePolicies
 
   def import_instruments
     import_each_with_logging(instruments_csv, INSTRUMENTS_FILEPATH) do |row|
-      ClimatePolicy::Instrument.create!(instrument_attributes(row))
+      ClimatePolicy::Instrument.create!(instrument_attributes(row)) do |i|
+        assign_sources(i, row)
+      end
     end
   end
 
   def instrument_attributes(row)
     {
-      policy: ClimatePolicy::Policy.find_by(code: row[:policy_code]),
+      policy: find_policy!(row[:policy_code]),
       policy_scheme: row[:policy_scheme],
-      code: row[:code],
       name: row[:name],
       description: row[:description],
       scheme: row[:scheme],
       policy_status: row[:status],
       key_milestones: row[:key_milestones],
       implementation_entities: row[:implementation_entities],
-      broader_context: row[:broader_context],
-      source: row[:sources]
+      broader_context: row[:broader_context]
     }
   end
 
   def import_indicators
     import_each_with_logging(indicators_csv, INDICATORS_FILEPATH) do |row|
-      ClimatePolicy::Indicator.create!(indicator_attributes(row))
+      ClimatePolicy::Indicator.create!(indicator_attributes(row)) do |i|
+        assign_sources(i, row)
+      end
     end
   end
 
   def indicator_attributes(row)
     {
-      policy: ClimatePolicy::Policy.find_by(code: row[:policy_code]),
+      policy: find_policy!(row[:policy_code]),
       category: row[:type]&.titleize,
       name: row[:name],
       attainment_date: normalize_date(row[:attainment_date]),
       value: row[:unit],
       responsible_authority: row[:responsible_authority],
-      data_source_link: row[:data_source_link],
       tracking_frequency: row[:tracking_frequency],
       tracking_notes: row[:tracking_notes],
-      status: row[:status],
-      sources: row[:sources]
+      status: row[:status]
     }
   end
 
@@ -177,13 +177,42 @@ class ImportClimatePolicies
 
   def milestone_attributes(row)
     {
-      policy: ClimatePolicy::Policy.find_by(code: row[:policy_code]),
+      policy: find_policy!(row[:policy_code]),
       name: row[:name],
       responsible_authority: row[:responsible_authority],
       date: normalize_date(row[:date]),
-      data_source_link: row[:data_source_link],
+      source: find_source!(row[:source]),
       status: row[:status]
     }
+  end
+
+  # we want to raise an error when source is not found
+  def assign_sources(record, row)
+    sources = row[:sources]
+
+    return unless sources.present?
+
+    row[:sources].
+      split(',').
+      map(&:strip).
+      map(&:squish).
+      each { |source| record.sources << find_source!(source) }
+  end
+
+  def find_source!(code)
+    return unless code.present?
+
+    ClimatePolicy::Source.find_by!(code: code)
+  rescue ActiveRecord::RecordNotFound
+    raise "Couldn't find source: #{code}"
+  end
+
+  def find_policy!(code)
+    return unless code.present?
+
+    ClimatePolicy::Policy.find_by!(code: code)
+  rescue ActiveRecord::RecordNotFound
+    raise "Couldn't find policy: #{code}"
   end
 
   def normalize_date(date)

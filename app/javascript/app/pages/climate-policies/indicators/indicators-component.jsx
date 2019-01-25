@@ -13,20 +13,40 @@ const columnNames = {
   attainment_date: 'Date of attainment:',
   value: 'Indicator value:',
   responsible_authority: 'Responsible authority:',
-  data_source_link: 'Data source:',
   tracking_frequency: 'Tracking frequency:',
   tracking_notes: 'Notes on tracking methods:',
   status: 'Status:',
   sources: 'Sources:'
 };
 
-const isLink = columnName => columnName === 'data_source_link';
+const columnValueRenderers = {
+  sources: sources => sources.map(source => (
+    <div key={source.code}>
+      <a
+        href={source.link}
+        alt={source.code}
+        className={styles.link}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {source.code}
+      </a>
+    </div>
+  ))
+};
+const columnValueDefaultRenderer = value => <ReactMarkdown source={value} />;
+
+const renderColumnValue = (indicator, column) => {
+  const value = indicator[column];
+  if (!value) return null;
+  const renderer = columnValueRenderers[column];
+  if (renderer) return renderer(value);
+  return columnValueDefaultRenderer(value);
+};
 
 const formatDate = date => DateTime.fromISO(date).toFormat('dd/M/yyyy');
 
 const renderInfoIcon = () => <InfoButton dark slugs="" />;
-
-const handleOpenLink = link => window.open(link, '_blank');
 
 const table = indicator => (
   <React.Fragment key={`${indicator.title}-table`}>
@@ -47,20 +67,7 @@ const table = indicator => (
               {columnNames[column]}
             </td>
             <td className={cx(styles.cell)}>
-              {
-                indicator[column] &&
-                  (isLink(column)
-                    ? (
-                      <button
-                        type="button"
-                        onClick={() => handleOpenLink(indicator[column])}
-                        className={styles.link}
-                      >
-                      Link
-                      </button>
-)
-                    : <ReactMarkdown source={indicator[column]} />)
-              }
+              {renderColumnValue(indicator, column)}
             </td>
           </tr>
         ))}

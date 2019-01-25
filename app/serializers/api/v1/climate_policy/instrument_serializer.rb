@@ -3,9 +3,13 @@ module Api
     module ClimatePolicy
       class InstrumentSerializer < ActiveModel::Serializer
         attribute :name, key: :title
-        attributes :code, :description, :policy_scheme, :scheme,
+        attributes :description, :policy_scheme, :scheme,
                    :policy_status, :key_milestones, :implementation_entities,
                    :broader_context, :source, :updated_at
+
+        def source
+          object.sources.first&.link
+        end
       end
     end
   end

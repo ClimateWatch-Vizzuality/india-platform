@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :climate_policy_instrument, class: 'ClimatePolicy::Instrument' do
     association :policy, factory: :climate_policy
-    sequence(:code) { |n| "code_#{n}" }
     policy_scheme { 'Energy Conservation Building Code' }
     name { 'ECBC' }
     description { 'policy instrument description' }
@@ -10,6 +9,7 @@ FactoryBot.define do
     key_milestones { 'Key milestones' }
     implementation_entities { 'Implementation entities' }
     broader_context { 'Some context here' }
-    source { 'IER2017' }
+
+    sources { create_list(:climate_policy_source, 2) }
   end
 end

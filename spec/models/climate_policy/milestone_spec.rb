@@ -8,6 +8,11 @@ RSpec.describe ClimatePolicy::Milestone, type: :model do
     expect(subject).to have(1).errors_on(:policy)
   end
 
+  it 'should be valid without source' do
+    subject.source = nil
+    expect(subject).to be_valid
+  end
+
   it 'should be valid' do
     expect(subject).to be_valid
   end

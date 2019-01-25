@@ -4,9 +4,11 @@ module Api
       class IndicatorSerializer < ActiveModel::Serializer
         attribute :name, key: :title
         attributes :category, :attainment_date, :value,
-                   :responsible_authority, :data_source_link,
+                   :responsible_authority,
                    :tracking_frequency, :tracking_notes,
-                   :status, :sources, :updated_at
+                   :status, :updated_at
+
+        has_many :sources, serializer: Api::V1::ClimatePolicy::SourceMiniSerializer
       end
     end
   end
