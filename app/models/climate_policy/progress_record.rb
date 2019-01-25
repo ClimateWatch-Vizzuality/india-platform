@@ -5,6 +5,7 @@
 #  id           :bigint(8)        not null, primary key
 #  axis_x       :string
 #  category     :string
+#  target       :string
 #  value        :string           not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

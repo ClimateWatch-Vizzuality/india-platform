@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 2019_01_25_103525) do
     t.string "axis_x"
     t.string "category"
     t.string "value", null: false
+    t.string "target"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["indicator_id"], name: "index_climate_policy_progress_records_on_indicator_id"
