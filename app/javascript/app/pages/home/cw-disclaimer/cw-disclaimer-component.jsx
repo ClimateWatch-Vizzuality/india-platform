@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Button } from 'cw-components';
 import button from 'styles/themes/button';
@@ -11,6 +12,8 @@ class CwDisclaimer extends PureComponent {
   };
 
   render() {
+    const { text } = this.props;
+
     return (
       <div className={styles.wrapper}>
         <div className={styles.climateWatch}>
@@ -18,8 +21,7 @@ class CwDisclaimer extends PureComponent {
           WATCH
         </div>
         <div className={styles.description}>
-          Improving understanding of the possible policy and development paths that could lead to decarbonization of the economy in different countries by providing 
-          high-quality, global data.
+          {text}
         </div>
         <Button
           onClick={this.handleBtnClick}
@@ -31,4 +33,7 @@ class CwDisclaimer extends PureComponent {
     );
   }
 }
+CwDisclaimer.propTypes = { text: PropTypes.string };
+CwDisclaimer.defaultProps = { text: '' };
+
 export default CwDisclaimer;

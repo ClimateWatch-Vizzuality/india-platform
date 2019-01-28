@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import Proptypes from 'prop-types';
+import ReactGA from 'react-ga';
 import { Loading } from 'cw-components';
 import universal from 'react-universal-component';
+
+import TranslationsProvider from 'providers/translations-provider';
 
 import Header from 'components/header';
 import Footer from 'components/footer';
@@ -9,8 +12,6 @@ import Sticky from 'react-stickynode';
 
 import headerStyles from 'components/header/header-styles';
 import styles from './root-styles.scss';
-
-import ReactGA from 'react-ga';
 
 const { GOOGLE_ANALYTICS_ID } = process.env;
 
@@ -66,6 +67,7 @@ class App extends PureComponent {
           <PageComponent path={route.component} />
         </div>
         <Footer />
+        <TranslationsProvider />
       </React.Fragment>
     );
   }

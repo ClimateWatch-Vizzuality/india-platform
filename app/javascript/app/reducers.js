@@ -18,6 +18,7 @@ import { reduxModule as metadata } from 'providers/metadata-provider';
 import {
   reduxModule as climateFinance
 } from 'providers/climate-finance-provider';
+import { reduxModule as translations } from 'providers/translations-provider';
 
 // Components
 import {
@@ -65,7 +66,8 @@ const providersReducers = {
   espScenarios: handleModule(espScenariosProvider),
   espIndicators: handleModule(espIndicatorsProvider),
   espLocations: handleModule(espLocationsProvider),
-  espTimeSeries: handleModule(espTimeSeriesProvider)
+  espTimeSeries: handleModule(espTimeSeriesProvider),
+  translations: handleModule(translations)
 };
 
 export default combineReducers({
