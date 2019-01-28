@@ -36,7 +36,7 @@ class TextEntry
       empty_only = params[:empty_only]
 
       res = all
-      res = res.select { |te| te.en_value.blank? || te.id_value.blank? } if empty_only
+      res = res.select { |te| te.en_value.blank? } if empty_only
       res = res.select { |te| te.key.to_s.include?(key) } if key.present?
       res = res.select { |te| te.en_value&.downcase&.include?(en_value) } if en_value.present?
 
