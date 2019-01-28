@@ -2,11 +2,9 @@ en:
   app:
     pages:
       country-context:
-        nav-link: Country context
         title: Country context
         description: ''
         socioeconomic:
-          nav-link: Socioeconomi indicators
           population:
             title: Population
             description: population description
@@ -17,14 +15,11 @@ en:
             title: Energy
             description: Energy description
         historical-emissions:
-          nav-link: Historical Emissions
           title: Historical emissions
           description: Historical emissions description
         emission-pathways:
-          nav-link: Emission Pathways
           title: Emission pathways
           description: Emission pathways description
         climate-finance:
-          nav-link: Climate Finance
           title: Climate finance
           description: Climate finance description

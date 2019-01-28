@@ -2,7 +2,6 @@ en:
   app:
     pages:
       climate-policies:
-        nav-link: Climate policies
         title: Policy module
         description: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.
         sub-title: Policy module
