@@ -5,18 +5,24 @@
 #  id                    :bigint(8)        not null, primary key
 #  attainment_date       :string
 #  category              :string
+#  code                  :string
 #  name                  :text
+#  progress_display      :string
 #  responsible_authority :text
 #  status                :text
+#  target_numeric        :float
+#  target_text           :string
+#  target_year           :string
 #  tracking_frequency    :string
 #  tracking_notes        :text
-#  value                 :string
+#  unit                  :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  policy_id             :bigint(8)
 #
 # Indexes
 #
+#  index_climate_policy_indicators_on_code       (code) UNIQUE
 #  index_climate_policy_indicators_on_policy_id  (policy_id)
 #
 # Foreign Keys

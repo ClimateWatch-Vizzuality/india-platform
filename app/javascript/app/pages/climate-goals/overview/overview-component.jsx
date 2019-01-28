@@ -124,7 +124,7 @@ class Overview extends PureComponent {
   };
 
   render() {
-    const { sectors, values } = this.props;
+    const { sectors, values, t } = this.props;
     const hasSectors = values && sectors;
 
     const description = hasSectors && (
@@ -142,7 +142,7 @@ class Overview extends PureComponent {
         <div className={styles.page}>
           <div className={styles.sectionHeader}>
             <SectionTitle
-              title="Overview"
+              title={t('pages.climate-goals.overview.title')}
               theme={{ sectionTitle: styles.sectionTitle }}
             />
             <Button
@@ -171,6 +171,7 @@ class Overview extends PureComponent {
 }
 
 Overview.propTypes = {
+  t: PropTypes.func.isRequired,
   sectors: PropTypes.array,
   values: PropTypes.object,
   nonGhgMitigationCards: PropTypes.array

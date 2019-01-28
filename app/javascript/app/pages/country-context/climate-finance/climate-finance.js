@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import { getClimateFinance } from './climate-finance-selectors';
 import * as actions from './climate-finance-actions';
 
@@ -29,4 +31,6 @@ FinanceContainer.propTypes = {
 
 FinanceContainer.defaultProps = { query: {} };
 
-export default connect(mapStateToProps, actions)(FinanceContainer);
+export default connect(mapStateToProps, actions)(
+  withTranslations(FinanceContainer)
+);

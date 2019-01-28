@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Section } from 'cw-components';
 import background from 'assets/header';
 import SectionTitle from 'components/section-title';
@@ -10,7 +11,7 @@ import HighlightedStories from './stories';
 import SectionsSlideshow from './sections-slideshow';
 import styles from './home-styles.scss';
 
-const ClimatePoliciesSection = () => (
+const renderClimatePoliciesSection = t => (
   <div className={styles.climatePoliciesContainer}>
     <div className={styles.climatePoliciesImage}>
       <img
@@ -19,17 +20,24 @@ const ClimatePoliciesSection = () => (
       />
     </div>
     <div className={styles.climatePoliciesWrapper}>
-      <SectionTitle title="Understand the progress of climate ￼policies" />
-      <p className={styles.climatePoliciesDescription}>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
-      </p>
-      <p className={styles.climatePoliciesDescription}>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.
-      </p>
+      <SectionTitle
+        title={t('pages.home.progress-of-climate-policies.title')}
+        description={t('pages.home.progress-of-climate-policies.description')}
+      />
     </div>
   </div>
 );
-function Home() {
+
+const getSlides = t => {
+  const slidesObject = t('pages.home.slides');
+  return Object
+    .keys(slidesObject)
+    .map(key => ({ id: key, ...slidesObject[key] }));
+};
+
+function Home({ t }) {
+  const slides = getSlides(t);
+
   return (
     <div className={styles.page}>
       <Section backgroundImage={background} theme={styles}>
@@ -45,16 +53,19 @@ function Home() {
               </div>
             </h1>
             <p className={styles.introText}>
-              India Climate Explorer offers open data, visualizations and analysis to help policymakers, researchers and other stakeholders gather insights on India’s climate progress.
+              {t('pages.home.intro-text')}
             </p>
           </div>
         </div>
       </Section>
-      <SectionsSlideshow />
-      <ClimatePoliciesSection />
-      <CwDisclaimer />
+      <SectionsSlideshow slides={slides} />
+      {renderClimatePoliciesSection(t)}
+      <CwDisclaimer text={t('pages.home.climate-watch-disclaimer')} />
       <HighlightedStories />
     </div>
   );
 }
+
+Home.propTypes = { t: PropTypes.func.isRequired };
+
 export default Home;
