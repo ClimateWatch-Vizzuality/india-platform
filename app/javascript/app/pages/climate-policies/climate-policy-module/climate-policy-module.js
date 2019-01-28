@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty, isArray } from 'lodash';
+
+import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import { climatePolicies } from './climate-policy-module-selectors';
 import * as actions from './climate-policy-module-actions';
 
@@ -93,4 +95,6 @@ ClimatePolicyContainer.propTypes = {
 
 ClimatePolicyContainer.defaultProps = { query: null };
 
-export default connect(climatePolicies, actions)(ClimatePolicyContainer);
+export default connect(climatePolicies, actions)(
+  withTranslations(ClimatePolicyContainer)
+);

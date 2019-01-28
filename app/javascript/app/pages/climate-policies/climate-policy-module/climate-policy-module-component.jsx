@@ -12,9 +12,6 @@ const SEARCHBOX_TABS = [
   { slug: 'sector', name: 'Sector' },
   { slug: 'authority', name: 'Responsible Authority' }
 ];
-const title = 'Policy module';
-// eslint-disable-next-line max-len
-const description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.';
 
 const ClimatePolicies = (
   {
@@ -24,22 +21,31 @@ const ClimatePolicies = (
     onSearchChange,
     onCheckboxChange,
     handleTagRemove,
-    handleAllTagsRemove
+    handleAllTagsRemove,
+    t
   }
 ) => (
   <div>
     <section className={styles.pageIntro}>
       <div className={styles.pageLayout}>
-        <h2 className={styles.sectionTitle}>{title}</h2>
-        <p className={styles.sectionDescription}>{description}</p>
+        <h2 className={styles.sectionTitle}>
+          {t('pages.climate-policies.title')}
+        </h2>
+        <p className={styles.sectionDescription}>
+          {t('pages.climate-policies.description')}
+        </p>
       </div>
     </section>
     <div className={styles.pageLayout}>
       <section className={styles.introAndSearch}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>
+          {t('pages.climate-policies.sub-title')}
+        </div>
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
-            <div className={styles.description}>{description}</div>
+            <div className={styles.description}>
+              {t('pages.climate-policies.sub-description')}
+            </div>
             <div className={styles.filterContainer}>
               <SearchCategoriesBox
                 onSearchChange={onSearchChange}
@@ -80,12 +86,10 @@ const ClimatePolicies = (
                 </div>
               </section>
             ))
-            : (
-              <NoContent
-                minHeight={300}
-                message="No data found with this search"
-              />
-)
+            : <NoContent
+              minHeight={300}
+              message="No data found with this search"
+            />
         }
       </section>
       <ClimatePoliciesProvider />
@@ -94,6 +98,7 @@ const ClimatePolicies = (
 );
 
 ClimatePolicies.propTypes = {
+  t: PropTypes.func.isRequired,
   policiesListBySector: PropTypes.shape({}),
   sectors: PropTypes.arrayOf(PropTypes.string),
   authorities: PropTypes.arrayOf(PropTypes.string),

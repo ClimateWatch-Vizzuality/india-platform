@@ -33,13 +33,13 @@ class Planning extends PureComponent {
   }
 
   render() {
-    const { route, section, policy } = this.props;
+    const { route, section, policy, t } = this.props;
 
     const isClimatePoliciesDetails = route.link === CLIMATE_POLICIES;
     let { sections } = route;
     if (isClimatePoliciesDetails) {
       sections = route.sections.map(s => (
-        { 
+        {
           label: s.label,
           link: {
             type: 'location/CLIMATE_POLICY_DETAIL',
@@ -51,6 +51,18 @@ class Planning extends PureComponent {
         }
       ))
     };
+    const renderDefaultSectionTitle = () => {
+      const page = t(`pages.${route.slug}`);
+
+      if (!page) return null;
+
+      return (
+        <div className={styles.row}>
+          <h2 className={styles.sectionTitle}>{page.title}</h2>
+          <p className={styles.sectionDescription}>{page.description}</p>
+        </div>
+      );
+    };
 
     return (
       <div className={styles.page}>
@@ -58,12 +70,7 @@ class Planning extends PureComponent {
           {
             section.header ? (
               <section.header />
-            ) : (
-              <div className={styles.row}>
-                <h2 className={styles.sectionTitle}>{route.label}</h2>
-                <p className={styles.sectionDescription}>{route.description}</p>
-              </div>
-            )
+            ) : renderDefaultSectionTitle()
           }
           <div className={styles.row}>
             <Nav theme={{ nav: styles.nav, link: navStyles.linkSubNav }} routes={sections} />
@@ -76,6 +83,7 @@ class Planning extends PureComponent {
 }
 
 Planning.propTypes = {
+  t: PropTypes.func.isRequired,
   route: PropTypes.object.isRequired,
   section: PropTypes.object.isRequired,
   policy: PropTypes.string

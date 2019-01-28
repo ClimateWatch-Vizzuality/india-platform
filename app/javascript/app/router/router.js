@@ -17,12 +17,14 @@ export const CLIMATE_GOALS = 'location/CLIMATE_GOALS';
 export const routes = {
   [HOME]: {
     nav: false,
+    slug: 'home',
     label: 'Overview',
     path: '/',
     component: 'pages/home/home'
   },
   [COUNTRY_CONTEXT]: {
     nav: true,
+    slug: 'country-context',
     label: 'Country context',
     link: '/country-context',
     path: '/country-context/:section?',
@@ -31,6 +33,7 @@ export const routes = {
   },
   [CLIMATE_GOALS]: {
     nav: true,
+    slug: 'climate-goals',
     label: 'Climate Goals',
     link: '/climate-goals',
     path: '/climate-goals/:section?',
@@ -39,6 +42,7 @@ export const routes = {
   },
   [CLIMATE_POLICIES]: {
     nav: true,
+    slug: 'climate-policies',
     label: 'Climate policies',
     link: '/climate-policies',
     path: '/climate-policies',
