@@ -4,7 +4,6 @@
 #
 #  id                      :bigint(8)        not null, primary key
 #  broader_context         :text
-#  code                    :string           not null
 #  description             :text
 #  implementation_entities :text
 #  key_milestones          :text
@@ -18,7 +17,6 @@
 #
 # Indexes
 #
-#  index_climate_policy_instruments_on_code       (code) UNIQUE
 #  index_climate_policy_instruments_on_policy_id  (policy_id)
 #
 # Foreign Keys
