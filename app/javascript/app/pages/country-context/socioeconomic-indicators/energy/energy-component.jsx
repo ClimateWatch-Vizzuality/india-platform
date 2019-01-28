@@ -109,7 +109,7 @@ class Energy extends PureComponent {
                   dataOptions={chartData.dataOptions || []}
                   dataSelected={chartData.dataSelected}
                   height={500}
-                  margin={{ left: '200px' }}
+                  margin={{ top: 15, left: -15 }}
                   showUnit
                   onLegendChange={v => this.handleFilterChange('categories', v)}
                 />
