@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import { getEnergy } from './energy-selectors';
 import * as actions from './energy-actions';
 
@@ -34,4 +36,6 @@ EnergyContainer.propTypes = {
 
 EnergyContainer.defaultProps = { query: {} };
 
-export default connect(mapStateToProps, actions)(EnergyContainer);
+export default connect(mapStateToProps, actions)(
+  withTranslations(EnergyContainer)
+);

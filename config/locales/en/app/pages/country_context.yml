@@ -8,7 +8,7 @@ en:
           population:
             title: Population
             description: population description
-          economic-profile:
+          economy:
             title: Economic profile
             description: Economic profile description
           energy:

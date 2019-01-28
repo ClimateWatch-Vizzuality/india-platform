@@ -32,13 +32,13 @@ class ClimateFinance extends PureComponent {
   };
 
   render() {
-    const { fundOptions, selectedFund, chartData, loading } = this.props;
+    const { fundOptions, selectedFund, chartData, loading, t } = this.props;
 
     return (
       <div className={styles.climateFinance}>
         <SectionTitle
-          title="Climate finance"
-          description="Climate finance description"
+          title={t('pages.country-context.climate-finance.title')}
+          description={t('pages.country-context.climate-finance.description')}
         />
         <div className={styles.toolbox}>
           <div className={styles.dropdown}>
@@ -94,7 +94,8 @@ ClimateFinance.propTypes = {
   selectedFund: PropTypes.array,
   onFilterChange: PropTypes.func.isRequired,
   chartData: PropTypes.object,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  t: PropTypes.func.isRequired
 };
 
 ClimateFinance.defaultProps = {
