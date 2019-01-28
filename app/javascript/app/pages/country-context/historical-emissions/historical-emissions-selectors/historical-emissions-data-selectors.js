@@ -3,7 +3,7 @@ import isArray from 'lodash/isArray';
 import castArray from 'lodash/castArray';
 import isEmpty from 'lodash/isEmpty';
 import uniqBy from 'lodash/uniqBy';
-import { ALL_SELECTED, METRIC, SECTOR_TOTAL } from 'constants/constants';
+import { ALL_SELECTED, SECTOR_TOTAL } from 'constants/constants';
 
 import {
   getThemeConfig,
@@ -23,17 +23,11 @@ import {
 
 const FRONTEND_FILTERED_FIELDS = [ 'sector' ];
 
-const getUnit = createSelector([ getMetadata, getSelectedOptions ], (
-  meta,
-  selectedOptions
-) =>
-  {
-    if (!meta || !selectedOptions.metric) return null;
-    const { metric: metrics } = meta;
-    const metricObject = metrics &&
-      metrics.find(m => METRIC[selectedOptions.metric] === m.code);
-    return metricObject && metricObject.unit;
-  });
+const getUnit = createSelector([ getMetadata ], meta => {
+  if (!meta) return null;
+  // TODO: Include unit in API and get it
+  return null;
+});
 
 export const getScale = createSelector([ getUnit ], unit => {
   if (!unit) return 1;
@@ -66,11 +60,10 @@ const getLegendDataSelected = createSelector(
 );
 
 const getYColumnOptions = createSelector(
-  [ getLegendDataSelected, getSelectedOptions ],
-  (legendDataSelected, selectedOptions) => {
+  [ getLegendDataSelected ],
+  legendDataSelected => {
     if (!legendDataSelected) return null;
-    const removeTotalSector = d =>
-      selectedOptions.metric !== 'absolute' || d.code !== SECTOR_TOTAL;
+    const removeTotalSector = d => d.code !== SECTOR_TOTAL;
     const getYOption = columns =>
       columns &&
         columns
@@ -84,32 +77,21 @@ const getYColumnOptions = createSelector(
   }
 );
 
-const filterBySelectedOptions = (
-  emissionsData,
-  metricSelected,
-  selectedOptions
-) =>
-  {
-    const fieldPassesFilter = (selectedFilterOption, field, data) =>
-      castArray(selectedFilterOption).some(
-        o => o.value === ALL_SELECTED || o.label === data[field]
-      );
-    const absoluteMetric = METRIC.absolute;
+const filterBySelectedOptions = (emissionsData, selectedOptions) => {
+  const fieldPassesFilter = (selectedFilterOption, field, data) =>
+    castArray(selectedFilterOption).some(
+      o => o.value === ALL_SELECTED || o.label === data[field]
+    );
 
-    return emissionsData
-      .filter(d => d.metric === METRIC[metricSelected])
-      .filter(
-        d =>
-          d.metric === absoluteMetric && d.sector !== SECTOR_TOTAL ||
-            d.metric !== absoluteMetric
-      )
-      .filter(
-        d =>
-          FRONTEND_FILTERED_FIELDS.every(
-            field => fieldPassesFilter(selectedOptions[field], field, d)
-          )
-      );
-  };
+  return emissionsData
+    .filter(d => d.sector !== SECTOR_TOTAL)
+    .filter(
+      d =>
+        FRONTEND_FILTERED_FIELDS.every(
+          field => fieldPassesFilter(selectedOptions[field], field, d)
+        )
+    );
+};
 
 const parseChartData = createSelector(
   [
@@ -120,18 +102,12 @@ const parseChartData = createSelector(
     getScale
   ],
   (emissionsData, yColumnOptions, selectedOptions, unit, scale) => {
-    if (
-      !emissionsData ||
-        isEmpty(emissionsData) ||
-        !selectedOptions.metric ||
-        !yColumnOptions
-    )
+    if (!emissionsData || isEmpty(emissionsData) || !yColumnOptions)
       return null;
     const yearValues = emissionsData[0].emissions.map(d => d.year);
 
     const filteredData = filterBySelectedOptions(
       emissionsData,
-      selectedOptions.metric,
       selectedOptions
     );
     const dataParsed = [];
@@ -159,9 +135,9 @@ const parseChartData = createSelector(
 let colorCache = {};
 
 export const getChartConfig = createSelector(
-  [ parseChartData, getSelectedOptions, getCorrectedUnit, getYColumnOptions ],
-  (data, selectedOptions, unit, yColumnOptions) => {
-    if (!data || isEmpty(data) || !selectedOptions.metric) return null;
+  [ parseChartData, getCorrectedUnit, getYColumnOptions ],
+  (data, unit, yColumnOptions) => {
+    if (!data || isEmpty(data)) return null;
 
     const columnsWithData = Object.keys(data[0]);
     const yColumnsWithData = yColumnOptions.filter(

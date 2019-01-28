@@ -1,10 +1,6 @@
 import { createStructuredSelector, createSelector } from 'reselect';
 import castArray from 'lodash/castArray';
-import {
-  ALL_SELECTED,
-  METRIC_OPTIONS,
-  SECTOR_TOTAL
-} from 'constants/constants';
+import { ALL_SELECTED, SECTOR_TOTAL } from 'constants/constants';
 
 import { getMetadata } from './historical-emissions-get-selectors';
 
@@ -20,12 +16,6 @@ const findOption = (
       );
 
 // OPTIONS
-const METRIC_VALUE_OPTIONS = [
-  { value: METRIC_OPTIONS.ABSOLUTE_VALUE, label: 'Absolute value' },
-  { value: METRIC_OPTIONS.PER_CAPITA, label: 'Per capita' },
-  { value: METRIC_OPTIONS.PER_GDP, label: 'Per GDP' }
-];
-
 export const getAllSelectedOption = () => ({
   value: ALL_SELECTED,
   label: 'All Selected',
@@ -33,7 +23,6 @@ export const getAllSelectedOption = () => ({
 });
 
 const getFieldOptions = field => createSelector([ getMetadata ], metadata => {
-  if (field === 'metric') return METRIC_VALUE_OPTIONS;
   if (!metadata || !metadata[field]) return null;
 
   const options = metadata[field].map(o => {
@@ -45,7 +34,6 @@ const getFieldOptions = field => createSelector([ getMetadata ], metadata => {
 });
 
 export const getFilterOptions = createStructuredSelector({
-  metric: getFieldOptions('metric'),
   sector: getFieldOptions('sector'),
   gas: getFieldOptions('gas')
 });
@@ -55,7 +43,6 @@ const getDefaults = createSelector([ getFilterOptions, getAllSelectedOption ], (
   options,
   allSelectedOption
 ) => ({
-  metric: findOption(options.metric, METRIC_OPTIONS.ABSOLUTE_VALUE),
   sector: allSelectedOption,
   gas: findOption(options.gas, 'All GHG (CO2e)')
 }));
@@ -73,23 +60,15 @@ const getFieldSelected = field => state => {
     : findSelectedOption(queryValue);
 };
 
-const filterSectorSelectedByMetrics = createSelector(
-  [
-    getFieldSelected('sector'),
-    getFieldOptions('sector'),
-    getFieldSelected('metric')
-  ],
-  (sectorSelected, sectorOptions, metric) => {
-    if (!sectorOptions || !metric) return null;
-    if (!metric.value.endsWith('absolute')) {
-      return sectorOptions.find(o => o.code === SECTOR_TOTAL) || sectorSelected;
-    }
-    return sectorSelected;
+const getSectorSelected = createSelector(
+  [ getFieldSelected('sector'), getFieldOptions('sector') ],
+  (sectorSelected, sectorOptions) => {
+    if (!sectorOptions) return null;
+    return sectorOptions.find(o => o.code === SECTOR_TOTAL) || sectorSelected;
   }
 );
 
 export const getSelectedOptions = createStructuredSelector({
-  metric: getFieldSelected('metric'),
-  sector: filterSectorSelectedByMetrics,
+  sector: getSectorSelected,
   gas: getFieldSelected('gas')
 });
