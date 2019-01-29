@@ -27,7 +27,7 @@ $min-height: 450px;
       @include column-offset(7.2, $gutters: true);
     }
 
-    @include columns(2.4);
+    @include columns(2.2);
   }
 }
 
@@ -39,7 +39,7 @@ $min-height: 450px;
   }
 
   @media #{$tablet-landscape} {
-    @include columns(2.4);
+    @include columns(2.2);
   }
 }
 

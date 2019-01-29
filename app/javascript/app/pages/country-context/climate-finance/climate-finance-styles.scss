@@ -1,7 +1,7 @@
 @import '~styles/settings.scss';
 @import '~styles/layout.scss';
 
-$dropdown-max-width: 265px;
+$dropdown-max-width: 200px;
 
 .climateFinance {
   @include row();

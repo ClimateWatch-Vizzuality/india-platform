@@ -13,7 +13,7 @@ import startCase from 'lodash/startCase';
 import castArray from 'lodash/castArray';
 import { SECTOR_TOTAL } from 'constants/constants';
 import PropTypes from 'prop-types';
-import dropdownStyles from 'styles/dropdown.scss';
+import dropdownStyles from 'styles/themes/dropdown.scss';
 
 import styles from './historical-emissions-styles.scss';
 import BarTooltipChart from './bar-tooltip-chart/bar-tooltip-chart-component';
