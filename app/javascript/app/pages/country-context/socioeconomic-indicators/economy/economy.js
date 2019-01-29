@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import { getEconomy } from './economy-selectors';
 import * as actions from './economy-actions';
 
@@ -30,4 +32,6 @@ EconomyContainer.propTypes = {
 
 EconomyContainer.defaultProps = { query: {} };
 
-export default connect(mapStateToProps, actions)(EconomyContainer);
+export default connect(mapStateToProps, actions)(
+  withTranslations(EconomyContainer)
+);

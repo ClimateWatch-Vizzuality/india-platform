@@ -40,7 +40,8 @@ class EmissionPathways extends PureComponent {
       filtersSelected,
       handleSelectorChange,
       handleModelChange,
-      handleLegendChange
+      handleLegendChange,
+      t
     } = this.props;
     const needsTimeSeries = filtersSelected &&
       filtersSelected.location &&
@@ -51,8 +52,8 @@ class EmissionPathways extends PureComponent {
     return (
       <div className={styles.page}>
         <SectionTitle
-          title="Emission pathways"
-          description="Emission pathways description"
+          title={t('pages.country-context.emission-pathways.title')}
+          description={t('pages.country-context.emission-pathways.description')}
           extraContent={
             (
               <Button
@@ -164,7 +165,8 @@ EmissionPathways.propTypes = {
   filtersSelected: PropTypes.object,
   handleSelectorChange: PropTypes.func.isRequired,
   handleModelChange: PropTypes.func.isRequired,
-  handleLegendChange: PropTypes.func.isRequired
+  handleLegendChange: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 EmissionPathways.defaultProps = {

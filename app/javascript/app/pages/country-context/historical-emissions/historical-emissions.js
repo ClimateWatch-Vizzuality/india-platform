@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import Component from './historical-emissions-component';
 import * as actions from './historical-emissions-actions';
 import {
@@ -30,4 +31,6 @@ HistoricalContainer.propTypes = {
 
 HistoricalContainer.defaultProps = { query: {} };
 
-export default connect(getGHGEmissions, actions)(HistoricalContainer);
+export default connect(getGHGEmissions, actions)(
+  withTranslations(HistoricalContainer)
+);

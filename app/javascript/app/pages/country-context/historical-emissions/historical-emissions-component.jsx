@@ -121,12 +121,14 @@ class HistoricalEmissions extends PureComponent {
   }
 
   render() {
-    const { emissionParams, chartData } = this.props;
+    const { emissionParams, chartData, t } = this.props;
     return (
       <div className={styles.historicalEmissions}>
         <SectionTitle
-          title="Historical emissions"
-          description="Historical emissions description"
+          title={t('pages.country-context.historical-emissions.title')}
+          description={t(
+            'pages.country-context.historical-emissions.description'
+          )}
           extraContent={renderButtons()}
         />
         <div className={styles.dropdowns}>
@@ -176,7 +178,8 @@ HistoricalEmissions.propTypes = {
   allSelectedOption: PropTypes.object,
   selectedOptions: PropTypes.object,
   emissionParams: PropTypes.object,
-  onFilterChange: PropTypes.func.isRequired
+  onFilterChange: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 HistoricalEmissions.defaultProps = {
