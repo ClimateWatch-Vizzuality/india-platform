@@ -21,6 +21,7 @@
 
   @media #{$tablet-landscape} {
     @include columns($columns: (2, 2, 1.5));
+
     padding-left: $gutter-padding / 2;
 
     @include xy-gutters($gutter-position: ('bottom'), $gutters: $gutter-padding * 8);

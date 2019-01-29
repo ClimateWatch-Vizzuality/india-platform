@@ -153,6 +153,7 @@ class HistoricalEmissions extends PureComponent {
                   dataOptions={chartData.dataOptions}
                   dataSelected={chartData.dataSelected}
                   height={500}
+                  margin={{ bottom: 40, top: 20 }}
                   barSize={40}
                   loading={chartData.loading}
                   onLegendChange={v => this.handleFilterChange('sector', v)}

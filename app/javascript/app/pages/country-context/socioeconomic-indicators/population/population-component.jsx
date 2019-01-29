@@ -77,6 +77,7 @@ class Population extends PureComponent {
                     domain={chartData.domain}
                     dataOptions={chartData.dataOptions}
                     dataSelected={chartData.dataSelected}
+                    margin={{ bottom: 10 }}
                     height={300}
                     barSize={30}
                   />
@@ -120,6 +121,7 @@ class Population extends PureComponent {
                     }
                     data={popStateChartData.data}
                     domain={popStateChartData.domain}
+                    margin={{ bottom: 10 }}
                     height={300}
                     barSize={30}
                   />
