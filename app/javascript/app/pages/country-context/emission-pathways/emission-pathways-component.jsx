@@ -144,8 +144,9 @@ class EmissionPathways extends PureComponent {
               height={600}
               loading={loading}
               error={error}
-              margin={{ top: 50 }}
+              margin={{ bottom: 40, top: 20 }}
               onLegendChange={handleLegendChange}
+              showUnit
             />
           </div>
         </div>

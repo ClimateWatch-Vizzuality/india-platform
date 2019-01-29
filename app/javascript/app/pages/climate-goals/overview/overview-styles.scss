@@ -4,7 +4,7 @@
 .page {
   @include row();
 
-  margin-top: $gutter-padding;
+  margin-top: $gutter-padding * 2;
 }
 
 .description {
@@ -55,7 +55,7 @@
   color: $theme-color;
   line-height: $line-height;
   column-count: 1;
-  column-gap: $gutter-padding;
+  column-gap: $gutter-padding * 2;
   margin-bottom: 15px;
 
   li {
@@ -148,7 +148,7 @@
 }
 
 .exploreBtn {
-  margin-bottom: $gutter-padding;
+  margin-bottom: $gutter-padding * 2;
 
   @media #{$tablet-landscape} {
     margin-bottom: 0;

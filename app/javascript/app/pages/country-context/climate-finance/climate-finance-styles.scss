@@ -1,14 +1,14 @@
 @import '~styles/settings.scss';
 @import '~styles/layout.scss';
 
-$dropdown-max-width: 265px;
+$dropdown-max-width: 200px;
 
 .climateFinance {
   @include row();
 
   margin: {
-    top: $gutter-padding;
-    bottom: $gutter-padding * 4;
+    top: $gutter-padding * 4;
+    bottom: $gutter-padding * 8;
   }
 }
 

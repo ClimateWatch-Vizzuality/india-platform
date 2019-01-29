@@ -12,10 +12,10 @@
 .section {
   @include columns();
 
-  padding-left: $gutter-padding / 2;
+  padding-left: $gutter-padding;
   margin: {
     top: $gutter-padding;
-    bottom: $gutter-padding * 3;
+    bottom: $gutter-padding * 6;
   }
 }
 

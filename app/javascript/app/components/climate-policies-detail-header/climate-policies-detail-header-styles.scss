@@ -10,7 +10,7 @@ $iconSize: 10px;
 .backLink {
   @extend %bodyText;
 
-  margin-top: $gutter-padding;
+  margin-top: $gutter-padding * 2;
   color: $butterscotch;
 }
 
@@ -24,7 +24,7 @@ $iconSize: 10px;
   @extend %bodyText;
 
   color: $white;
-  padding-bottom: $gutter-padding;
+  padding-bottom: $gutter-padding * 2;
   opacity: 0.75;
 }
 

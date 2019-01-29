@@ -90,6 +90,7 @@ class Economy extends PureComponent {
                     }
                     data={nationalChartData.data}
                     domain={nationalChartData.domain}
+                    margin={{ bottom: 10 }}
                     height={300}
                   />
                 )
@@ -131,6 +132,7 @@ class Economy extends PureComponent {
                     getCustomYLabelFormat={stateChartData.config.yLabelFormat}
                     data={stateChartData.data}
                     domain={stateChartData.domain}
+                    margin={{ bottom: 10 }}
                     height={300}
                   />
                 )

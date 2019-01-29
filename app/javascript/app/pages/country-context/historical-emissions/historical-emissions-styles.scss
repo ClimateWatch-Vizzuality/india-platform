@@ -4,8 +4,8 @@
 .historicalEmissions {
   @include row();
 
-  margin-top: $gutter-padding;
-  padding-bottom: $gutter-padding * 4;
+  margin-top: $gutter-padding * 4;
+  padding-bottom: $gutter-padding * 8;
 }
 
 .buttons {
@@ -20,9 +20,11 @@
   @include columns();
 
   @media #{$tablet-landscape} {
+    @include columns($columns: (2.2, 2.2, 1.5));
+
     padding-left: $gutter-padding / 2;
 
-    @include columns($columns: (2, 2, 2, 1.5));
+    @include xy-gutters($gutter-position: ('bottom'), $gutters: $gutter-padding * 8);
   }
 }
 

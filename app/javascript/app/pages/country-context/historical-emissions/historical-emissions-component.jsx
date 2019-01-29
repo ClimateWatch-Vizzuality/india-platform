@@ -11,9 +11,9 @@ import ReactTooltip from 'react-tooltip';
 import InfoDownloadToolbox from 'components/info-download-toolbox';
 import startCase from 'lodash/startCase';
 import castArray from 'lodash/castArray';
-import { METRIC_OPTIONS, SECTOR_TOTAL } from 'constants/constants';
+import { SECTOR_TOTAL } from 'constants/constants';
 import PropTypes from 'prop-types';
-import dropdownStyles from 'styles/dropdown.scss';
+import dropdownStyles from 'styles/themes/dropdown.scss';
 
 import styles from './historical-emissions-styles.scss';
 import BarTooltipChart from './bar-tooltip-chart/bar-tooltip-chart-component';
@@ -74,15 +74,13 @@ class HistoricalEmissions extends PureComponent {
   };
 
   addAllSelected(field) {
-    const { filterOptions, allSelectedOption, selectedOptions } = this.props;
-    const absoluteMetric = selectedOptions.metric ===
-      METRIC_OPTIONS.ABSOLUTE_VALUE;
+    const { filterOptions, allSelectedOption } = this.props;
     if (!filterOptions) return [];
     let options = filterOptions[field] || [];
-    if (absoluteMetric && field === 'sector') {
+    if (field === 'sector') {
       options = options.filter(v => v.code !== SECTOR_TOTAL);
     }
-    const NON_ALL_SELECTED_KEYS = [ 'metric', 'gas' ];
+    const NON_ALL_SELECTED_KEYS = [ 'gas' ];
     const noAllSelected = NON_ALL_SELECTED_KEYS.includes(field);
     if (noAllSelected) return options;
 
@@ -94,9 +92,6 @@ class HistoricalEmissions extends PureComponent {
     const value = selectedOptions && selectedOptions[field];
     const label = startCase(field);
     if (multi) {
-      const absoluteMetric = selectedOptions.metric.value ===
-        METRIC_OPTIONS.ABSOLUTE_VALUE;
-      const disabled = field === 'sector' && !absoluteMetric;
       const values = castArray(value).filter(v => v);
       return (
         <Multiselect
@@ -108,7 +103,6 @@ class HistoricalEmissions extends PureComponent {
           values={values}
           theme={{ wrapper: dropdownStyles.select }}
           hideResetButton
-          disabled={disabled}
         />
       );
     }
@@ -122,7 +116,6 @@ class HistoricalEmissions extends PureComponent {
         value={value || null}
         theme={{ select: dropdownStyles.select }}
         hideResetButton
-        disabled /* Remove when Metric is ready */
       />
     );
   }
@@ -141,7 +134,6 @@ class HistoricalEmissions extends PureComponent {
         <div className={styles.dropdowns}>
           {this.renderDropdown('sector', true)}
           {this.renderDropdown('gas', true)}
-          {this.renderDropdown('metric')}
           <InfoDownloadToolbox
             className={{ buttonWrapper: styles.buttonWrapper }}
             slugs=""
@@ -163,6 +155,7 @@ class HistoricalEmissions extends PureComponent {
                   dataOptions={chartData.dataOptions}
                   dataSelected={chartData.dataSelected}
                   height={500}
+                  margin={{ bottom: 40, top: 20 }}
                   barSize={40}
                   loading={chartData.loading}
                   onLegendChange={v => this.handleFilterChange('sector', v)}
