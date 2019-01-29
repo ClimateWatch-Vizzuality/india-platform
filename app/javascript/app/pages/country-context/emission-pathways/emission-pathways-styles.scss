@@ -4,7 +4,7 @@
 .page {
   @include row();
 
-  margin-top: $gutter-padding;
+  margin-top: $gutter-padding * 4;
 }
 
 $min-height: 450px;
@@ -46,7 +46,7 @@ $min-height: 450px;
 .titleAndBtnsWrapper {
   @include xy-gutters($gutter-position: ('bottom'));
 
-  margin-top: $gutter-padding;
+  margin-top: $gutter-padding * 2;
 }
 
 .selectorsWrapper {
