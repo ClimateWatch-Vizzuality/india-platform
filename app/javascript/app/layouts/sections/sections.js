@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import PlanningComponent from './sections-component';
 
 const mapStateToProps = ({ location }) => {
@@ -15,4 +16,6 @@ const mapStateToProps = ({ location }) => {
   return { route, section, policy };
 };
 
-export default connect(mapStateToProps, null)(PlanningComponent);
+export default connect(mapStateToProps, null)(
+  withTranslations(PlanningComponent)
+);

@@ -34,7 +34,8 @@ class Energy extends PureComponent {
       selectedOptions,
       options,
       loading,
-      selectedSource
+      selectedSource,
+      t
     } = this.props;
 
     const indicatorLabel = 'Indicators';
@@ -43,8 +44,10 @@ class Energy extends PureComponent {
       <div className={socioeconomicStyles.page}>
         <div>
           <SectionTitle
-            title="Energy"
-            description="Energy description"
+            title={t('pages.country-context.socioeconomic.energy.title')}
+            description={t(
+              'pages.country-context.socioeconomic.energy.description'
+            )}
             extraContent={
               (
                 <Button
@@ -109,7 +112,7 @@ class Energy extends PureComponent {
                   dataOptions={chartData.dataOptions || []}
                   dataSelected={chartData.dataSelected}
                   height={500}
-                  margin={{ left: '200px' }}
+                  margin={{ top: 15, left: -15, bottom: 10 }}
                   showUnit
                   onLegendChange={v => this.handleFilterChange('categories', v)}
                 />
@@ -127,7 +130,8 @@ Energy.propTypes = {
   selectedOptions: PropTypes.object,
   selectedSource: PropTypes.string.isRequired,
   options: PropTypes.array,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  t: PropTypes.func.isRequired
 };
 
 Energy.defaultProps = {

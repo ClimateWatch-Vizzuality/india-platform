@@ -33,8 +33,7 @@ class Overview extends PureComponent {
       <Card reverse theme={cardTheme} title="GHG Target">
         <div className={styles.cardContent}>
           {
-            values && values.ghg_target_type ? (
-              <React.Fragment>
+            values && values.ghg_target_type ? <React.Fragment>
                 <span className={styles.metaTitle}>
                   Target type
                 </span>
@@ -53,8 +52,7 @@ class Overview extends PureComponent {
                     __html: values.time_target_year[0].value
                   }}
                 />
-              </React.Fragment>
-) : renderNoContent()
+              </React.Fragment> : renderNoContent()
           }
         </div>
       </Card>
@@ -65,12 +63,10 @@ class Overview extends PureComponent {
         <div className={styles.cardContent}>
           {
             values && values[type]
-              ? (
-                <p
-                  className={styles.targetText}
-                  dangerouslySetInnerHTML={{ __html: values[type][0].value }}
-                />
-)
+              ? <p
+                className={styles.targetText}
+                dangerouslySetInnerHTML={{ __html: values[type][0].value }}
+              />
               : renderNoContent()
           }
         </div>
@@ -106,15 +102,13 @@ class Overview extends PureComponent {
           >
             <div className={styles.cardContent}>
               {
-                sectors.length ? (
-                  <ul className={styles.list}>
+                sectors.length ? <ul className={styles.list}>
                     {sectors.map(sector => (
                       <li key={sector} className={styles.listItem}>
                         {sector}
                       </li>
                     ))}
-                  </ul>
-) : renderNoContent()
+                  </ul> : renderNoContent()
               }
             </div>
           </Card>
@@ -124,17 +118,17 @@ class Overview extends PureComponent {
   };
 
   render() {
-    const { sectors, values } = this.props;
+    const { sectors, values, t } = this.props;
     const hasSectors = values && sectors;
 
     const description = hasSectors && (
-    <p
-      className={styles.descriptionContainer}
+        <p
+          className={styles.descriptionContainer}
           /* eslint-disable-next-line react/no-danger */
-      dangerouslySetInnerHTML={{
+          dangerouslySetInnerHTML={{
             __html: get(values, 'indc_summary[0].value')
           }}
-    />
+        />
       );
 
     return (
@@ -142,7 +136,7 @@ class Overview extends PureComponent {
         <div className={styles.page}>
           <div className={styles.sectionHeader}>
             <SectionTitle
-              title="Overview"
+              title={t('pages.climate-goals.overview.title')}
               theme={{ sectionTitle: styles.sectionTitle }}
             />
             <Button
@@ -171,6 +165,7 @@ class Overview extends PureComponent {
 }
 
 Overview.propTypes = {
+  t: PropTypes.func.isRequired,
   sectors: PropTypes.array,
   values: PropTypes.object,
   nonGhgMitigationCards: PropTypes.array

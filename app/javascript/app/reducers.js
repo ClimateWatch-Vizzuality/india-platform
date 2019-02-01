@@ -13,6 +13,14 @@ import { reduxModule as modalMetadata } from 'components/modal-metadata';
 import {
   reduxModule as ndcContentOverview
 } from 'providers/ndc-content-overview-provider';
+import { reduxModule as ghgEmissions } from 'providers/ghg-emissions-provider';
+import { reduxModule as metadata } from 'providers/metadata-provider';
+import {
+  reduxModule as climateFinance
+} from 'providers/climate-finance-provider';
+import { reduxModule as translations } from 'providers/translations-provider';
+
+// Components
 import {
   reduxModule as ndcCountryAccordion
 } from 'components/ndcs-country-accordion';
@@ -51,11 +59,15 @@ const providersReducers = {
   modalMetadata: handleModule(modalMetadata),
   ndcContentOverview: handleModule(ndcContentOverview),
   indicators: handleModule(indicators),
+  climateFinance: handleModule(climateFinance),
+  metadata: handleModule(metadata),
+  GHGEmissions: handleModule(ghgEmissions),
   espModels: handleModule(espModelsProvider),
   espScenarios: handleModule(espScenariosProvider),
   espIndicators: handleModule(espIndicatorsProvider),
   espLocations: handleModule(espLocationsProvider),
-  espTimeSeries: handleModule(espTimeSeriesProvider)
+  espTimeSeries: handleModule(espTimeSeriesProvider),
+  translations: handleModule(translations)
 };
 
 export default combineReducers({

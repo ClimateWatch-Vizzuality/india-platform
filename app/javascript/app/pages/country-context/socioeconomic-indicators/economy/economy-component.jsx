@@ -24,7 +24,8 @@ class Economy extends PureComponent {
       statesOptions,
       selectedOptions,
       selectedSource,
-      loading
+      loading,
+      t
     } = this.props;
 
     const nationalIndLabel = 'National Indicator';
@@ -33,8 +34,10 @@ class Economy extends PureComponent {
     return (
       <div className={styles.page}>
         <SectionTitle
-          title="Economic profile"
-          description="Economic profile description"
+          title={t('pages.country-context.socioeconomic.economy.title')}
+          description={t(
+            'pages.country-context.socioeconomic.economy.description'
+          )}
         />
         <Switch
           options={[
@@ -87,6 +90,7 @@ class Economy extends PureComponent {
                     }
                     data={nationalChartData.data}
                     domain={nationalChartData.domain}
+                    margin={{ bottom: 10 }}
                     height={300}
                   />
                 )
@@ -128,6 +132,7 @@ class Economy extends PureComponent {
                     getCustomYLabelFormat={stateChartData.config.yLabelFormat}
                     data={stateChartData.data}
                     domain={stateChartData.domain}
+                    margin={{ bottom: 10 }}
                     height={300}
                   />
                 )
@@ -147,7 +152,8 @@ Economy.propTypes = {
   statesOptions: PropTypes.array,
   selectedOptions: PropTypes.object,
   selectedSource: PropTypes.string.isRequired,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  t: PropTypes.func.isRequired
 };
 
 Economy.defaultProps = {

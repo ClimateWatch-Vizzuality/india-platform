@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_25_103525) do
+ActiveRecord::Schema.define(version: 2019_01_28_105956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,6 +262,16 @@ ActiveRecord::Schema.define(version: 2019_01_25_103525) do
     t.datetime "updated_at", null: false
     t.index ["indicator_id"], name: "index_socioeconomic_values_on_indicator_id"
     t.index ["location_id"], name: "index_socioeconomic_values_on_location_id"
+  end
+
+  create_table "translations", force: :cascade do |t|
+    t.string "locale"
+    t.string "key"
+    t.text "value"
+    t.text "interpolations"
+    t.boolean "is_proc", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "worker_logs", force: :cascade do |t|

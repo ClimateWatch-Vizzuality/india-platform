@@ -10,11 +10,11 @@
 }
 
 .section {
-  padding-top: $gutter-padding;
-  padding-bottom: $gutter-padding * 2;
+  padding-top: $gutter-padding * 2;
+  padding-bottom: $gutter-padding * 4;
 
   @media #{$tablet-landscape} {
-    padding-top: $gutter-padding * 2;
+    padding-top: $gutter-padding * 4;
     padding-bottom: 0;
   }
 }

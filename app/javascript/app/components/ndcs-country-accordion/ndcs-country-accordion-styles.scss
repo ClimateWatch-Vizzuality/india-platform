@@ -17,6 +17,7 @@ $min-height: 450px;
 }
 
 .noContent {
+  margin-top: $gutter-padding * 4;
   font-size: $font-size-sm;
   color: $dark-gray;
   font-style: italic;

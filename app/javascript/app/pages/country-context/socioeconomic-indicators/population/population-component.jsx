@@ -23,14 +23,20 @@ class Population extends PureComponent {
       popStatesOptions,
       selectedOptions,
       selectedSource,
-      loading
+      loading,
+      t
     } = this.props;
 
     const nationalIndLabel = 'National Indicators';
     const stateIndLabel = 'State';
     return (
       <div className={styles.page}>
-        <SectionTitle title="Population" description="Population description" />
+        <SectionTitle
+          title={t('pages.country-context.socioeconomic.population.title')}
+          description={t(
+            'pages.country-context.socioeconomic.population.description'
+          )}
+        />
         <Switch
           options={[
             { name: 'CAIT', value: 'CAIT' },
@@ -77,6 +83,7 @@ class Population extends PureComponent {
                     domain={chartData.domain}
                     dataOptions={chartData.dataOptions}
                     dataSelected={chartData.dataSelected}
+                    margin={{ bottom: 10 }}
                     height={300}
                     barSize={30}
                   />
@@ -120,6 +127,7 @@ class Population extends PureComponent {
                     }
                     data={popStateChartData.data}
                     domain={popStateChartData.domain}
+                    margin={{ bottom: 10 }}
                     height={300}
                     barSize={30}
                   />
@@ -140,7 +148,8 @@ Population.propTypes = {
   popStatesOptions: PropTypes.array.isRequired,
   selectedOptions: PropTypes.object.isRequired,
   selectedSource: PropTypes.string.isRequired,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  t: PropTypes.func.isRequired
 };
 
 Population.defaultProps = { chartData: {}, loading: false };

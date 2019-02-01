@@ -4,7 +4,7 @@
 $dropdown-min-width: 265px;
 
 .socioeconomic {
-  padding-bottom: $gutter-padding * 4;
+  padding-bottom: $gutter-padding * 8;
 }
 
 .logo {
@@ -15,14 +15,14 @@ $dropdown-min-width: 265px;
 .page {
   @include row();
 
-  margin-top: $gutter-padding;
+  margin-top: $gutter-padding * 4;
 }
 
 .container {
   @include columns($columns: 12);
 
   @media #{$tablet-landscape} {
-    padding-left: $gutter-padding / 2;
+    padding-left: $gutter-padding;
 
     @include columns($columns: (6, 6));
   }
@@ -31,7 +31,7 @@ $dropdown-min-width: 265px;
 .toolbox {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: $gutter-padding * 2;
 }
 
 .dropdown {

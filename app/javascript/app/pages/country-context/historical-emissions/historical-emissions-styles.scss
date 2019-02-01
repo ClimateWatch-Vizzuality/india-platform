@@ -1,0 +1,34 @@
+@import '~styles/settings.scss';
+@import '~styles/layout.scss';
+
+.historicalEmissions {
+  @include row();
+
+  margin-top: $gutter-padding * 4;
+  padding-bottom: $gutter-padding * 8;
+}
+
+.buttons {
+  display: flex;
+
+  :not(:first-child) {
+    margin-left: 1em;
+  }
+}
+
+.dropdowns {
+  @include columns();
+
+  @media #{$tablet-landscape} {
+    @include columns($columns: (2.2, 2.2, 1.5));
+
+    padding-left: $gutter-padding / 2;
+
+    @include xy-gutters($gutter-position: ('bottom'), $gutters: $gutter-padding * 8);
+  }
+}
+
+.buttonWrapper {
+  max-width: 100px;
+  margin-top: 22px;
+}

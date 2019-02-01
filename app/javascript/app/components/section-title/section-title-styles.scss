@@ -3,7 +3,7 @@
 .sectionTitleContainer {
   display: flex;
   justify-content: space-between;
-  margin-bottom: $gutter-padding;
+  margin-bottom: $gutter-padding * 2;
   flex-direction: column;
 
   @media #{$tablet-landscape} {
@@ -24,8 +24,8 @@
   font-size: $font-size-large;
   font-weight: $font-weight;
   color: $midnightblue;
-  margin-bottom: $gutter-padding;
-  margin-top: $gutter-padding * 2;
+  margin-bottom: $gutter-padding * 2;
+  margin-top: $gutter-padding * 4;
 }
 
 .iconContainer {
@@ -37,7 +37,7 @@
   color: $midnightblue;
   line-height: 1.38;
   margin-bottom: 20px;
-  padding-bottom: $gutter-padding;
+  padding-bottom: $gutter-padding * 2;
 }
 
 .sectionContainerNoMarginBottom {
@@ -45,7 +45,7 @@
 }
 
 .extraContent {
-  margin-bottom: $gutter-padding;
+  margin-bottom: $gutter-padding * 2;
 
   @media #{$tablet-landscape} {
     margin-bottom: 0;

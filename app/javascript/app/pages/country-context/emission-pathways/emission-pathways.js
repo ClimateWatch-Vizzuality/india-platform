@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import qs from 'query-string';
 import isArray from 'lodash/isArray';
 
+import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import actions from './emission-pathways-actions';
 import reducers, { initialState } from './emission-pathways-reducers';
 
@@ -200,4 +201,6 @@ EmissionPathwaysContainer.propTypes = {
 EmissionPathwaysContainer.defaultProps = { search: {}, location: {} };
 
 export const reduxModule = { actions, reducers, initialState };
-export default connect(mapStateToProps, actions)(EmissionPathwaysContainer);
+export default connect(mapStateToProps, actions)(
+  withTranslations(EmissionPathwaysContainer)
+);

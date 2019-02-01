@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import { getPopulation } from './population-selectors';
 import * as actions from './population-actions';
 
@@ -30,4 +32,6 @@ PopulationContainer.propTypes = {
 
 PopulationContainer.defaultProps = { query: {} };
 
-export default connect(mapStateToProps, actions)(PopulationContainer);
+export default connect(mapStateToProps, actions)(
+  withTranslations(PopulationContainer)
+);
