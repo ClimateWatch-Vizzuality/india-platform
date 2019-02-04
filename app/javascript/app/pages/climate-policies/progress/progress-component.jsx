@@ -17,9 +17,7 @@ const renderProgress = indicator => {
       return <ChartProgress chartType="bar" indicator={indicator} />;
     }
     case 'stacked_bar_chart': {
-      return (
-        <ChartProgress chartType="stacked_bar_chart" indicator={indicator} />
-      );
+      return <ChartProgress chartType="stacked_bar" indicator={indicator} />;
     }
     default:
       return null;

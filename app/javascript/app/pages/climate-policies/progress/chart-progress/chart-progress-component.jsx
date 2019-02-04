@@ -4,9 +4,14 @@ import { format } from 'd3-format';
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
-import { Chart } from 'cw-components';
 
 import { formatDate } from 'utils';
+import {
+  getThemeConfig,
+  getTooltipConfig,
+  getYColumnValue
+} from 'utils/graphs';
+import Chart from 'components/chart';
 import InfoButton from 'components/info-button';
 
 import styles from '../progress-styles';
@@ -51,13 +56,13 @@ const getStackedBarChartData = indicator => {
     .map(axisX => ({
       x: axisX,
       ...dataGroupedByAxisX[axisX].reduce(
-        (acc, d) => ({ ...acc, [d.category]: d.value }),
+        (acc, d) => ({ ...acc, [getYColumnValue(d.category)]: d.value }),
         {}
       )
     }));
   const yColumns = categories.map(c => ({
     label: c,
-    value: c,
+    value: getYColumnValue(c),
     stackId: 'stack'
   }));
 
@@ -66,12 +71,10 @@ const getStackedBarChartData = indicator => {
     domain: { x: [ 'auto', 'auto' ], y: [ 0, 'auto' ] },
     config: {
       axes: getAxes('Year', 'Value'),
-      tooltip: {
-        y: { label: 'People', format: value => `${format(',.4s')(`${value}`)}` }
-      },
       animation: false,
       columns: { x: [ { label: 'year', value: 'x' } ], y: yColumns },
-      theme: getTheme('#FC7E4B')
+      theme: getThemeConfig(yColumns),
+      tooltip: getTooltipConfig(yColumns)
     }
   };
 };
