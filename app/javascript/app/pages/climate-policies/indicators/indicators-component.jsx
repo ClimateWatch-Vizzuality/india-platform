@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 import ClimatePolicyProvider from 'providers/climate-policy-provider';
 import InfoButton from 'components/info-button';
 import { Accordion } from 'cw-components';
@@ -11,7 +12,7 @@ import styles from './indicators-styles';
 
 const columnNames = {
   attainment_date: 'Date of attainment:',
-  value: 'Indicator value:',
+  target_text: 'Target:',
   responsible_authority: 'Responsible authority:',
   tracking_frequency: 'Tracking frequency:',
   tracking_notes: 'Notes on tracking methods:',
@@ -38,7 +39,7 @@ const columnValueDefaultRenderer = value => <ReactMarkdown source={value} />;
 
 const renderColumnValue = (indicator, column) => {
   const value = indicator[column];
-  if (!value) return null;
+  if (isEmpty(value)) return 'n/a';
   const renderer = columnValueRenderers[column];
   if (renderer) return renderer(value);
   return columnValueDefaultRenderer(value);

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { formatDate } from 'utils';
 import InfoButton from 'components/info-button';
 
-import styles from '../progress-styles';
+import styles from './text-progress-styles';
 
 const normalizeValue = value =>
   Number.isNaN(Number(value)) ? value : Number(value).toString();

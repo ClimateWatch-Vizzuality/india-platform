@@ -39,20 +39,6 @@
   opacity: 0.4;
 }
 
-.textProgress {
-  @include columns((4, 4, 4));
-}
-
-.chartProgress {
-  @include columns((6, 6));
-}
-
-.chartContainer {
-  @include columns();
-
-  margin-top: 48px;
-}
-
 .cell {
   padding: 20px;
   color: $downriver;

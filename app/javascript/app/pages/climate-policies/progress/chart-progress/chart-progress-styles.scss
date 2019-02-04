@@ -1,0 +1,11 @@
+@import '../progress-styles.scss';
+
+.chartProgress {
+  @include columns((6, 6));
+}
+
+.chartContainer {
+  @include columns();
+
+  margin-top: 48px;
+}
