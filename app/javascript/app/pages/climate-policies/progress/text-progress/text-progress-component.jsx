@@ -6,6 +6,12 @@ import InfoButton from 'components/info-button';
 
 import styles from '../progress-styles';
 
+const normalizeValue = value =>
+  Number.isNaN(Number(value)) ? value : Number(value).toString();
+
+const showCategoryWithValue = progress =>
+  [ progress.axis_x, normalizeValue(progress.value) ].filter(x => x).join(': ');
+
 const TextProgress = ({ indicator }) => (
   <div className={styles.textProgress}>
     <div className={styles.indicatorTitle}>
@@ -14,7 +20,7 @@ const TextProgress = ({ indicator }) => (
     <ul>
       {indicator.progress_records.map(progress => (
         <li key={progress.axis_x}>
-          {[ progress.axis_x, progress.value ].filter(x => x).join(': ')}
+          {showCategoryWithValue(progress)}
           {indicator.unit && ` ${indicator.unit}`}
         </li>
       ))}
