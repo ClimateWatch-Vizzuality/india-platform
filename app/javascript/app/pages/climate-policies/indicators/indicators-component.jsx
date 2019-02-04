@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import DateTime from 'luxon/src/datetime';
 import ClimatePolicyProvider from 'providers/climate-policy-provider';
 import InfoButton from 'components/info-button';
 import { Accordion } from 'cw-components';
+import { formatDate } from 'utils';
 
 import styles from './indicators-styles';
 
@@ -43,8 +43,6 @@ const renderColumnValue = (indicator, column) => {
   if (renderer) return renderer(value);
   return columnValueDefaultRenderer(value);
 };
-
-const formatDate = date => DateTime.fromISO(date).toFormat('dd/M/yyyy');
 
 const renderInfoIcon = () => <InfoButton dark slugs="" />;
 

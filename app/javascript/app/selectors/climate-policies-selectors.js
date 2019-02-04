@@ -58,6 +58,16 @@ export const getMilestones = createSelector(
   }
 );
 
+export const getIndicatorsProgress = createSelector(
+  [ getClimatePolicyDetails ],
+  policyDetails => {
+    if (!policyDetails) return null;
+
+    return policyDetails &&
+      policyDetails.indicators.filter(i => !!i.progress_display);
+  }
+);
+
 export const getPoliciesListBySector = createSelector(
   // export const policiesListBySector = createSelector(
   getClimatePoliciesList,
@@ -98,5 +108,6 @@ export const climatePolicies = createStructuredSelector({
   policyDetails: getClimatePolicyDetails,
   instruments: getInstruments,
   milestones: getMilestones,
-  indicators: getIndicators
+  indicators: getIndicators,
+  indicatorsProgress: getIndicatorsProgress
 });

@@ -18,7 +18,7 @@ class ImportClimatePolicies
             :target_text, :target_numeric, :target_year, :progress_display, :sources
           ],
           progress: [
-            :indicator_code, :axis_x, :category, :value, :target
+            :indicator_code, :axis_x, :category, :value
           ],
           milestones: [
             :policy_code, :name, :responsible_authority, :date, :status, :source
