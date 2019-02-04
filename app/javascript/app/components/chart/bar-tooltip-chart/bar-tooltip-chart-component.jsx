@@ -49,7 +49,9 @@ class BarTooltipChart extends PureComponent {
           <span>
             {content.label}
           </span>
-          {`${yUnit} ${this.getTotal()}`}
+          <span>
+            {`${yUnit} ${this.getTotal()}`}
+          </span>
         </div>
         {
           payload && payload.length > 0 && sortBy(payload, 'value').map(
