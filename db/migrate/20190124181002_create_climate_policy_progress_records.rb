@@ -8,7 +8,7 @@ class CreateClimatePolicyProgressRecords < ActiveRecord::Migration[5.2]
                    }
       t.string :axis_x
       t.string :category
-      t.string :value, null: false
+      t.float :value, null: false
       t.string :target
 
       t.timestamps

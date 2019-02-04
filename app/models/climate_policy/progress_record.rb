@@ -6,7 +6,7 @@
 #  axis_x       :string
 #  category     :string
 #  target       :string
-#  value        :string           not null
+#  value        :float            not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  indicator_id :bigint(8)

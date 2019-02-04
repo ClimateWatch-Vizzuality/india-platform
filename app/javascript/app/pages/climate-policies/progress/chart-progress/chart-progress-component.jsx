@@ -12,13 +12,14 @@ import {
   getYColumnValue
 } from 'utils/graphs';
 import Chart from 'components/chart';
+import BarTooltipChart from 'components/chart/bar-tooltip-chart';
 import InfoButton from 'components/info-button';
 
 import styles from '../progress-styles';
 
-const getAxes = (xName, yName) => ({
-  xBottom: { name: xName, unit: '', format: 'string' },
-  yLeft: { name: yName, unit: '', format: 'number' }
+const getAxes = indicator => ({
+  xBottom: { name: 'AxisX', unit: '', format: 'string' },
+  yLeft: { name: 'Value', unit: indicator.unit, format: 'number' }
 });
 
 const getTheme = color => ({ y: { stroke: color, fill: color } });
@@ -33,7 +34,7 @@ const getBarChartData = indicator => {
     data,
     domain: { x: [ 'auto', 'auto' ], y: [ 0, 'auto' ] },
     config: {
-      axes: getAxes('Year', 'Value'),
+      axes: getAxes(indicator),
       tooltip: {
         y: { label: 'People', format: value => `${format(',.4s')(`${value}`)}` }
       },
@@ -70,7 +71,7 @@ const getStackedBarChartData = indicator => {
     data,
     domain: { x: [ 'auto', 'auto' ], y: [ 0, 'auto' ] },
     config: {
-      axes: getAxes('Year', 'Value'),
+      axes: getAxes(indicator),
       animation: false,
       columns: { x: [ { label: 'year', value: 'x' } ], y: yColumns },
       theme: getThemeConfig(yColumns),
@@ -116,9 +117,9 @@ const ChartProgress = ({ chartType, indicator }) => {
                 data={chartData.data}
                 loading={false}
                 domain={chartData.domain}
-                margin={{ bottom: 10 }}
                 height={300}
-                barSize={30}
+                barSize={50}
+                customTooltip={<BarTooltipChart />}
               />
             )
         }

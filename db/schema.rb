@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_105956) do
     t.bigint "indicator_id"
     t.string "axis_x"
     t.string "category"
-    t.string "value", null: false
+    t.float "value", null: false
     t.string "target"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
