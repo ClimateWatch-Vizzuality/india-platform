@@ -3,11 +3,12 @@ import { createSelector } from 'reselect';
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
+import { format } from 'd3-format';
 
 import {
   getThemeConfig,
-  getTooltipConfig,
-  getYColumnValue
+  getYColumnValue,
+  getTooltipConfig
 } from 'utils/graphs';
 
 const getAllCategories = indicator =>
@@ -53,12 +54,28 @@ export const getChartData = indicator =>
     }));
     const dataSelected = selectedCategories.map(categoryToLegendObject);
     const dataOptions = categories.map(categoryToLegendObject);
+    const tooltipCustomValueFormat = y => {
+      const axis_x = get(y, 'payload.x');
+      const { value, dataKey } = y;
+
+      const record = indicator.progress_records.find(
+        d => d.axis_x === axis_x && getYColumnValue(d.category) === dataKey
+      );
+      const target = record && record.target;
+      const valueFormatted = format(',')(value);
+
+      if (!target) return valueFormatted;
+
+      // return `${valueFormatted} / ${target}`;
+      return `${valueFormatted} (target: ${target})`;
+    };
 
     return {
       data,
       dataOptions,
       dataSelected,
       domain: { x: [ 'auto', 'auto' ], y: [ 0, 'auto' ] },
+      tooltipCustomValueFormat,
       config: {
         axes: getAxes(indicator),
         animation: false,

@@ -27,7 +27,12 @@ class ChartProgress extends PureComponent {
 
     if (!indicator) return null;
 
-    const tooltip = <BarTooltipChart showEmptyValues={false} />;
+    const tooltip = (
+      <BarTooltipChart
+        showEmptyValues={false}
+        getCustomValueFormat={chartData.tooltipCustomValueFormat}
+      />
+    );
 
     return (
       <React.Fragment>

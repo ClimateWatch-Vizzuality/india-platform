@@ -30,8 +30,15 @@ class BarTooltipChart extends PureComponent {
   };
 
   renderValue = y => {
-    if (y.payload && y.payload[y.dataKey] !== undefined) {
-      return format(',')(y.payload[y.dataKey]);
+    const { getCustomValueFormat } = this.props;
+    const value = y.payload && y.payload[y.dataKey];
+
+    if (value !== undefined) {
+      if (getCustomValueFormat) {
+        return getCustomValueFormat(y);
+      }
+
+      return format(',')(value);
     }
     return 'n/a';
   };
@@ -101,13 +108,15 @@ class BarTooltipChart extends PureComponent {
 BarTooltipChart.propTypes = {
   content: PropTypes.object,
   config: PropTypes.object,
-  showEmptyValues: PropTypes.bool
+  showEmptyValues: PropTypes.bool,
+  getCustomValueFormat: PropTypes.func
 };
 
 BarTooltipChart.defaultProps = {
   content: {},
   config: {},
-  showEmptyValues: true
+  showEmptyValues: true,
+  getCustomValueFormat: null
 };
 
 export default BarTooltipChart;
