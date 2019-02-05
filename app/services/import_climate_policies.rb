@@ -177,7 +177,7 @@ class ImportClimatePolicies
       responsible_authority: row[:responsible_authority],
       tracking_frequency: row[:tracking_frequency],
       tracking_notes: row[:tracking_notes],
-      target_text: row[:target_text],
+      target_text: parse_target(row[:target_text]),
       target_numeric: row[:target_numeric]&.delete('%,', ',')&.to_f,
       target_year: row[:target_year],
       progress_display: row[:progress_display],
