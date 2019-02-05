@@ -54,7 +54,8 @@ export const routes = {
     link: '/climate-policies',
     path: '/climate-policies/:policy?/:section?',
     component: 'layouts/sections/sections',
-    sections: ClimatePolicyDetail
+    sections: ClimatePolicyDetail,
+    fromPath: pathSegment => decodeURIComponent(pathSegment)
   },
   [NOT_FOUND]: {
     path: '/404',

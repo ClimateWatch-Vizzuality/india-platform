@@ -8,9 +8,9 @@ import Chart from 'components/chart';
 import BarTooltipChart from 'components/chart/bar-tooltip-chart';
 import InfoButton from 'components/info-button';
 
-import styles from './chart-progress-styles';
+import styles from './chart-display-styles';
 
-class ChartProgress extends PureComponent {
+class ChartDisplay extends PureComponent {
   handleLegendChange = selected => {
     const { onFilterChange, indicator } = this.props;
 
@@ -72,12 +72,12 @@ class ChartProgress extends PureComponent {
   }
 }
 
-ChartProgress.propTypes = {
+ChartDisplay.propTypes = {
   chartData: PropTypes.object,
   indicator: PropTypes.object.isRequired,
   onFilterChange: PropTypes.func.isRequired
 };
 
-ChartProgress.defaultProps = { chartData: null };
+ChartDisplay.defaultProps = { chartData: null };
 
-export default ChartProgress;
+export default ChartDisplay;

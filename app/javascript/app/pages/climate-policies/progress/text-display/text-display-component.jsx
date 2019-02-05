@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { formatDate } from 'utils';
 import InfoButton from 'components/info-button';
 
-import styles from './text-progress-styles';
+import styles from './text-display-styles';
 
 const normalizeValue = value =>
   Number.isNaN(Number(value)) ? value : Number(value).toString();
@@ -12,7 +12,7 @@ const normalizeValue = value =>
 const showCategoryWithValue = progress =>
   [ progress.axis_x, normalizeValue(progress.value) ].filter(x => x).join(': ');
 
-const TextProgress = ({ indicator }) => (
+const TextDisplay = ({ indicator }) => (
   <div className={styles.textProgress}>
     <div className={styles.indicatorTitle}>
       {indicator.title}
@@ -34,6 +34,6 @@ const TextProgress = ({ indicator }) => (
   </div>
 );
 
-TextProgress.propTypes = { indicator: PropTypes.object.isRequired };
+TextDisplay.propTypes = { indicator: PropTypes.object.isRequired };
 
-export default TextProgress;
+export default TextDisplay;

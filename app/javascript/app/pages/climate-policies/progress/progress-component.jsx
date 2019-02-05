@@ -2,26 +2,25 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import ClimatePolicyProvider from 'providers/climate-policy-provider';
-import TextProgress from './text-progress';
-import ChartProgress from './chart-progress';
+import ChartDisplay from './chart-display';
+import ProgressBarDisplay from './progress-bar-display';
+import TextDisplay from './text-display';
+
 import styles from './progress-styles';
 
 const renderProgress = indicator => {
   if (!indicator) return null;
 
-  switch (indicator.progress_display) {
-    case 'text': {
-      return <TextProgress indicator={indicator} />;
-    }
-    case 'bar_chart': {
-      return <ChartProgress chartType="bar" indicator={indicator} />;
-    }
-    case 'stacked_bar_chart': {
-      return <ChartProgress chartType="stacked_bar" indicator={indicator} />;
-    }
-    default:
-      return null;
-  }
+  const ProgressDisplay = ({
+    text: TextDisplay,
+    bar_chart: ChartDisplay,
+    stacked_bar_chart: ChartDisplay,
+    progress_bar: ProgressBarDisplay
+  })[indicator.progress_display];
+
+  if (!ProgressDisplay) return null;
+
+  return <ProgressDisplay indicator={indicator} />;
 };
 
 class Progress extends PureComponent {

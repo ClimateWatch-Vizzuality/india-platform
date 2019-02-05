@@ -16,6 +16,7 @@ class Nav extends PureComponent {
     };
 
     const { routes, theme } = this.props;
+
     return (
       <nav className={theme.nav}>
         {routes.map(route => (

@@ -35,7 +35,8 @@ module ClimatePolicy
     enum progress_display: {
       text: 'text',
       bar_chart: 'bar_chart',
-      stacked_bar_chart: 'stacked_bar_chart'
+      stacked_bar_chart: 'stacked_bar_chart',
+      progress_bar: 'progress_bar'
     }
 
     belongs_to :policy

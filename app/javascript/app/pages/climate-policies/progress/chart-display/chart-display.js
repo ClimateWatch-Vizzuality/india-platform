@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getPolicyCode } from 'selectors/climate-policies-selectors';
-import * as actions from './chart-progress-actions';
-import Component from './chart-progress-component';
-import { getQuery, getChartData } from './chart-progress-selectors';
+import * as actions from './chart-display-actions';
+import Component from './chart-display-component';
+import { getQuery, getChartData } from './chart-display-selectors';
 
-class ChartProgressContainer extends PureComponent {
+class ChartDisplayContainer extends PureComponent {
   onFilterChange = filter => {
     const { updateFiltersSelected, query, policyCode } = this.props;
     updateFiltersSelected({
@@ -22,13 +22,13 @@ class ChartProgressContainer extends PureComponent {
   }
 }
 
-ChartProgressContainer.propTypes = {
+ChartDisplayContainer.propTypes = {
   updateFiltersSelected: PropTypes.func.isRequired,
   policyCode: PropTypes.string.isRequired,
   query: PropTypes.object
 };
 
-ChartProgressContainer.defaultProps = { query: {} };
+ChartDisplayContainer.defaultProps = { query: {} };
 
 const mapStateToProps = (state, { indicator }) => ({
   query: getQuery(state),
@@ -36,4 +36,4 @@ const mapStateToProps = (state, { indicator }) => ({
   chartData: getChartData(indicator)(state)
 });
 
-export default connect(mapStateToProps, actions)(ChartProgressContainer);
+export default connect(mapStateToProps, actions)(ChartDisplayContainer);
