@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import isNumber from 'lodash/isNumber';
+import isNil from 'lodash/isNil';
 import styles from './bar-tooltip-chart-styles';
 
 class BarTooltipChart extends PureComponent {
@@ -36,7 +37,7 @@ class BarTooltipChart extends PureComponent {
   };
 
   render() {
-    const { config, content } = this.props;
+    const { config, content, showEmptyValues } = this.props;
     const yUnit = config &&
       config.axes &&
       config.axes.yLeft &&
@@ -59,7 +60,9 @@ class BarTooltipChart extends PureComponent {
                 y.payload &&
                   y.dataKey !== 'total' &&
                   config.tooltip[y.dataKey] &&
-                  config.tooltip[y.dataKey].label
+                  config.tooltip[y.dataKey].label &&
+                  (showEmptyValues ||
+                    !showEmptyValues && !isNil(y.payload[y.dataKey]))
                   ? (
                     <div key={`${y.dataKey}`} className={styles.tooltipHeader}>
                       {
@@ -96,10 +99,15 @@ class BarTooltipChart extends PureComponent {
 }
 
 BarTooltipChart.propTypes = {
-  content: Proptypes.object,
-  config: Proptypes.object
+  content: PropTypes.object,
+  config: PropTypes.object,
+  showEmptyValues: PropTypes.bool
 };
 
-BarTooltipChart.defaultProps = { content: {}, config: {} };
+BarTooltipChart.defaultProps = {
+  content: {},
+  config: {},
+  showEmptyValues: true
+};
 
 export default BarTooltipChart;

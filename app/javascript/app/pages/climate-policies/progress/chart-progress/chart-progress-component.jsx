@@ -23,11 +23,11 @@ class ChartProgress extends PureComponent {
   };
 
   render() {
-    const { chartType, chartData, indicator } = this.props;
+    const { chartData, indicator } = this.props;
 
     if (!indicator) return null;
 
-    const tooltip = chartType === 'stacked_bar' ? <BarTooltipChart /> : null;
+    const tooltip = <BarTooltipChart showEmptyValues={false} />;
 
     return (
       <React.Fragment>
@@ -70,7 +70,6 @@ class ChartProgress extends PureComponent {
 ChartProgress.propTypes = {
   chartData: PropTypes.object,
   indicator: PropTypes.object.isRequired,
-  chartType: PropTypes.string.isRequired,
   onFilterChange: PropTypes.func.isRequired
 };
 

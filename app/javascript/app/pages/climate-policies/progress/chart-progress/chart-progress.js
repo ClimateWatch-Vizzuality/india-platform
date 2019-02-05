@@ -30,10 +30,10 @@ ChartProgressContainer.propTypes = {
 
 ChartProgressContainer.defaultProps = { query: {} };
 
-const mapStateToProps = (state, { chartType, indicator }) => ({
+const mapStateToProps = (state, { indicator }) => ({
   query: getQuery(state),
   policyCode: getPolicyCode(state),
-  chartData: getChartData(chartType, indicator)(state)
+  chartData: getChartData(indicator)(state)
 });
 
 export default connect(mapStateToProps, actions)(ChartProgressContainer);

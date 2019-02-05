@@ -213,8 +213,8 @@ class ImportClimatePolicies
       indicator: find_indicator!(row[:indicator_code]),
       axis_x: row[:axis_x],
       category: row[:category],
-      value: row[:value],
-      target: row[:target]
+      value: row[:value]&.delete('%,', ',')&.to_f,
+      target: parse_target(row[:target])
     }
   end
 
@@ -262,6 +262,11 @@ class ImportClimatePolicies
                         '%y-%b', '%Y-%b', '%y-%B', '%Y-%B']
 
     expected_formats.map { |format| parse_date(date, format) }.compact.first || date
+  end
+
+  def parse_target(target)
+    ignore = 'no specific target'
+    target&.remove(ignore)
   end
 
   def parse_date(date, format)
