@@ -2,6 +2,7 @@ import { createStructuredSelector, createSelector } from 'reselect';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import isEmpty from 'lodash/isEmpty';
+import uniq from 'lodash/uniq';
 import { upperCaseLabels } from 'utils/utils';
 import {
   getQuery,
@@ -256,6 +257,29 @@ const getPopStateBarChartData = createSelector(
   }
 );
 
+const getSelectedIndicatorValues = createSelector(
+  [ getSelectedIndicatorCodes, getIndicators ],
+  (indicatorCodes, indicators) => {
+    if (!indicators || !indicators.values || !indicatorCodes) return [];
+    return indicators.values.filter(
+      v => indicatorCodes.includes(v.indicator_code)
+    );
+  }
+);
+
+const getSources = createSelector(
+  [ getSelectedIndicatorValues ],
+  iValues => uniq(iValues.map(i => i.source))
+);
+
+const getDownloadURI = createSelector(
+  [ getSources, getSelectedIndicatorCodes ],
+  (sources, indicatorCodes) =>
+    `socioeconomic/indicators.zip?code=${indicatorCodes.join(
+      ','
+    )}&source=${sources.join(',')}`
+);
+
 export const getPopulation = createStructuredSelector({
   chartData: getBarChartData,
   query: getQuery,
@@ -264,5 +288,7 @@ export const getPopulation = createStructuredSelector({
   popStatesOptions: getStateIndicatorsForPopulationOptions,
   selectedOptions: getSelectedOptions,
   selectedSource: getSourceIndicatorCode,
+  sources: getSources,
+  downloadURI: getDownloadURI,
   loading: getLoading
 });

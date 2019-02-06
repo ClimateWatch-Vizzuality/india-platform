@@ -24,6 +24,8 @@ class Population extends PureComponent {
       selectedOptions,
       selectedSource,
       loading,
+      sources,
+      downloadURI,
       t
     } = this.props;
 
@@ -65,8 +67,8 @@ class Population extends PureComponent {
               </div>
               <InfoDownloadToolbox
                 className={{ buttonWrapper: styles.buttonWrapper }}
-                slugs=""
-                downloadUri=""
+                slugs={sources}
+                downloadUri={downloadURI}
               />
             </div>
             {
@@ -107,8 +109,8 @@ class Population extends PureComponent {
               </div>
               <InfoDownloadToolbox
                 className={{ buttonWrapper: styles.buttonWrapper }}
-                slugs=""
-                downloadUri=""
+                slugs={sources}
+                downloadUri={downloadURI}
               />
             </div>
             {
@@ -149,6 +151,8 @@ Population.propTypes = {
   selectedOptions: PropTypes.object.isRequired,
   selectedSource: PropTypes.string.isRequired,
   loading: PropTypes.bool,
+  sources: PropTypes.array.isRequired,
+  downloadURI: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired
 };
 
