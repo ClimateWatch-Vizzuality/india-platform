@@ -56,7 +56,7 @@ class ClimateFinance extends PureComponent {
           <InfoDownloadToolbox
             className={{ buttonWrapper: styles.buttonWrapper }}
             slugs=""
-            downloadUri=""
+            downloadUri="climate_finance.zip"
           />
         </div>
         {

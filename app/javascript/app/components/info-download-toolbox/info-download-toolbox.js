@@ -4,4 +4,6 @@ import {
 } from 'components/modal-metadata/modal-metadata-actions';
 import Component from './info-download-toolbox-component';
 
-export default connect(null, { setModalMetadata })(Component);
+const actions = { setModalMetadata };
+
+export default connect(null, actions)(Component);

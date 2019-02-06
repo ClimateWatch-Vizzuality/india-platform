@@ -27,7 +27,7 @@ class InfoDownloadToolbox extends PureComponent {
     const { downloadUri } = this.props;
     if (downloadUri) {
       handleAnalytics('Data Download', 'Download', downloadUri);
-      window.open(`${API_URL}/${downloadUri}.csv`, '_blank');
+      window.open(`${API_URL}/${downloadUri}`, '_blank');
     }
   };
 
@@ -38,16 +38,24 @@ class InfoDownloadToolbox extends PureComponent {
     if (isPDF) {
       window.open(option.url, '_blank');
     } else {
-      window.open(`${API_URL}/${option.url}.${option.value}`, '_blank');
+      const url = `${API_URL}/${option.url}`;
+      window.open(url, '_blank');
     }
   };
 
   handleInfoClick = () => {
     const { slugs, setModalMetadata } = this.props;
-    if (slugs) {
-      handleAnalytics('Info Window', 'Open', slugs);
-      setModalMetadata({ slugs, open: true });
-    }
+
+    if (!slugs) return;
+
+    const slugString = Array.isArray(slugs) ? slugs.join(',') : slugs;
+
+    handleAnalytics('Info Window', 'Open', slugString);
+    setModalMetadata({
+      slugs,
+      open: true
+      /* customTitle: t('common.metadata.modal-default-title') */
+    });
   };
 
   render() {

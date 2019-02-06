@@ -9,7 +9,14 @@ module Api
             render json: finances,
                    each_serializer: Api::V1::ClimateFinanceSerializer
           end
-          format.csv { render csv: finances }
+          format.zip do
+            data_sources = DataSource.where(short_title: finances.map(&:source))
+
+            render zip: {
+              'climate_finances.csv' => finances.to_csv,
+              'sources.csv' => data_sources.to_csv
+            }
+          end
         end
       end
     end
