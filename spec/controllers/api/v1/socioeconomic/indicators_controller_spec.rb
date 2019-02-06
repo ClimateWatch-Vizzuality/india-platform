@@ -48,11 +48,9 @@ describe Api::V1::Socioeconomic::IndicatorsController, type: :controller do
         expect(response).to be_successful
       end
 
-      it 'responds to csv' do
-        get :index, format: :csv
-        expect(response.content_type).to eq('text/csv')
-        expect(response.headers['Content-Disposition']).
-          to eq('attachment; filename=indicators.csv')
+      it 'responds to zip' do
+        get :index, format: :zip
+        expect(response.content_type).to eq('application/zip')
       end
 
       it 'lists all indicators and values' do

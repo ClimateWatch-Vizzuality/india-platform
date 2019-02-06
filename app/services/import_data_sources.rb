@@ -1,7 +1,7 @@
 class ImportDataSources
   include ClimateWatchEngine::CSVImporter
 
-  headers :short_title, :title, :source_organization, :learn_more_link, :citation
+  headers :short_title, :title, :source_organization, :learn_more_link, :citation, :notes
 
   DATA_FILEPATH = "#{CW_FILES_PREFIX}metadata/data_sources.csv".freeze
 
@@ -36,7 +36,8 @@ class ImportDataSources
       title: row[:title],
       source_organization: row[:source_organization],
       learn_more_link: row[:learn_more_link],
-      citation: row[:citation]
+      citation: row[:citation],
+      notes: row[:notes]
     }
   end
 

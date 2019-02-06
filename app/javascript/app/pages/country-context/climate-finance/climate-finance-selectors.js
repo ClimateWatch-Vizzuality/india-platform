@@ -134,10 +134,17 @@ const getBarChartData = createSelector(
   }
 );
 
+const getSources = createSelector(getFunds, funds => {
+  if (!funds || isEmpty(funds)) return null;
+
+  return uniq(funds.map(f => f.source));
+});
+
 export const getClimateFinance = createStructuredSelector({
   chartData: getBarChartData,
   query: getQuery,
   fundOptions: getFundOptions,
   selectedFund: getSelectedOption,
+  sources: getSources,
   loading: getLoading
 });

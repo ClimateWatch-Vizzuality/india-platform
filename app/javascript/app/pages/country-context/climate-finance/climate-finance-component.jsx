@@ -32,7 +32,14 @@ class ClimateFinance extends PureComponent {
   };
 
   render() {
-    const { fundOptions, selectedFund, chartData, loading, t } = this.props;
+    const {
+      fundOptions,
+      selectedFund,
+      chartData,
+      sources,
+      loading,
+      t
+    } = this.props;
 
     return (
       <div className={styles.climateFinance}>
@@ -55,7 +62,7 @@ class ClimateFinance extends PureComponent {
           </div>
           <InfoDownloadToolbox
             className={{ buttonWrapper: styles.buttonWrapper }}
-            slugs=""
+            slugs={sources}
             downloadUri="climate_finance.zip"
           />
         </div>
@@ -95,11 +102,13 @@ ClimateFinance.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   chartData: PropTypes.object,
   loading: PropTypes.bool,
+  sources: PropTypes.array,
   t: PropTypes.func.isRequired
 };
 
 ClimateFinance.defaultProps = {
   fundOptions: [],
+  sources: [],
   selectedFund: undefined,
   chartData: undefined,
   loading: false

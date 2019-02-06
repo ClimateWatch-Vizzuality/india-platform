@@ -1,20 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import upperFirst from 'lodash/upperFirst';
+import startCase from 'lodash/startCase';
 import styles from './metadata-text-styles.scss';
 
-const DEFAULT_ORDER = [
-  'short_title',
+const SHOW_KEYS = [
   'title',
   'source_organization',
   'learn_more_link',
-  'summary',
-  'description',
-  'caution',
-  'citation'
+  'citation',
+  'notes'
 ];
-const DEFAULT_SHOW_EXCEPT = [ 'short_title' ];
 const URLS = [ 'learn_more_link' ];
 
 const renderMetadataValue = (key, data, emptyText) => {
@@ -40,7 +36,7 @@ const renderMetadataValue = (key, data, emptyText) => {
 const MetadataProp = ({ id, title, data, emptyText }) => (
   <p className={styles.text}>
     <span className={styles.textHighlight}>
-      {upperFirst(title)}:
+      {startCase(title)}:
     </span>
     {' '}
     {renderMetadataValue(id, data, emptyText)}
@@ -56,21 +52,21 @@ MetadataProp.defaultProps = { data: null };
 
 class MetadataText extends PureComponent {
   renderMetadataProps() {
-    const { data, showExcept, t } = this.props;
+    const { data } = this.props;
 
     if (!data) return null;
 
     return Object
       .keys(data)
-      .sort(a => DEFAULT_ORDER.indexOf(a))
-      .filter(key => !showExcept.includes(key))
+      .sort(a => SHOW_KEYS.indexOf(a))
+      .filter(key => SHOW_KEYS.includes(key))
       .map(key => (
         <MetadataProp
           key={key}
           id={key}
-          title={t(`common.metadata.${key}`, { default: key })}
+          title={startCase(key)}
           data={data[key]}
-          emptyText={t('common.metadata.not-specified')}
+          emptyText="Not specified"
         />
       ));
   }
@@ -90,16 +86,10 @@ class MetadataText extends PureComponent {
 }
 
 MetadataText.propTypes = {
-  t: PropTypes.func.isRequired,
   data: PropTypes.object,
-  showExcept: PropTypes.array,
   className: PropTypes.string
 };
 
-MetadataText.defaultProps = {
-  data: {},
-  className: null,
-  showExcept: DEFAULT_SHOW_EXCEPT
-};
+MetadataText.defaultProps = { data: {}, className: null };
 
 export default MetadataText;

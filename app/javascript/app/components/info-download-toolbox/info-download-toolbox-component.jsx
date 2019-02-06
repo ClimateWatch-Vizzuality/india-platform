@@ -51,11 +51,7 @@ class InfoDownloadToolbox extends PureComponent {
     const slugString = Array.isArray(slugs) ? slugs.join(',') : slugs;
 
     handleAnalytics('Info Window', 'Open', slugString);
-    setModalMetadata({
-      slugs,
-      open: true
-      /* customTitle: t('common.metadata.modal-default-title') */
-    });
+    setModalMetadata({ slugs, open: true, customTitle: 'Sources' });
   };
 
   render() {

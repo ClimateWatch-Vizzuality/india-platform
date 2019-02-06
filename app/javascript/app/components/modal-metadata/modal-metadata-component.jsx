@@ -39,6 +39,7 @@ class ModalMetadata extends PureComponent {
   render() {
     const { selectedIndex } = this.state;
     const { isOpen, title, tabTitles } = this.props;
+
     return (
       <Modal
         onRequestClose={this.handleOnRequestClose}

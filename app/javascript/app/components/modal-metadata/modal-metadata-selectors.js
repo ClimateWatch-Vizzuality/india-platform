@@ -10,13 +10,10 @@ export const getModalData = createSelector([ getData, getActive ], (
   active
 ) =>
   {
-    if (isEmpty(data) || !active) return null;
-    if (active.every(d => data[d])) {
-      return active.length > 1
-        ? active.map(source => data[source])
-        : [ data[active] ];
-    }
-    return null;
+    if (isEmpty(data) || !active || !active.length) return null;
+    return active
+      .map(s => data[s])
+      .filter(a => a);
   });
 
 export const getModalTitle = createSelector([ getTitle, getModalData ], (
