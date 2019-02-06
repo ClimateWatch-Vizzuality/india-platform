@@ -1,5 +1,5 @@
-policy_code,type,name,attainment_date,unit,responsible_authority,tracking_frequency,tracking_notes,status,sources
-ECBC,Finance,"UNDP-GEF-BEE programme ,GEF provides funding for various activities to promote ECBC implementation",Apr-17,5.2 million (USD),UNDP-GEF,Annually,"Annual Project Review/Project Implementation Reports (APR/PIR): These key reports are prepared
+policy_code,code,type,name,attainment_date,unit,responsible_authority,tracking_frequency,tracking_notes,target_text,target_numeric,target_year,progress_display,status,sources
+ECBC,ind_1,Finance,"UNDP-GEF-BEE programme ,GEF provides funding for various activities to promote ECBC implementation",Apr-17,5.2 million (USD),UNDP-GEF,Annually,"Annual Project Review/Project Implementation Reports (APR/PIR): These key reports are prepared
 to monitor progress made since project start and in particular for the previous reporting period (30 June to
-1 July). The APR/PIR combines both UNDP and GEF reporting requirements.",5.01million USD disbursed by GEF,UNDP-EECB
-ECBC,Others,Issue of CPWD guidelines for sustainable habitat,Mar-14,Guildelines,CPWD,-,-,Issued,CPWD-GSH
+1 July). The APR/PIR combines both UNDP and GEF reporting requirements.",Target 1,1,2015,text,5.01million USD disbursed by GEF,UNDP-EECB
+ECBC,ind_2,Others,Issue of CPWD guidelines for sustainable habitat,Mar-14,Guildelines,CPWD,-,-,Target 2,1,2020,bar_chart,Issued,CPWD-GSH

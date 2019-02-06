@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import SectionTitle from 'components/section-title';
 import InfoDownloadToolbox from 'components/info-download-toolbox';
 import Chart from 'components/chart';
+import BarTooltipChart from 'components/chart/bar-tooltip-chart';
 import { Multiselect } from 'cw-components';
 import dropdownStyles from 'styles/themes/dropdown';
 import ClimateFinanceProvider from 'providers/climate-finance-provider';
 import castArray from 'lodash/castArray';
 import styles from './climate-finance-styles.scss';
-import BarTooltipChart from './bar-tooltip-chart/bar-tooltip-chart-component';
 
 class ClimateFinance extends PureComponent {
   handleFilterChange = selected => {

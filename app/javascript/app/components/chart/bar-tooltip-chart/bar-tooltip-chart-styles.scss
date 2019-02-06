@@ -3,7 +3,7 @@
 .tooltip {
   background: $white;
   min-width: 180px;
-  max-width: 300px;
+  max-width: 500px;
   padding: 15px;
   box-shadow: 0 5px 15px 0 rgba(17, 55, 80, 0.15);
   border-radius: 4px;
@@ -15,6 +15,12 @@
   align-items: center;
   padding-bottom: 10px;
   font-size: $font-size-s;
+
+  > * {
+    &:not(:first-child) {
+      padding-left: $gutter-padding;
+    }
+  }
 
   &:first-child {
     color: $theme-color;

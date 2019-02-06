@@ -11,7 +11,7 @@ module Api
           policy = ::ClimatePolicy::Policy.
             includes(
               instruments: [:sources],
-              indicators: [:sources],
+              indicators: [:sources, :progress_records],
               milestones: [:source]
             ).
             find_by!(code: params[:code])

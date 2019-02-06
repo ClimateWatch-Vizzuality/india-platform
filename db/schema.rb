@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_105956) do
     t.bigint "policy_id"
     t.string "category"
     t.text "name"
-    t.string "value"
+    t.string "unit"
     t.string "attainment_date"
     t.text "responsible_authority"
     t.string "tracking_frequency"
@@ -57,6 +57,12 @@ ActiveRecord::Schema.define(version: 2019_01_28_105956) do
     t.text "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code"
+    t.string "progress_display"
+    t.float "target_numeric"
+    t.string "target_text"
+    t.string "target_year"
+    t.index ["code"], name: "index_climate_policy_indicators_on_code", unique: true
     t.index ["policy_id"], name: "index_climate_policy_indicators_on_policy_id"
   end
 
@@ -115,6 +121,17 @@ ActiveRecord::Schema.define(version: 2019_01_28_105956) do
     t.string "progress"
     t.boolean "key_policy", default: false, null: false
     t.index ["code"], name: "index_climate_policy_policies_on_code", unique: true
+  end
+
+  create_table "climate_policy_progress_records", force: :cascade do |t|
+    t.bigint "indicator_id"
+    t.string "axis_x"
+    t.string "category"
+    t.float "value", null: false
+    t.string "target"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["indicator_id"], name: "index_climate_policy_progress_records_on_indicator_id"
   end
 
   create_table "climate_policy_sources", force: :cascade do |t|
@@ -277,6 +294,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_105956) do
   add_foreign_key "climate_policy_instruments_sources", "climate_policy_sources", column: "source_id", on_delete: :cascade
   add_foreign_key "climate_policy_milestones", "climate_policy_policies", column: "policy_id", on_delete: :cascade
   add_foreign_key "climate_policy_milestones", "climate_policy_sources", column: "source_id", on_delete: :cascade
+  add_foreign_key "climate_policy_progress_records", "climate_policy_indicators", column: "indicator_id", on_delete: :cascade
   add_foreign_key "datasets", "sections"
   add_foreign_key "historical_emissions_records", "historical_emissions_data_sources", column: "data_source_id", on_delete: :cascade
   add_foreign_key "historical_emissions_records", "historical_emissions_gases", column: "gas_id", on_delete: :cascade

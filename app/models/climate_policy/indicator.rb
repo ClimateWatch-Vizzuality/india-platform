@@ -32,7 +32,17 @@
 
 module ClimatePolicy
   class Indicator < ApplicationRecord
+    enum progress_display: {
+      text: 'text',
+      bar_chart: 'bar_chart',
+      stacked_bar_chart: 'stacked_bar_chart',
+      progress_bar: 'progress_bar'
+    }
+
     belongs_to :policy
     has_and_belongs_to_many :sources
+    has_many :progress_records
+
+    validates :code, uniqueness: true
   end
 end
