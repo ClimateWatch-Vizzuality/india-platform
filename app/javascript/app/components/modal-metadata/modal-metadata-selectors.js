@@ -11,9 +11,16 @@ export const getModalData = createSelector([ getData, getActive ], (
 ) =>
   {
     if (isEmpty(data) || !active || !active.length) return null;
-    return active
-      .map(s => data[s])
-      .filter(a => a);
+    const dataKeys = Object.keys(data);
+    if (isEmpty(dataKeys)) return null;
+    const keys = Object.keys(data[dataKeys[0]]);
+    const metadataEmptyObject = keys.reduce(
+      (acc, k) => ({ ...acc, [k]: null }),
+      {}
+    );
+    return active.map(
+      s => data[s] || { ...metadataEmptyObject, short_title: s }
+    );
   });
 
 export const getModalTitle = createSelector([ getTitle, getModalData ], (
