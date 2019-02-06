@@ -4,6 +4,8 @@ import { ALL_SELECTED, SECTOR_TOTAL } from 'constants/constants';
 
 import { getMetadata } from './historical-emissions-get-selectors';
 
+const DEFAULT_GAS_OPTION = 'All GHG';
+
 const findOption = (
   options,
   value,
@@ -27,7 +29,8 @@ const getFieldOptions = field => createSelector([ getMetadata ], metadata => {
 
   const options = metadata[field].map(o => {
     const option = { label: o.label, value: String(o.value), code: o.code };
-    if (field === 'gas' && o.label === 'All GHG (CO2e)') option.override = true;
+    if (field === 'gas' && o.label === DEFAULT_GAS_OPTION)
+      option.override = true;
     return option;
   });
   return options.filter(o => o);
@@ -44,7 +47,7 @@ const getDefaults = createSelector([ getFilterOptions, getAllSelectedOption ], (
   allSelectedOption
 ) => ({
   sector: allSelectedOption,
-  gas: findOption(options.gas, 'All GHG (CO2e)')
+  gas: findOption(options.gas, DEFAULT_GAS_OPTION)
 }));
 
 // SELECTED

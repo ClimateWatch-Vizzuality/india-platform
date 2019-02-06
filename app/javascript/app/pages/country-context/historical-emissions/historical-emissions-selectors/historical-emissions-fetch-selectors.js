@@ -6,6 +6,8 @@ import { getMetadata } from './historical-emissions-get-selectors';
 
 const { COUNTRY_ISO } = process.env;
 
+const SOURCE = 'NATCOM1, NATCOM2, BUR';
+
 const getParam = (fieldName, data) => {
   if (!data) return {};
   if (!isArray(data) && data.value !== ALL_SELECTED)
@@ -18,12 +20,12 @@ export const getEmissionParams = createSelector(
   [ getSelectedOptions, getMetadata ],
   (options, meta) => {
     if (!options || !meta) return null;
-    const BURSource = meta.dataSource.find(o => o.label === 'BUR');
+    const source = meta.dataSource.find(o => o.label === SOURCE);
 
     const { gas } = options;
     return {
       location: COUNTRY_ISO,
-      source: BURSource.id,
+      source: source.id,
       ...getParam('gas', gas)
     };
   }
