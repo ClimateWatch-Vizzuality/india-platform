@@ -2,16 +2,16 @@ require 'rails_helper'
 
 correct_files = {
   ImportDataSources::DATA_FILEPATH => <<~END_OF_CSV,
-    short title,title,Source Organization,learn_more_link,summary,description,citation
-    STATIDNa,Population,Central Bureau of Statistics,http://link.me,summary,population data 2010-2016,description,citation
-    STATIDNb,Population,Central Bureau of Statistics,http://link.me,summary,population data 2010-2016,description,citation
+    short title,title,Source Organization,learn_more_link,summary,description,citation,notes
+    STATIDNa,Population,Central Bureau of Statistics,http://link.me,summary,population data 2010-2016,description,citation,notes
+    STATIDNb,Population,Central Bureau of Statistics,http://link.me,summary,population data 2010-2016,description,citation,notes
   END_OF_CSV
 }
 missing_headers = correct_files.merge(
   ImportDataSources::DATA_FILEPATH => <<~END_OF_CSV,
-    Source Organization,learn_more_link,summary,description,citation
-    STATIDNa,Population,Central Bureau of Statistics,http://link.me,summary,population data 2010-2016,description,citation
-    STATIDNb,Population,Central Bureau of Statistics,http://link.me,summary,population data 2010-2016,description,citation
+    Source Organization,learn_more_link,summary,description,citation,notes
+    STATIDNa,Population,Central Bureau of Statistics,http://link.me,summary,population data 2010-2016,description,citation,notes
+    STATIDNb,Population,Central Bureau of Statistics,http://link.me,summary,population data 2010-2016,description,citation,notes
   END_OF_CSV
 )
 

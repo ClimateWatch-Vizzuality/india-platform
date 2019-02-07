@@ -35,6 +35,8 @@ class EmissionPathways extends PureComponent {
       config,
       loading,
       error,
+      modalData,
+      downloadURI,
       filtersLoading,
       filtersOptions,
       filtersSelected,
@@ -49,6 +51,7 @@ class EmissionPathways extends PureComponent {
     const filtersDisabled = filtersLoading.indicators ||
       filtersLoading.timeseries ||
       filtersLoading.models;
+
     return (
       <div className={styles.page}>
         <SectionTitle
@@ -128,8 +131,10 @@ class EmissionPathways extends PureComponent {
                 />
                 <InfoDownloadToolbox
                   className={{ buttonWrapper: styles.buttonWrapper }}
-                  slugs=""
-                  downloadUri=""
+                  downloadUri={downloadURI}
+                  downloadTooltipText="Download data from Climate Watch’s Data Explorer"
+                  infoModalData={modalData}
+                  infoModalTitle="Pathways metadata"
                 />
               </div>
             </div>
@@ -154,12 +159,17 @@ class EmissionPathways extends PureComponent {
     );
   }
 }
-
 EmissionPathways.propTypes = {
   data: PropTypes.array,
   config: PropTypes.object,
   loading: PropTypes.bool,
   error: PropTypes.bool,
+  modalData: PropTypes.shape({
+    data: PropTypes.array,
+    title: PropTypes.string,
+    tabTitles: PropTypes.arrayOf(PropTypes.string)
+  }),
+  downloadURI: PropTypes.string.isRequired,
   filtersLoading: PropTypes.object,
   filtersOptions: PropTypes.object,
   filtersSelected: PropTypes.object,
@@ -168,9 +178,9 @@ EmissionPathways.propTypes = {
   handleLegendChange: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired
 };
-
 EmissionPathways.defaultProps = {
   data: undefined,
+  modalData: undefined,
   config: undefined,
   loading: false,
   error: false,
@@ -178,5 +188,4 @@ EmissionPathways.defaultProps = {
   filtersOptions: undefined,
   filtersSelected: undefined
 };
-
 export default EmissionPathways;

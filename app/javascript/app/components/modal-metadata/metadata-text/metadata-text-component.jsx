@@ -1,98 +1,114 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import upperFirst from 'lodash/upperFirst';
-import { isArray } from 'util';
+import startCase from 'lodash/startCase';
+import castArray from 'lodash/castArray';
+import isArray from 'lodash/isArray';
+import flatMap from 'lodash/flatMap';
 import styles from './metadata-text-styles.scss';
 
-const MetadataAllProps = ({ data }) => Object
-  .keys(data)
-  .sort(a => a === 'logo' ? 1 : -1)
-  .map(
-    key =>
-      data[key] &&
-        !isArray(data[key]) &&
-        <MetadataProp key={key} title={key} data={data[key]} />
-  );
+const DEFAULT_KEY_ORDER = [
+  'title',
+  'full_name',
+  'description',
+  'source_organization',
+  'citation',
+  'notes',
+  'learn_more_link'
+];
+const KEY_BLACKLIST = [ 'short_title' ];
+const URLS = [ 'learn_more_link', 'url' ];
 
-MetadataAllProps.propTypes = { data: PropTypes.object.isRequired };
-
-const urlTitles = [ 'url', 'Link' ];
-const MetadataProp = ({ title, data }) =>
-  data &&
-    (title === 'logo'
-      ? <img src={`https:${data}`} alt="Metadata provider logo" />
-      : (
-        <p className={styles.text}>
-          <span className={styles.textHighlight}>{upperFirst(title)}: </span>
-          {
-          urlTitles.includes(title) ? (
-            <a className={styles.link} href={data}>
-              {data}
-            </a>
-) : (
-  <span
-    className={cx({ [styles.empty]: data === 'Not specified' })}
+const link = (title, href) => (
+  <a
+    className={styles.link}
+    href={href}
+    alt={title}
+    target="_blank"
+    rel="noopener noreferrer"
   >
-    {data}
-  </span>
-)
-        }
-        </p>
-));
+    {title}
+  </a>
+);
 
-MetadataProp.propTypes = {
-  title: PropTypes.string.isRequired,
-  data: PropTypes.node.isRequired
+// push non existent keys in default key order to the end
+const indexOf = key =>
+  DEFAULT_KEY_ORDER.indexOf(key) > -1
+    ? DEFAULT_KEY_ORDER.indexOf(key)
+    : Infinity;
+const keyOrder = (a, b) => indexOf(a) - indexOf(b);
+
+const renderMetadataValue = (key, data, emptyText) => {
+  if (!data) {
+    return (
+      <span className={styles.empty}>
+        {emptyText}
+      </span>
+    );
+  }
+
+  if (key === 'Link') {
+    return link('Show info page', data);
+  }
+
+  if (URLS.includes(key)) {
+    return link(data, data);
+  }
+
+  return <span>{data}</span>;
 };
 
+const MetadataProp = ({ id, title, data, emptyText }) => (
+  <p className={styles.text}>
+    <span className={styles.textHighlight}>
+      {startCase(title)}:
+    </span>
+    {' '}
+    {renderMetadataValue(id, data, emptyText)}
+  </p>
+);
+MetadataProp.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  emptyText: PropTypes.string.isRequired,
+  data: PropTypes.node
+};
+MetadataProp.defaultProps = { data: null };
+
 class MetadataText extends PureComponent {
+  renderMetadataProps() {
+    const { data } = this.props;
+
+    if (!data) return null;
+
+    return flatMap(
+      castArray(data),
+      d => Object
+        .keys(d)
+        .filter(key => !KEY_BLACKLIST.includes(key))
+        .filter(key => !isArray(d[key]))
+        .sort(keyOrder)
+        .map(key => (
+          <MetadataProp
+            key={`${d.short_title}_${key}`}
+            id={key}
+            title={startCase(key)}
+            data={d[key]}
+            emptyText="Not specified"
+          />
+        ))
+    );
+  }
+
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { data, className, showAll } = this.props;
-    const { title, learnMoreLink, sourceOrganization, citation } = data;
+    const { data, className } = this.props;
+
+    const shortTitle = data.short_title;
 
     return (
-      <div
-        key={data.shortTitle}
-        className={cx(styles.textContainer, className)}
-      >
-        {
-          showAll ? <MetadataAllProps data={data} /> : (
-            <div>
-              {title && <MetadataProp title="Title" data={title} />}
-              {
-                sourceOrganization &&
-                  (
-                    <MetadataProp
-                      title="Source organization"
-                      data={sourceOrganization}
-                    />
-                  )
-              }
-              {
-                learnMoreLink && (
-                <MetadataProp
-                  title="Read more"
-                  data={
-                        (
-                          <a
-                            key="link"
-                            className={styles.link}
-                            href={learnMoreLink}
-                          >
-                            {' '}
-                            {learnMoreLink}{' '}
-                          </a>
-                        )
-                      }
-                />
-                  )
-              }
-              {citation && <MetadataProp title="Citation" data={citation} />}
-            </div>
-)
-        }
+      <div key={shortTitle} className={cx(styles.textContainer, className)}>
+        {this.renderMetadataProps()}
       </div>
     );
   }
@@ -100,10 +116,9 @@ class MetadataText extends PureComponent {
 
 MetadataText.propTypes = {
   data: PropTypes.object,
-  className: PropTypes.string,
-  showAll: PropTypes.bool
+  className: PropTypes.string
 };
 
-MetadataText.defaultProps = { data: {}, className: null, showAll: false };
+MetadataText.defaultProps = { data: {}, className: null };
 
 export default MetadataText;

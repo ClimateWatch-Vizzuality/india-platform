@@ -35,6 +35,8 @@ class Energy extends PureComponent {
       options,
       loading,
       selectedSource,
+      sources,
+      downloadURI,
       t
     } = this.props;
 
@@ -92,8 +94,8 @@ class Energy extends PureComponent {
             </div>
             <InfoDownloadToolbox
               className={{ buttonWrapper: styles.buttonWrapper }}
-              slugs=""
-              downloadUri=""
+              slugs={sources}
+              downloadUri={downloadURI}
             />
           </div>
           {
@@ -131,6 +133,8 @@ Energy.propTypes = {
   selectedSource: PropTypes.string.isRequired,
   options: PropTypes.array,
   loading: PropTypes.bool,
+  sources: PropTypes.array.isRequired,
+  downloadURI: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired
 };
 

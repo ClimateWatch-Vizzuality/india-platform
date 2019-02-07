@@ -2,6 +2,7 @@ import { createStructuredSelector, createSelector } from 'reselect';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import capitalize from 'lodash/capitalize';
+import uniq from 'lodash/uniq';
 import { upperCaseLabels } from 'utils/utils';
 import {
   getQuery,
@@ -255,6 +256,40 @@ const getStateBarChartData = createSelector(
   }
 );
 
+const getSelectedIndicatorCodes = createSelector(
+  [ getIndicators, getSourceIndicatorCode ],
+  (indicators, sourceIndicatorCode) => {
+    if (!indicators || !indicators.indicators || !sourceIndicatorCode)
+      return [];
+    return indicators.indicators
+      .filter(i => i.code.startsWith(sourceIndicatorCode))
+      .map(i => i.code);
+  }
+);
+
+const getSelectedIndicatorValues = createSelector(
+  [ getSelectedIndicatorCodes, getIndicators ],
+  (indicatorCodes, indicators) => {
+    if (!indicators || !indicators.values || !indicatorCodes) return [];
+    return indicators.values.filter(
+      v => indicatorCodes.includes(v.indicator_code)
+    );
+  }
+);
+
+const getSources = createSelector(
+  [ getSelectedIndicatorValues ],
+  iValues => uniq(iValues.map(i => i.source))
+);
+
+const getDownloadURI = createSelector(
+  [ getSources, getSelectedIndicatorCodes ],
+  (sources, indicatorCodes) =>
+    `socioeconomic/indicators.zip?code=${indicatorCodes.join(
+      ','
+    )}&source=${sources.join(',')}`
+);
+
 export const getEconomy = createStructuredSelector({
   query: getQuery,
   nationalChartData: getNationalBarChartData,
@@ -263,5 +298,7 @@ export const getEconomy = createStructuredSelector({
   statesOptions: getStateIndicatorsForEconomyOptions,
   selectedOptions: getSelectedOptions,
   loading: getLoading,
-  selectedSource: getSourceIndicatorCode
+  selectedSource: getSourceIndicatorCode,
+  sources: getSources,
+  downloadURI: getDownloadURI
 });

@@ -8,12 +8,15 @@ import isArray from 'lodash/isArray';
 import sortBy from 'lodash/sortBy';
 import remove from 'lodash/remove';
 import pick from 'lodash/pick';
+
+import { GLOBAL_CW_PLATFORM } from 'constants/links';
 import {
   getYColumnValue,
   getThemeConfig,
   getTooltipConfig,
   setYAxisDomain
 } from 'utils/graphs';
+import { generateLinkToDataExplorer } from 'utils/data-explorer';
 
 export const ESP_BLACKLIST = {
   models: [
@@ -44,6 +47,8 @@ const DEFAULT_SELECTIONS = {
   },
   indicator: 'CO2'
 };
+
+const getSearch = state => state.search || null;
 
 // meta data for selectors
 const getLocations = state => state.locations || null;
@@ -462,7 +467,10 @@ const addLinktoModelSelectedMetadata = createSelector(
   [ getModelSelectedMetadata ],
   model => {
     if (!model) return null;
-    return { ...model, Link: `/pathways/models/${model.id}` };
+    return {
+      ...model,
+      Link: `${GLOBAL_CW_PLATFORM}/pathways/models/${model.id}`
+    };
   }
 );
 
@@ -478,7 +486,7 @@ export const getScenariosSelectedMetadata = createSelector(
       scenariosMetadata.map(s => ({
         name: s.name,
         description: s.description,
-        Link: `/pathways/scenarios/${s.id}`
+        Link: `${GLOBAL_CW_PLATFORM}/pathways/scenarios/${s.id}`
       }));
   }
 );
@@ -534,3 +542,41 @@ export const parseObjectsInIndicators = createSelector(
     return parsedData;
   }
 );
+
+export const getModalData = createSelector(
+  [
+    filterModelsByBlackList,
+    getScenariosSelectedMetadata,
+    parseObjectsInIndicators
+  ],
+  (model, scenarios, indicator) => {
+    if (!model || !scenarios || !indicator) return null;
+
+    const data = [ model, scenarios, indicator ];
+
+    return {
+      data,
+      title: 'Pathways Metadata',
+      tabTitles: [ 'Model', 'Scenarios', 'Indicator' ]
+    };
+  }
+);
+
+export const getDownloadURI = createSelector([ getSearch, getAllScenarios ], (
+  search,
+  allScenarios
+) =>
+  {
+    const section = 'emission-pathways';
+    if (!allScenarios.length) return null;
+    if (!search.scenario && search.model) {
+      // Adds the first scenario belonging to the selected model to populate
+      // Data Explorer dropdown and table in case there's no scenario selected
+      const scenarioId = allScenarios.find(
+        s => s.model.id === parseInt(search.model, 10)
+      ).id;
+      const filtersWithScenario = { ...search, scenario: scenarioId };
+      return generateLinkToDataExplorer(filtersWithScenario, section);
+    }
+    return generateLinkToDataExplorer(search, section);
+  });

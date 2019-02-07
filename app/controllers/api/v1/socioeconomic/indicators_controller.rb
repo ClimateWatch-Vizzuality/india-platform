@@ -23,9 +23,15 @@ module Api
                 ).as_json
               }
             end
-            format.csv do
-              render csv: values,
-                     serializer: Api::V1::Socioeconomic::ValueCSVSerializer
+
+            format.zip do
+              data_sources = DataSource.all
+              data_sources = data_sources.where(short_title: sources) if sources
+
+              render zip: {
+                'indicators.csv' => Api::V1::Socioeconomic::ValueCSVSerializer.new(values).to_csv,
+                'data_sources.csv' => data_sources.to_csv
+              }
             end
           end
         end
@@ -33,11 +39,19 @@ module Api
         private
 
         def locations
-          params[:location].presence && params[:location].split(',')
+          params[:location]&.split(',')
+        end
+
+        def sections
+          params[:section]&.split(',')
         end
 
         def codes
-          params[:code].presence && params[:code].split(',')
+          params[:code]&.split(',')
+        end
+
+        def sources
+          params[:source]&.split(',')
         end
       end
     end

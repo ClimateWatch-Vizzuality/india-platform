@@ -122,6 +122,12 @@ class HistoricalEmissions extends PureComponent {
 
   render() {
     const { emissionParams, chartData, t } = this.props;
+
+    const sources = [ 'NATCOM1', 'NATCOM2', 'BUR' ];
+    const downloadURI = `emissions/download?location=IDN&source=${sources.join(
+      ','
+    )}`;
+
     return (
       <div className={styles.historicalEmissions}>
         <SectionTitle
@@ -136,8 +142,8 @@ class HistoricalEmissions extends PureComponent {
           {this.renderDropdown('gas', true)}
           <InfoDownloadToolbox
             className={{ buttonWrapper: styles.buttonWrapper }}
-            slugs=""
-            downloadUri=""
+            slugs={sources}
+            downloadUri={downloadURI}
           />
         </div>
         <div className={styles.chartContainer}>

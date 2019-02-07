@@ -10,13 +10,17 @@ export const getModalData = createSelector([ getData, getActive ], (
   active
 ) =>
   {
-    if (isEmpty(data) || !active) return null;
-    if (active.every(d => data[d])) {
-      return active.length > 1
-        ? active.map(source => data[source])
-        : [ data[active] ];
-    }
-    return null;
+    if (isEmpty(data) || !active || !active.length) return null;
+    const dataKeys = Object.keys(data);
+    if (isEmpty(dataKeys)) return null;
+    const keys = Object.keys(data[dataKeys[0]]);
+    const metadataEmptyObject = keys.reduce(
+      (acc, k) => ({ ...acc, [k]: null }),
+      {}
+    );
+    return active.map(
+      s => data[s] || { ...metadataEmptyObject, short_title: s }
+    );
   });
 
 export const getModalTitle = createSelector([ getTitle, getModalData ], (
@@ -30,7 +34,7 @@ export const getModalTitle = createSelector([ getTitle, getModalData ], (
 
 export const getTabTitles = createSelector(
   getModalData,
-  data => data && data.length > 1 ? data.map(d => d.title) : null
+  data => data && data.length > 1 ? data.map(d => d.short_title) : null
 );
 
 export default { getModalTitle, getModalData, getTabTitles };

@@ -5,6 +5,7 @@
 #  id                  :bigint(8)        not null, primary key
 #  citation            :text
 #  learn_more_link     :string
+#  notes               :text
 #  short_title         :string
 #  source_organization :string
 #  title               :string
