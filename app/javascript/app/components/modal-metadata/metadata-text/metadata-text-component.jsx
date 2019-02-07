@@ -2,16 +2,25 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import startCase from 'lodash/startCase';
+import castArray from 'lodash/castArray';
+import isArray from 'lodash/isArray';
+import flatMap from 'lodash/flatMap';
 import styles from './metadata-text-styles.scss';
 
-const SHOW_KEYS = [
-  'title',
-  'source_organization',
-  'learn_more_link',
-  'citation',
-  'notes'
-];
-const URLS = [ 'learn_more_link' ];
+const KEYS_BLACKLIST = [ 'short_title' ];
+const URLS = [ 'learn_more_link', 'url' ];
+
+const link = (title, href) => (
+  <a
+    className={styles.link}
+    href={href}
+    alt={title}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {title}
+  </a>
+);
 
 const renderMetadataValue = (key, data, emptyText) => {
   if (!data) {
@@ -22,12 +31,12 @@ const renderMetadataValue = (key, data, emptyText) => {
     );
   }
 
+  if (key === 'Link') {
+    return link('Show info page', data);
+  }
+
   if (URLS.includes(key)) {
-    return (
-      <a className={styles.link} href={data}>
-        {data}
-      </a>
-    );
+    return link(data, data);
   }
 
   return <span>{data}</span>;
@@ -56,19 +65,22 @@ class MetadataText extends PureComponent {
 
     if (!data) return null;
 
-    return Object
-      .keys(data)
-      .sort(a => SHOW_KEYS.indexOf(a))
-      .filter(key => SHOW_KEYS.includes(key))
-      .map(key => (
-        <MetadataProp
-          key={key}
-          id={key}
-          title={startCase(key)}
-          data={data[key]}
-          emptyText="Not specified"
-        />
-      ));
+    return flatMap(
+      castArray(data),
+      d => Object
+        .keys(d)
+        .filter(key => !KEYS_BLACKLIST.includes(key))
+        .filter(key => !isArray(d[key]))
+        .map(key => (
+          <MetadataProp
+            key={`${d.short_title}_${key}`}
+            id={key}
+            title={startCase(key)}
+            data={d[key]}
+            emptyText="Not specified"
+          />
+        ))
+    );
   }
 
   // eslint-disable-line react/prefer-stateless-function

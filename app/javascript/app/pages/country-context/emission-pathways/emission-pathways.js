@@ -10,11 +10,13 @@ import reducers, { initialState } from './emission-pathways-reducers';
 
 import EmissionPathwayGraphComponent from './emission-pathways-component';
 import {
+  getChartConfig,
   getChartData,
   getChartDomainWithYMargins,
-  getChartConfig,
+  getDownloadURI,
   getFiltersOptions,
   getFiltersSelected,
+  getModalData,
   getModelSelected
 } from './emission-pathways-selectors';
 
@@ -56,6 +58,7 @@ const mapStateToProps = state => {
   return {
     data: getChartData(espData),
     domain: getChartDomainWithYMargins(espData),
+    downloadURI: getDownloadURI(espData),
     config: getChartConfig(espData),
     filtersLoading: {
       timeseries: state.espTimeSeries.loading,
@@ -66,6 +69,7 @@ const mapStateToProps = state => {
     filtersOptions: getFiltersOptions(espData),
     filtersSelected,
     model: getModelSelected(espData),
+    modalData: getModalData(espData),
     error: providers.some(p => state[p].error),
     loading: providers.some(p => state[p].loading) || !filtersSelected.model,
     search,

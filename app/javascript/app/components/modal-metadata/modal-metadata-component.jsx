@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import castArray from 'lodash/castArray';
 import { Modal, ModalHeader, Loading, NoContent } from 'cw-components';
 
 import MetadataText from './metadata-text';
@@ -23,7 +24,8 @@ class ModalMetadata extends PureComponent {
     }
     const { selectedIndex } = this.state;
     const selectedIndexData = data[selectedIndex];
-    return <MetadataText data={selectedIndexData} />;
+
+    return castArray(selectedIndexData).map(d => <MetadataText data={d} />);
   }
 
   handleOnRequestClose = () => {

@@ -11,6 +11,12 @@
   }
 }
 
+.textContainer {
+  &:not(:last-of-type) {
+    margin-bottom: 30px;
+  }
+}
+
 .link {
   font-size: $font-size;
   line-height: 1;

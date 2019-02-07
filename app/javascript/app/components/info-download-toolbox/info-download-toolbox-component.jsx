@@ -13,6 +13,9 @@ import styles from './info-download-toolbox-styles.scss';
 
 const { API_URL } = process.env;
 
+const getURL = downloadUri =>
+  downloadUri.startsWith('http') ? downloadUri : `${API_URL}/${downloadUri}`;
+
 class InfoDownloadToolbox extends PureComponent {
   constructor(props) {
     super(props);
@@ -26,8 +29,9 @@ class InfoDownloadToolbox extends PureComponent {
   handleDownloadClick = () => {
     const { downloadUri } = this.props;
     if (downloadUri) {
-      handleAnalytics('Data Download', 'Download', downloadUri);
-      window.open(`${API_URL}/${downloadUri}`, '_blank');
+      const url = getURL(downloadUri);
+      handleAnalytics('Data Download', 'Download', url);
+      window.open(url, '_blank');
     }
   };
 
@@ -38,7 +42,7 @@ class InfoDownloadToolbox extends PureComponent {
     if (isPDF) {
       window.open(option.url, '_blank');
     } else {
-      const url = `${API_URL}/${option.url}`;
+      const url = getURL(option.url);
       window.open(url, '_blank');
     }
   };
@@ -60,6 +64,7 @@ class InfoDownloadToolbox extends PureComponent {
       downloadUri,
       className,
       noDownload,
+      infoModalData,
       infoTooltipdata,
       downloadTooltipdata,
       downloadOptions
@@ -142,7 +147,11 @@ class InfoDownloadToolbox extends PureComponent {
           effect="solid"
           className="global_blueTooltip"
         />
-        <ModalMetadata />
+        <ModalMetadata
+          data={infoModalData && infoModalData.data}
+          title={infoModalData && infoModalData.title}
+          tabTitles={infoModalData && infoModalData.tabTitles}
+        />
       </ButtonGroup>
     );
   }
@@ -156,6 +165,11 @@ InfoDownloadToolbox.propTypes = {
   className: PropTypes.object,
   slugs: PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
   downloadUri: PropTypes.string,
+  infoModalData: PropTypes.shape({
+    data: PropTypes.array,
+    title: PropTypes.string,
+    tabTitles: PropTypes.arrayOf(PropTypes.string)
+  }),
   infoTooltipdata: PropTypes.string,
   downloadTooltipdata: PropTypes.string,
   setModalMetadata: PropTypes.func.isRequired,
@@ -167,6 +181,7 @@ InfoDownloadToolbox.defaultProps = {
   theme: {},
   className: {},
   slugs: [],
+  infoModalData: null,
   downloadUri: null,
   infoTooltipdata: null,
   downloadTooltipdata: null,

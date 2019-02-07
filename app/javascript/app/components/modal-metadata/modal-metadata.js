@@ -9,12 +9,12 @@ import {
   getModalData
 } from './modal-metadata-selectors';
 
-const mapStateToProps = ({ modalMetadata }) => ({
+const mapStateToProps = ({ modalMetadata }, { data, title, tabTitles }) => ({
   isOpen: modalMetadata.isOpen,
   loading: modalMetadata.loading,
-  title: getModalTitle(modalMetadata),
-  tabTitles: getTabTitles(modalMetadata),
-  data: getModalData(modalMetadata),
+  title: title || getModalTitle(modalMetadata),
+  tabTitles: tabTitles || getTabTitles(modalMetadata),
+  data: data || getModalData(modalMetadata),
   mounted: modalMetadata.mounted
 });
 
