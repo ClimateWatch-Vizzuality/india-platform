@@ -9,6 +9,8 @@ import styles from './metadata-text-styles.scss';
 
 const DEFAULT_KEY_ORDER = [
   'title',
+  'full_name',
+  'description',
   'source_organization',
   'citation',
   'notes',
