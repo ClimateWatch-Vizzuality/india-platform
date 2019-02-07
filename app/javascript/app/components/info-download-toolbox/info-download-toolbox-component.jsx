@@ -65,8 +65,8 @@ class InfoDownloadToolbox extends PureComponent {
       className,
       noDownload,
       infoModalData,
-      infoTooltipdata,
-      downloadTooltipdata,
+      infoTooltipText,
+      downloadTooltipText,
       downloadOptions
     } = this.props;
 
@@ -84,7 +84,7 @@ class InfoDownloadToolbox extends PureComponent {
           >
             <div
               data-for="blueTooltip"
-              data-tip={downloadTooltipdata || 'Download chart in .csv'}
+              data-tip={downloadTooltipText || 'Download chart in .csv'}
             >
               <div className={styles.iconWrapper}>
                 <Icon icon={downloadIcon} />
@@ -101,7 +101,7 @@ class InfoDownloadToolbox extends PureComponent {
 ) : (
   <div
     data-for="blueTooltip"
-    data-tip={downloadTooltipdata || 'Download chart in .csv'}
+    data-tip={downloadTooltipText || 'Download chart in .csv'}
   >
     <Button
       onClick={this.handleDownloadClick}
@@ -128,7 +128,7 @@ class InfoDownloadToolbox extends PureComponent {
       >
         <div
           data-for="blueTooltip"
-          data-tip={infoTooltipdata || 'Chart information'}
+          data-tip={infoTooltipText || 'Chart information'}
         >
           <Button
             onClick={this.handleInfoClick}
@@ -170,8 +170,8 @@ InfoDownloadToolbox.propTypes = {
     title: PropTypes.string,
     tabTitles: PropTypes.arrayOf(PropTypes.string)
   }),
-  infoTooltipdata: PropTypes.string,
-  downloadTooltipdata: PropTypes.string,
+  infoTooltipText: PropTypes.string,
+  downloadTooltipText: PropTypes.string,
   setModalMetadata: PropTypes.func.isRequired,
   noDownload: PropTypes.bool,
   downloadOptions: PropTypes.array
@@ -183,8 +183,8 @@ InfoDownloadToolbox.defaultProps = {
   slugs: [],
   infoModalData: null,
   downloadUri: null,
-  infoTooltipdata: null,
-  downloadTooltipdata: null,
+  infoTooltipText: null,
+  downloadTooltipText: null,
   downloadOptions: [],
   noDownload: false
 };

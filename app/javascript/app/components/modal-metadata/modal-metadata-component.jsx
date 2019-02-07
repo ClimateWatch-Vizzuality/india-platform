@@ -53,6 +53,7 @@ class ModalMetadata extends PureComponent {
               handleTabIndexChange={this.handleTabIndexChange}
               tabTitles={tabTitles}
               title={title}
+              theme={{ header: styles.modalHeaderTitle }}
             />
           )
         }

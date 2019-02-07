@@ -7,7 +7,14 @@ import isArray from 'lodash/isArray';
 import flatMap from 'lodash/flatMap';
 import styles from './metadata-text-styles.scss';
 
-const KEYS_BLACKLIST = [ 'short_title' ];
+const DEFAULT_KEY_ORDER = [
+  'title',
+  'source_organization',
+  'citation',
+  'notes',
+  'learn_more_link'
+];
+const KEY_BLACKLIST = [ 'short_title' ];
 const URLS = [ 'learn_more_link', 'url' ];
 
 const link = (title, href) => (
@@ -21,6 +28,13 @@ const link = (title, href) => (
     {title}
   </a>
 );
+
+// push non existent keys in default key order to the end
+const indexOf = key =>
+  DEFAULT_KEY_ORDER.indexOf(key) > -1
+    ? DEFAULT_KEY_ORDER.indexOf(key)
+    : Infinity;
+const keyOrder = (a, b) => indexOf(a) - indexOf(b);
 
 const renderMetadataValue = (key, data, emptyText) => {
   if (!data) {
@@ -69,8 +83,9 @@ class MetadataText extends PureComponent {
       castArray(data),
       d => Object
         .keys(d)
-        .filter(key => !KEYS_BLACKLIST.includes(key))
+        .filter(key => !KEY_BLACKLIST.includes(key))
         .filter(key => !isArray(d[key]))
+        .sort(keyOrder)
         .map(key => (
           <MetadataProp
             key={`${d.short_title}_${key}`}
