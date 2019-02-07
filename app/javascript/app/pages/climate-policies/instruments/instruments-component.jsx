@@ -18,15 +18,27 @@ const columnNames = {
 
 const formatDate = date => DateTime.fromISO(date).toFormat('dd/M/yyyy');
 
-const renderInfoIcon = () => <InfoButton dark slugs="" />;
+const renderInfoIcon = (instrument, sources) => {
+  const sourceIds = instrument.source_ids;
+  const instrumentSources = sourceIds.map(
+    sourceId => sources && sources.find(s => s.id === sourceId)
+  );
+  const codes = instrumentSources.map(source => source.code);
+  const infoModalData = {
+    data: instrumentSources,
+    title: 'Sources',
+    tabTitles: codes
+  };
+  return <InfoButton dark infoModalData={infoModalData} />;
+};
 
-const table = instrument => (
+const table = (instrument, sources) => (
   <React.Fragment key={`${instrument.title}-table`}>
     <div className={styles.header}>
       <span className={styles.date}>
         Last update: {formatDate(instrument.updated_at)}
       </span>
-      {renderInfoIcon()}
+      {renderInfoIcon(instrument, sources)}
     </div>
     <table className={styles.table}>
       <tbody>
@@ -63,7 +75,7 @@ class Instruments extends PureComponent {
   };
 
   render() {
-    const { policyCode, instruments } = this.props;
+    const { policyCode, instruments, sources } = this.props;
     const { openSlug } = this.state;
 
     return (
@@ -75,18 +87,18 @@ class Instruments extends PureComponent {
         </div>
         {
           instruments && instruments && (
-              <Accordion
-                loading={false}
-                data={instruments}
-                openSlug={openSlug}
-                handleOnClick={this.handleAccordionOnClick}
-                theme={{
+          <Accordion
+            loading={false}
+            data={instruments}
+            openSlug={openSlug}
+            handleOnClick={this.handleAccordionOnClick}
+            theme={{
                   title: styles.accordionTitle,
                   header: styles.accordionHeader
                 }}
-              >
-                {instruments.map(instrument => table(instrument))}
-              </Accordion>
+          >
+            {instruments.map(instrument => table(instrument, sources))}
+          </Accordion>
             )
         }
         <ClimatePolicyProvider params={{ policyCode }} />
@@ -97,9 +109,10 @@ class Instruments extends PureComponent {
 
 Instruments.propTypes = {
   instruments: PropTypes.array,
-  policyCode: PropTypes.string
+  policyCode: PropTypes.string,
+  sources: PropTypes.array
 };
 
-Instruments.defaultProps = { instruments: [], policyCode: '' };
+Instruments.defaultProps = { instruments: [], policyCode: '', sources: [] };
 
 export default Instruments;
