@@ -7,9 +7,9 @@ module Api
                    :responsible_authority,
                    :target_numeric, :target_text, :target_year,
                    :tracking_frequency, :tracking_notes, :status,
-                   :progress_display, :progress_records, :sources, :updated_at
+                   :progress_display, :progress_records,
+                   :source_ids, :updated_at
 
-        has_many :sources, serializer: Api::V1::ClimatePolicy::SourceMiniSerializer
         has_many :progress_records, serialize: Api::V1::ClimatePolicy::ProgressRecordSerializer
       end
     end
