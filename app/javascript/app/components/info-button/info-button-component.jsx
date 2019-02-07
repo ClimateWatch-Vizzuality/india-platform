@@ -11,15 +11,15 @@ import styles from './info-button-styles.scss';
 
 class InfoButton extends PureComponent {
   handleInfoClick = () => {
-    const { slugs, setModalMetadata } = this.props;
-    if (slugs) {
+    const { slugs, setModalMetadata, infoModalData } = this.props;
+    if (slugs || infoModalData) {
       handleAnalytics('Info Window', 'Open', slugs);
       setModalMetadata({ slugs, open: true });
     }
   };
 
   render() {
-    const { className, theme, dark } = this.props;
+    const { className, theme, dark, infoModalData } = this.props;
     return (
       <div className={className}>
         <div data-for="blueTooltip" data-tip="Information">
@@ -35,7 +35,11 @@ class InfoButton extends PureComponent {
           effect="solid"
           className="global_INDTooltip"
         />
-        <ModalMetadata />
+        <ModalMetadata
+          data={infoModalData && infoModalData.data}
+          title={infoModalData && infoModalData.title}
+          tabTitles={infoModalData && infoModalData.tabTitles}
+        />
       </div>
     );
   }
@@ -46,14 +50,20 @@ InfoButton.propTypes = {
   theme: PropTypes.shape({ icon: PropTypes.string }),
   dark: PropTypes.bool,
   slugs: PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-  setModalMetadata: PropTypes.func.isRequired
+  setModalMetadata: PropTypes.func.isRequired,
+  infoModalData: PropTypes.shape({
+    data: PropTypes.array,
+    title: PropTypes.string,
+    tabTitles: PropTypes.arrayOf(PropTypes.string)
+  })
 };
 
 InfoButton.defaultProps = {
   className: {},
   slugs: null,
   theme: {},
-  dark: false
+  dark: false,
+  infoModalData: undefined
 };
 
 export default InfoButton;

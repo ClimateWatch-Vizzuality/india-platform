@@ -17,11 +17,13 @@ const columnNames = {
   tracking_frequency: 'Tracking frequency:',
   tracking_notes: 'Notes on tracking methods:',
   status: 'Status:',
-  sources: 'Sources:'
+  source_ids: 'Sources:'
 };
 
 const columnValueRenderers = {
-  sources: sources => sources.map(source => (
+  source_ids: (sourceIds, sources) => sourceIds.map(sourceId => {
+    const source = sources && sources.find(s => s.id === sourceId);
+    return source && (
     <div key={source.code}>
       <a
         href={source.link}
@@ -33,27 +35,44 @@ const columnValueRenderers = {
         {source.code}
       </a>
     </div>
-  ))
+      );
+  })
 };
 const columnValueDefaultRenderer = value => <ReactMarkdown source={value} />;
 
-const renderColumnValue = (indicator, column) => {
+const renderColumnValue = (indicator, column, sources) => {
+  const isSourcesColumn = column === 'source_ids';
   const value = indicator[column];
-  if (isEmpty(value)) return 'n/a';
+  if (isEmpty(value) && !isSourcesColumn) return 'n/a';
   const renderer = columnValueRenderers[column];
+  if (renderer && isSourcesColumn) {
+    return renderer(value, sources).length ? renderer(value, sources) : 'n/a';
+  }
   if (renderer) return renderer(value);
   return columnValueDefaultRenderer(value);
 };
 
-const renderInfoIcon = () => <InfoButton dark slugs="" />;
+const renderInfoIcon = (indicator, sources) => {
+  const sourceIds = indicator.source_ids;
+  const indicatorSources = sourceIds.map(
+    sourceId => sources && sources.find(s => s.id === sourceId)
+  );
+  const codes = indicatorSources.map(source => source.code);
+  const infoModalData = {
+    data: indicatorSources,
+    title: 'Sources',
+    tabTitles: codes
+  };
+  return <InfoButton dark infoModalData={infoModalData} />;
+};
 
-const table = indicator => (
+const table = (indicator, sources) => (
   <React.Fragment key={`${indicator.title}-table`}>
     <div className={styles.header}>
       <span className={styles.date}>
         Last update: {formatDate(indicator.updated_at)}
       </span>
-      {renderInfoIcon()}
+      {renderInfoIcon(indicator, sources)}
     </div>
     <table className={styles.table}>
       <tbody>
@@ -66,7 +85,7 @@ const table = indicator => (
               {columnNames[column]}
             </td>
             <td className={cx(styles.cell)}>
-              {renderColumnValue(indicator, column)}
+              {renderColumnValue(indicator, column, sources)}
             </td>
           </tr>
         ))}
@@ -96,7 +115,7 @@ class Indicators extends PureComponent {
   };
 
   render() {
-    const { policyCode, indicators } = this.props;
+    const { policyCode, indicators, sources } = this.props;
     const { openSlug, openSecondLevelAccordionSlug } = this.state;
 
     return (
@@ -129,7 +148,7 @@ class Indicators extends PureComponent {
                       header: styles.secondAccordionHeader
                     }}
               >
-                {content.map(ind => table(ind))}
+                {content.map(ind => table(ind, sources))}
               </Accordion>
                 ))}
           </Accordion>
@@ -143,9 +162,10 @@ class Indicators extends PureComponent {
 
 Indicators.propTypes = {
   indicators: PropTypes.array,
-  policyCode: PropTypes.string
+  policyCode: PropTypes.string,
+  sources: PropTypes.array
 };
 
-Indicators.defaultProps = { indicators: [], policyCode: '' };
+Indicators.defaultProps = { indicators: [], policyCode: '', sources: [] };
 
 export default Indicators;
