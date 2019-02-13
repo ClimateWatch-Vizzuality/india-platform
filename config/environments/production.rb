@@ -70,6 +70,10 @@ Rails.application.configure do
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
+  # Store files locally - upload to S3 happens with the use of a gem, not through active storage :amazon option
+  # active storage doesn't allow uploading to nested folders
+  config.active_storage.service = :local
+
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
