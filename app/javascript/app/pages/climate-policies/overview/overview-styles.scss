@@ -17,8 +17,6 @@ $line-height: 1.5rem; // 24px
   }
 
   @media #{$tablet-landscape} {
-    height: 600px;
-
     @include columns((6, 6));
   }
 }
