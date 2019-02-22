@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Section } from 'cw-components';
+import { Section, Button } from 'cw-components';
 import background from 'assets/header';
 import SectionTitle from 'components/section-title';
 import sectionImage from 'assets/home/image@1x';
 import sectionRetinaImage from 'assets/home/image@2x';
+import buttonThemes from 'styles/themes/button';
 
 import CwDisclaimer from './cw-disclaimer';
 import HighlightedStories from './stories';
@@ -24,6 +25,12 @@ const renderClimatePoliciesSection = t => (
         title={t('pages.home.progress-of-climate-policies.title')}
         description={t('pages.home.progress-of-climate-policies.description')}
       />
+      <Button
+        theme={{ button: buttonThemes.white }}
+        link={{ type: 'a', props: { href: '/climate-policies' } }}
+      >
+        Go To Climate Policies
+      </Button>
     </div>
   </div>
 );
