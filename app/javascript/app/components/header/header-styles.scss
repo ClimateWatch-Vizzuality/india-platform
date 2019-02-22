@@ -41,11 +41,12 @@ $flag-height: 40px;
   padding-top: 9px;
 
   .climateExplorer {
-    font-size: $font-size-m;
+    font-size: 1.22rem;
     font-weight: $font-weight-light;
   }
 
   .bold {
+    font-size: $font-size-m;
     font-weight: $font-weight-extra-bold;
   }
 }
