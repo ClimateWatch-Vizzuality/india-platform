@@ -41,8 +41,8 @@ class Population extends PureComponent {
         />
         <Switch
           options={[
-            { name: 'CAIT', value: 'CAIT' },
-            { name: 'Age and gender', value: 'age_and_gender' },
+            { name: 'population', value: 'CAIT' },
+            { name: 'population by gender', value: 'age_and_gender' },
             { name: 'Human Development Index', value: 'hdi' }
           ]}
           value={selectedSource}
