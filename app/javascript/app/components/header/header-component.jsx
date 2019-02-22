@@ -3,9 +3,28 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Nav from 'components/nav';
 import { NavLink } from 'redux-first-router-link';
+import { Button, Icon } from 'cw-components';
+import downloadIcon from 'assets/icons/download';
 import styles from './header-styles.scss';
 
 class Header extends PureComponent {
+  handleDownloadClick = () => window.open('todo', '_blank');
+
+  renderActions = () => (
+    <div className={styles.actions}>
+      <Button
+        onClick={this.handleDownloadClick}
+        theme={{ button: styles.button }}
+        disabled
+      >
+        <Icon
+          icon={downloadIcon}
+          theme={{ cursor: styles.downloadIconCursor }}
+        />
+      </Button>
+    </div>
+  );
+
   render() {
     const { routes, className } = this.props;
     return (
@@ -34,6 +53,7 @@ class Header extends PureComponent {
               }}
               routes={routes}
             />
+            {this.renderActions()}
           </div>
         </div>
       </div>
