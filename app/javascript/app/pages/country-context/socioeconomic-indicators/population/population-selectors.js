@@ -34,6 +34,12 @@ const INDICATOR_CODES = {
   population_by_gender: [ 'Sex_ratio' ],
   hdi: [ 'hdi' ]
 };
+
+const unitLabels = {
+  '%': 'Percentage',
+  'index': 'Index'
+};
+
 const DATA_SCALE = 1000;
 
 const { COUNTRY_ISO } = process.env;
@@ -58,7 +64,8 @@ const getCustomYLabelFormat = unit => {
   const formatY = {
     thousand: value => `${format('.2s')(`${value * DATA_SCALE}`)}`,
     million: value => `${format('.2s')(`${value}`).replace('G', 'B')}`,
-    '%': value => `${value}%`
+    '%': value => `${value}%`,
+    'index': value => value
   };
   return formatY[unit];
 };
@@ -159,6 +166,7 @@ const getBarChartData = createSelector(
     const selectedIndicator = indicators.find(
       ind => ind.indicator_code === selectedOptions[queryName].value
     );
+
     if (!selectedIndicator) return null;
     const code = selectedIndicator && selectedIndicator.indicator_code;
     const indicator = data &&
@@ -173,7 +181,6 @@ const getBarChartData = createSelector(
       }
     });
 
-    const isPercentage = u => u === '%';
     const label = selectedOptions[queryName] &&
       selectedOptions[queryName].label;
 
@@ -184,8 +191,8 @@ const getBarChartData = createSelector(
         axes: getAxes('Year', 'People'),
         tooltip: {
           y: {
-            label: isPercentage(unit) ? 'Percentage' : 'People',
-            format: isPercentage(unit)
+            label: unitLabels[unit] ? unitLabels[unit] : 'People',
+            format: unitLabels[unit]
               ? getCustomYLabelFormat(unit)
               : value => `${format(',.4s')(`${value}`).replace('G', 'B')}`
           },
@@ -238,8 +245,8 @@ const getPopStateBarChartData = createSelector(
         axes: getAxes('Years', 'People'),
         tooltip: {
           y: {
-            label: 'People',
-            format: value => `${format(',.4s')(`${value}`)}`
+            label: unitLabels[unit] ? unitLabels[unit] : 'People',
+            format: unitLabels[unit] ? getCustomYLabelFormat(unit) : value => `${format(',.4s')(`${value}`)}`
           },
           indicator: 'Population'
         },
