@@ -20,7 +20,7 @@ const DEFAULT_STATE = 'Delhi';
 // Total population
 const DEFAULT_INDICATOR = {
   CAIT: 'population_3',
-  age_and_gender: 'Sex_ratio',
+  population_by_gender: 'Sex_ratio',
   hdi: 'hdi'
 };
 const INDICATOR_CODES = {
@@ -31,7 +31,7 @@ const INDICATOR_CODES = {
     'population_4',
     'pop_density'
   ],
-  age_and_gender: [ 'Sex_ratio' ],
+  population_by_gender: [ 'Sex_ratio' ],
   hdi: [ 'hdi' ]
 };
 const DATA_SCALE = 1000;
