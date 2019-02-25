@@ -65,7 +65,7 @@ const getCustomYLabelFormat = unit => {
     thousand: value => `${format('.2s')(`${value * DATA_SCALE}`)}`,
     million: value => `${format('.2s')(`${value}`).replace('G', 'B')}`,
     '%': value => `${value}%`,
-    'index': value => `${value}`
+    'index': value => value
   };
   return formatY[unit];
 };
@@ -167,7 +167,6 @@ const getBarChartData = createSelector(
       ind => ind.indicator_code === selectedOptions[queryName].value
     );
 
-    console.log('indicators: ',indicators);
     if (!selectedIndicator) return null;
     const code = selectedIndicator && selectedIndicator.indicator_code;
     const indicator = data &&
