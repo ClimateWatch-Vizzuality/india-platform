@@ -41,11 +41,12 @@ $flag-height: 40px;
   padding-top: 9px;
 
   .climateExplorer {
-    font-size: $font-size-m;
+    font-size: 1.22rem;
     font-weight: $font-weight-light;
   }
 
   .bold {
+    font-size: $font-size-m;
     font-weight: $font-weight-extra-bold;
   }
 }
@@ -61,7 +62,7 @@ $flag-height: 40px;
 
   @media #{$tablet-landscape} {
     overflow-x: hidden;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 }
 
@@ -124,5 +125,24 @@ $flag-height: 40px;
     &.active::after {
       bottom: 0;
     }
+  }
+}
+
+.actions {
+  border-left: solid 2px $border-color;
+  display: flex;
+  padding-left: $gutter-padding * 2;
+  height: 100%;
+}
+
+.button {
+  border: none;
+  box-shadow: none;
+  height: 100%;
+
+  &:hover { box-shadow: none; }
+
+  svg {
+    cursor: not-allowed;
   }
 }
