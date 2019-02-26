@@ -5,6 +5,7 @@ import background from 'assets/header';
 import SectionTitle from 'components/section-title';
 import sectionImage from 'assets/home/image@1x';
 import sectionRetinaImage from 'assets/home/image@2x';
+import cx from 'classnames';
 import buttonThemes from 'styles/themes/button';
 
 import CwDisclaimer from './cw-disclaimer';
@@ -26,7 +27,7 @@ const renderClimatePoliciesSection = t => (
         description={t('pages.home.progress-of-climate-policies.description')}
       />
       <Button
-        theme={{ button: buttonThemes.white }}
+        theme={{ button: cx(buttonThemes.primary, styles.button) }}
         link={{ type: 'a', props: { href: '/climate-policies' } }}
       >
         Go To Climate Policies
