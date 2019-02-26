@@ -9,27 +9,48 @@ class CustomTooltip extends PureComponent {
     const hasContent = content && content.payload && content.payload.length > 0;
     const payload = get(content, 'payload[0].payload');
     const tooltipConfig = config && config.tooltip;
-    const yValueFormatFunction = tooltipConfig && tooltipConfig.y.format;
+    const yKeys = payload && Object.keys(payload).filter(k => k !== 'x');
     return (
       <div className={styles.tooltip}>
         {
           hasContent ? (
             <div>
               <div className={styles.tooltipHeader}>
-                <span className={styles.title}>
-                  {payload.x} {tooltipConfig.indicator}
+                <span>
+                  {payload.x}
+                </span>
+                <span>
+                  {tooltipConfig.indicator}
                 </span>
               </div>
               <div className={styles.content}>
-                <span>{tooltipConfig.y.label}</span>
-                {' '}
-                <span>
-                  {
-                    yValueFormatFunction
-                      ? yValueFormatFunction(payload.y)
-                      : tooltipConfig.y.format
-                  }
-                </span>
+                {
+                  yKeys && yKeys.map(k => (
+                    <div className={styles.yDataContainer}>
+                      {
+                          tooltipConfig.theme &&
+                            (
+                              <span
+                                style={{
+                                  backgroundColor: tooltipConfig.theme[k].fill
+                                }}
+                                className={styles.dot}
+                              />
+                            )
+                        }
+                      <span className={styles.yLabel}>
+                        {tooltipConfig[k].label}
+                      </span>
+                      <span className={styles.value}>
+                        {
+                            tooltipConfig.formatFunction
+                              ? tooltipConfig.formatFunction(payload[k])
+                              : payload[k]
+                          }
+                      </span>
+                    </div>
+                    ))
+                }
               </div>
             </div>
 ) : <div>No data</div>
