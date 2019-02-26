@@ -30,7 +30,7 @@ const renderClimatePoliciesSection = t => (
         theme={{ button: cx(buttonThemes.primary, styles.button) }}
         link={{ type: 'a', props: { href: '/climate-policies' } }}
       >
-        Go To Climate Policies
+        {t('pages.home.progress-of-climate-policies.button')}
       </Button>
     </div>
   </div>
