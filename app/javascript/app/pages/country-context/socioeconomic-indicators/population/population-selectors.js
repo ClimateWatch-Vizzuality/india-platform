@@ -251,7 +251,7 @@ const getBarChartData = createSelector(
             theme: colorThemeCache,
             formatFunction: formatY[unit]
               ? getCustomYLabelFormat(unit)
-              : value => `cona${format(',.4s')(`${value}`).replace('G', 'B')}`
+              : value => `${format(',.4s')(`${value}`).replace('G', 'B')}`
           },
           animation: false,
           columns: { x: getXColumn(), y: getYColumn(chartData) },

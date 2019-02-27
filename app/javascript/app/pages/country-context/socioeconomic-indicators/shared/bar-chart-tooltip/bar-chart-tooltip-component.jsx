@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import styles from './bar-chart-tooltip-styles.scss';
 
 const renderValue = ({ formatFunction }, value) => {
-  if (!value) return 'No Data';
+  if (!value) return 'n/a';
   if (formatFunction) return formatFunction(value);
   return value;
 };
