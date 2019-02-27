@@ -97,8 +97,8 @@ Population.propTypes = {
   onLegendChange: PropTypes.func.isRequired,
   onIndicatorChange: PropTypes.func.isRequired,
   chartData: PropTypes.object,
-  nationalIndicatorsOptions: PropTypes.array.isRequired,
-  selectedIndicator: PropTypes.object.isRequired,
+  nationalIndicatorsOptions: PropTypes.array,
+  selectedIndicator: PropTypes.object,
   selectedSource: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   sources: PropTypes.array.isRequired,
@@ -106,6 +106,11 @@ Population.propTypes = {
   t: PropTypes.func.isRequired
 };
 
-Population.defaultProps = { chartData: {}, loading: false };
+Population.defaultProps = {
+  chartData: {},
+  loading: false,
+  nationalIndicatorsOptions: null,
+  selectedIndicator: null
+};
 
 export default Population;
