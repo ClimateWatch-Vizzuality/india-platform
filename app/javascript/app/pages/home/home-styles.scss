@@ -104,3 +104,11 @@
     margin-bottom: 0;
   }
 }
+
+.button {
+  background-color: $white;
+  color: $elephant-blue;
+  max-width: 250px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(26, 28, 34, 0.1);
+}

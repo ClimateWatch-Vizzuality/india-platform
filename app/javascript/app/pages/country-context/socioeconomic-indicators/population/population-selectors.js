@@ -22,7 +22,7 @@ import {
 // Total population
 const DEFAULT_INDICATOR = {
   CAIT: 'population_3',
-  age_and_gender: 'Sex_ratio',
+  population_by_gender: 'Sex_ratio',
   hdi: 'hdi'
 };
 const INDICATOR_CODES = {
@@ -33,16 +33,20 @@ const INDICATOR_CODES = {
     'population_4',
     'pop_density'
   ],
-  age_and_gender: [ 'Sex_ratio' ],
+  population_by_gender: [ 'Sex_ratio' ],
   hdi: [ 'hdi' ]
 };
+
+const unitLabels = { '%': 'Percentage', index: 'Index' };
+
 const DATA_SCALE = 1000;
 
 const getCustomYLabelFormat = unit => {
   const formatY = {
     thousand: value => `${format('.2s')(`${value * DATA_SCALE}`)}`,
     million: value => `${format('.2s')(`${value}`).replace('G', 'B')}`,
-    '%': value => `${value}%`
+    '%': value => `${value}%`,
+    index: value => `${value}`
   };
   return formatY[unit];
 };
@@ -203,7 +207,6 @@ const getBarChartData = createSelector(
         return { x: year, ...yValues };
       });
 
-      const isPercentage = u => u === '%';
       const { label } = selectedIndicator;
 
       return {
@@ -216,8 +219,8 @@ const getBarChartData = createSelector(
             x: { label: 'Year' },
             indicator: label,
             theme: getThemeConfig(getYColumn(chartData)),
-            labelFunction: isPercentage(unit) ? 'Percentage' : 'People',
-            formatFunction: isPercentage(unit)
+            labelFunction: unitLabels[unit] ? unitLabels[unit] : 'People',
+            formatFunction: unitLabels[unit]
               ? getCustomYLabelFormat(unit)
               : value => `${format(',.4s')(`${value}`).replace('G', 'B')}`
           },
