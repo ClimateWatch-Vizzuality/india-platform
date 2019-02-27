@@ -37,19 +37,24 @@ const INDICATOR_CODES = {
   hdi: [ 'hdi' ]
 };
 
-const unitLabels = { '%': 'Percentage', index: 'Index' };
+const unitLabels = {
+  pop_density: 'per sq km',
+  Sex_ratio: 'female per 1000 male',
+  '%': 'Percentage',
+  hdi: 'Index'
+};
 
 const DATA_SCALE = 1000;
 
-const getCustomYLabelFormat = unit => {
-  const formatY = {
-    thousand: value => `${format('.2s')(`${value * DATA_SCALE}`)}`,
-    million: value => `${format('.2s')(`${value}`).replace('G', 'B')}`,
-    '%': value => `${value}%`,
-    index: value => `${value}`
-  };
-  return formatY[unit];
+const formatY = {
+  'number of female per 1000 male': value => `${value}`,
+  'per square km': value => `${value}`,
+  thousand: value => `${format('.2s')(`${value * DATA_SCALE}`)}`,
+  million: value => `${format('.2s')(`${value}`).replace('G', 'B')}`,
+  '%': value => `${value}%`,
+  index: value => `${value}`
 };
+const getCustomYLabelFormat = unit => formatY[unit];
 
 const getUniqueYears = data => {
   const allYears = flatten(
@@ -207,7 +212,7 @@ const getBarChartData = createSelector(
         return { x: year, ...yValues };
       });
 
-      const { label } = selectedIndicator;
+      const { value: selectedIndicatorValue } = selectedIndicator;
 
       return {
         data: D,
@@ -217,12 +222,13 @@ const getBarChartData = createSelector(
           tooltip: {
             ...getTooltipConfig(getYColumn(chartData)),
             x: { label: 'Year' },
-            indicator: label,
+            indicator: unitLabels[selectedIndicatorValue]
+              ? unitLabels[selectedIndicatorValue]
+              : 'People',
             theme: getThemeConfig(getYColumn(chartData)),
-            labelFunction: unitLabels[unit] ? unitLabels[unit] : 'People',
-            formatFunction: unitLabels[unit]
+            formatFunction: formatY[unit]
               ? getCustomYLabelFormat(unit)
-              : value => `${format(',.4s')(`${value}`).replace('G', 'B')}`
+              : value => `cona${format(',.4s')(`${value}`).replace('G', 'B')}`
           },
           animation: false,
           columns: { x: getXColumn(), y: getYColumn(chartData) },
