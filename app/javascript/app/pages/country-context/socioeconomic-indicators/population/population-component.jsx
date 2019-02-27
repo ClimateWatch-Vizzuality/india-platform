@@ -10,27 +10,22 @@ import CustomTooltip from '../shared/bar-chart-tooltip';
 import styles from '../socioeconomic-indicators-styles';
 
 class Population extends PureComponent {
-  handleFilterChange = (filter, selected) => {
-    const { onFilterChange } = this.props;
-    onFilterChange({ [filter]: selected.value });
-  };
-
   render() {
     const {
       chartData,
-      popStateChartData,
       nationalIndicatorsOptions,
-      popStatesOptions,
-      selectedOptions,
+      selectedIndicator,
       selectedSource,
       loading,
       sources,
       downloadURI,
+      onSwitchChange,
+      onLegendChange,
+      onIndicatorChange,
       t
     } = this.props;
 
     const nationalIndLabel = 'National Indicators';
-    const stateIndLabel = 'State';
     return (
       <div className={styles.page}>
         <SectionTitle
@@ -46,10 +41,9 @@ class Population extends PureComponent {
             { name: 'Human Development Index', value: 'hdi' }
           ]}
           value={selectedSource}
-          handleChange={selected =>
-            this.handleFilterChange('populationSource', selected)}
+          handleChange={onSwitchChange}
         />
-        <div className={styles.container}>
+        <div>
           <div className="first-column">
             <div className={styles.toolbox}>
               <div className={styles.dropdown}>
@@ -58,9 +52,8 @@ class Population extends PureComponent {
                   label={nationalIndLabel}
                   placeholder={`Filter by ${nationalIndLabel}`}
                   options={nationalIndicatorsOptions}
-                  onValueChange={selected =>
-                    this.handleFilterChange('popNationalIndicator', selected)}
-                  value={selectedOptions.popNationalIndicator}
+                  onValueChange={onIndicatorChange}
+                  value={selectedIndicator}
                   theme={{ select: dropdownStyles.select }}
                   hideResetButton
                 />
@@ -88,50 +81,7 @@ class Population extends PureComponent {
                     margin={{ bottom: 10 }}
                     height={300}
                     barSize={30}
-                  />
-                )
-            }
-          </div>
-          <div className="second-column">
-            <div className={styles.toolbox}>
-              <div className={styles.dropdown}>
-                <Dropdown
-                  key={stateIndLabel}
-                  label={stateIndLabel}
-                  placeholder={`Filter by ${stateIndLabel}`}
-                  options={popStatesOptions}
-                  onValueChange={selected =>
-                    this.handleFilterChange('popState', selected)}
-                  value={selectedOptions.popState}
-                  theme={{ select: dropdownStyles.select }}
-                  hideResetButton
-                />
-              </div>
-              <InfoDownloadToolbox
-                className={{ buttonWrapper: styles.buttonWrapper }}
-                slugs={sources}
-                downloadUri={downloadURI}
-              />
-            </div>
-            {
-              popStateChartData &&
-                (
-                  <Chart
-                    type="bar"
-                    loading={loading}
-                    config={popStateChartData.config}
-                    theme={{ legend: styles.legend }}
-                    customTooltip={<CustomTooltip />}
-                    dataOptions={popStateChartData.dataOptions}
-                    dataSelected={popStateChartData.dataSelected}
-                    getCustomYLabelFormat={
-                      popStateChartData.config.yLabelFormat
-                    }
-                    data={popStateChartData.data}
-                    domain={popStateChartData.domain}
-                    margin={{ bottom: 10 }}
-                    height={300}
-                    barSize={30}
+                    onLegendChange={onLegendChange}
                   />
                 )
             }
@@ -143,12 +93,12 @@ class Population extends PureComponent {
 }
 
 Population.propTypes = {
-  onFilterChange: PropTypes.func.isRequired,
+  onSwitchChange: PropTypes.func.isRequired,
+  onLegendChange: PropTypes.func.isRequired,
+  onIndicatorChange: PropTypes.func.isRequired,
   chartData: PropTypes.object,
-  popStateChartData: PropTypes.object.isRequired,
   nationalIndicatorsOptions: PropTypes.array.isRequired,
-  popStatesOptions: PropTypes.array.isRequired,
-  selectedOptions: PropTypes.object.isRequired,
+  selectedIndicator: PropTypes.object.isRequired,
   selectedSource: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   sources: PropTypes.array.isRequired,
