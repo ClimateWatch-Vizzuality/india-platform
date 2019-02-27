@@ -32,9 +32,9 @@ class PopulationContainer extends PureComponent {
   updateLegendFilter = newFilter => {
     let values;
     if (isArray(newFilter)) {
-      values = newFilter.map(v => v.id).join(',');
+      values = newFilter.map(v => v.value).join(',');
     } else {
-      values = newFilter.id;
+      values = newFilter.value;
     }
     this.onFilterChange({ popState: values });
   };

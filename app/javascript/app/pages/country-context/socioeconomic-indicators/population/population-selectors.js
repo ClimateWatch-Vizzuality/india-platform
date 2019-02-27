@@ -6,7 +6,7 @@ import flatten from 'lodash/flatten';
 import camelCase from 'lodash/camelCase';
 import upperFirst from 'lodash/upperFirst';
 import { upperCaseLabels } from 'utils/utils';
-import { getThemeConfig, getTooltipConfig } from 'utils/graphs';
+import { getThemeConfig, getTooltipConfig, CHART_COLORS } from 'utils/graphs';
 import {
   getQuery,
   getLoading,
@@ -145,7 +145,7 @@ const getSelectedProvinces = createSelector([ getQuery, getProvincesOptions ], (
     if (!query || !query.popState || !options) return [];
     const queryArray = query.popState.split(',');
     const provincesSelected = queryArray
-      .filter(str => str !== '')
+      .filter(str => str !== 'IND')
       .map(q => {
         const provinceData = options.find(o => o.value === q);
         return provinceData &&
@@ -158,8 +158,11 @@ const getSelectedProvinces = createSelector([ getQuery, getProvincesOptions ], (
     return provincesSelected;
   });
 
+let colorThemeCache;
+
 const getBarChartData = createSelector(
   [
+    getQuery,
     getIndicators,
     getSelectedIndicators,
     getProvincesOptions,
@@ -168,6 +171,7 @@ const getBarChartData = createSelector(
     getSelectedIndicator
   ],
   (
+    query,
     data,
     indicators,
     provinces,
@@ -189,6 +193,11 @@ const getBarChartData = createSelector(
           )
       );
 
+      const queryArray = query && query.popState && query.popState.split(',');
+      const addNationalData = queryArray &&
+        queryArray.some(str => str === 'IND') ||
+        (!query || !query.popState);
+
       if (!nationalData) return null;
       const code = nationalData && nationalData.indicator_code;
       const indicator = data &&
@@ -196,12 +205,25 @@ const getBarChartData = createSelector(
         data.indicators.find(ind => ind.code === code);
       const unit = indicator && indicator.unit;
 
-      const chartData = [ nationalData, ...provinceData ].map(i => ({
+      const nationalChartData = {
+        values: nationalData.values,
+        key: `y${upperFirst(camelCase(nationalData.location_iso_code3))}`,
+        label: nationalData.location,
+        id: nationalData.location_iso_code3,
+        value: nationalData.location_iso_code3
+      };
+
+      const provincesChartData = provinceData.map(i => ({
         values: i.values,
         key: `y${upperFirst(camelCase(i.location_iso_code3))}`,
         label: i.location,
-        id: i.location_iso_code3
+        id: i.location_iso_code3,
+        value: i.location_iso_code3
       }));
+
+      const chartData = addNationalData
+        ? [ nationalChartData, ...provincesChartData ]
+        : provincesChartData;
 
       const D = getUniqueYears(chartData).map(year => {
         const yValues = {};
@@ -213,7 +235,8 @@ const getBarChartData = createSelector(
       });
 
       const { value: selectedIndicatorValue } = selectedIndicator;
-
+      const theme = getThemeConfig(getYColumn(chartData, CHART_COLORS));
+      colorThemeCache = { ...theme, ...colorThemeCache };
       return {
         data: D,
         domain: getDomain(),
@@ -225,18 +248,18 @@ const getBarChartData = createSelector(
             indicator: unitLabels[selectedIndicatorValue]
               ? unitLabels[selectedIndicatorValue]
               : 'People',
-            theme: getThemeConfig(getYColumn(chartData)),
+            theme: colorThemeCache,
             formatFunction: formatY[unit]
               ? getCustomYLabelFormat(unit)
               : value => `cona${format(',.4s')(`${value}`).replace('G', 'B')}`
           },
           animation: false,
           columns: { x: getXColumn(), y: getYColumn(chartData) },
-          theme: getThemeConfig(getYColumn(chartData)),
+          theme: colorThemeCache,
           yLabelFormat: getCustomYLabelFormat(unit)
         },
-        dataOptions: provinces,
-        dataSelected: [ ...selectedProvinces, { label: 'India', value: 'IND' } ]
+        dataOptions: [ { label: 'India', value: 'IND' }, ...provinces ],
+        dataSelected: chartData
       };
     }
 );
