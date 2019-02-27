@@ -3,13 +3,22 @@ import Proptypes from 'prop-types';
 import get from 'lodash/get';
 import styles from './bar-chart-tooltip-styles.scss';
 
+const renderValue = ({ formatFunction }, value) => {
+  if (!value) return 'No Data';
+  if (formatFunction) return formatFunction(value);
+  return value;
+};
+
 class CustomTooltip extends PureComponent {
   render() {
     const { content, config } = this.props;
     const hasContent = content && content.payload && content.payload.length > 0;
     const payload = get(content, 'payload[0].payload');
     const tooltipConfig = config && config.tooltip;
-    const yKeys = payload && Object.keys(payload).filter(k => k !== 'x');
+    const yKeys = payload && Object
+        .keys(payload)
+        .filter(k => k !== 'x')
+        .sort((a, b) => payload[b] - payload[a]);
     return (
       <div className={styles.tooltip}>
         {
@@ -42,11 +51,7 @@ class CustomTooltip extends PureComponent {
                         {tooltipConfig[k].label}
                       </span>
                       <span className={styles.value}>
-                        {
-                            tooltipConfig.formatFunction
-                              ? tooltipConfig.formatFunction(payload[k])
-                              : payload[k]
-                          }
+                        {renderValue(tooltipConfig, payload[k])}
                       </span>
                     </div>
                     ))
