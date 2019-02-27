@@ -10,12 +10,27 @@ export const getLoading = ({ indicators }) => !indicators;
 
 export const getNationalIndicators = createSelector(
   [ getIndicators ],
-  nationalIndicators => {
-    if (!nationalIndicators || isEmpty(nationalIndicators)) return null;
-    return nationalIndicators.values &&
-      nationalIndicators.values.filter(
-        ind => ind.location_iso_code3 === COUNTRY_ISO
-      );
+  indicators => {
+    if (!indicators || isEmpty(indicators)) return null;
+    return indicators.values &&
+      indicators.values.filter(ind => ind.location_iso_code3 === COUNTRY_ISO);
+  }
+);
+
+export const getProvincesIndicators = createSelector(
+  [ getIndicators ],
+  indicators => {
+    if (!indicators || isEmpty(indicators)) return null;
+    return indicators.values &&
+      indicators.values.filter(ind => ind.location_iso_code3 !== COUNTRY_ISO);
+  }
+);
+
+export const getIndicatorsMetadata = createSelector(
+  getIndicators,
+  indicators => {
+    if (!indicators || isEmpty(indicators)) return null;
+    return indicators.indicators;
   }
 );
 
