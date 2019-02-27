@@ -110,3 +110,14 @@
     @include columns(4);
   }
 }
+
+.policyKeyListWrapper {
+  margin-bottom: 250px;
+
+  .title {
+    @extend .sectionTitle;
+
+    color: $downriver;
+    font-size: $font-size-x-large;
+  }
+}

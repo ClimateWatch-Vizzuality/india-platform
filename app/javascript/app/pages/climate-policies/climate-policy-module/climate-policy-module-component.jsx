@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import ClimatePoliciesProvider from 'providers/climate-policies-provider';
 import PoliciesCard from 'components/policies-card';
 import SearchCategoriesBox from 'components/search-categories-box';
-import { NoContent } from 'cw-components';
+import { NoContent, Table } from 'cw-components';
 
 import styles from './climate-policy-module-styles';
 
@@ -22,7 +22,8 @@ const ClimatePolicies = (
     onCheckboxChange,
     handleTagRemove,
     handleAllTagsRemove,
-    t
+    t,
+    keyPoliciesList
   }
 ) => (
   <div>
@@ -86,12 +87,34 @@ const ClimatePolicies = (
                 </div>
               </section>
             ))
-            : <NoContent
-              minHeight={300}
-              message="No data found with this search"
-            />
+            : (
+              <NoContent
+                minHeight={300}
+                message="No data found with this search"
+              />
+)
         }
       </section>
+      {
+        !isEmpty(keyPoliciesList) && (
+        <section className={styles.policyKeyListWrapper}>
+          <h2 className={styles.title}>
+            {t('pages.climate-policies.key-policies-header')}
+          </h2>
+          <Table
+            data={keyPoliciesList}
+            defaultColumns={[
+                  'policy',
+                  'policy_status',
+                  'policy_progress'
+                ]}
+            setColumnWidth={() => 370}
+            tableHeight={600}
+            dynamicRowsHeight
+          />
+        </section>
+          )
+      }
       <ClimatePoliciesProvider />
     </div>
   </div>
@@ -105,13 +128,15 @@ ClimatePolicies.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
   handleTagRemove: PropTypes.func.isRequired,
   handleAllTagsRemove: PropTypes.func.isRequired,
-  onCheckboxChange: PropTypes.func.isRequired
+  onCheckboxChange: PropTypes.func.isRequired,
+  keyPoliciesList: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 ClimatePolicies.defaultProps = {
   policiesListBySector: {},
   sectors: null,
-  authorities: null
+  authorities: null,
+  keyPoliciesList: null
 };
 
 export default ClimatePolicies;

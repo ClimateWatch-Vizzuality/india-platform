@@ -40,10 +40,22 @@ const getFilteredPoliciesBySector = createSelector(
   }
 );
 
+const getKeyClimatePolicies = createSelector(getFilteredPolicies, policies => {
+  if (!policies) return null;
+  return policies
+    .filter(({ key_policy }) => key_policy)
+    .map(({ title, status, progress }) => ({
+      policy: title,
+      policy_status: status,
+      policy_progress: progress
+    }));
+});
+
 export const climatePolicies = createStructuredSelector({
   query: getQuery,
   policiesList: getFilteredPolicies,
   policiesListBySector: getFilteredPoliciesBySector,
   sectors: getSectors,
-  authorities: getResponsibleAuthorities
+  authorities: getResponsibleAuthorities,
+  keyPoliciesList: getKeyClimatePolicies
 });
