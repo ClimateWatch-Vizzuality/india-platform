@@ -45,6 +45,10 @@ class BarTooltipChart extends PureComponent {
           <span>
             {content.label}
           </span>
+          {yUnit}
+        </div>
+        <div className={styles.tooltipHeader}>
+          <span />
           {this.getTotal()}
         </div>
         {
@@ -56,30 +60,32 @@ class BarTooltipChart extends PureComponent {
                   y.dataKey !== 'total' &&
                   config.tooltip[y.dataKey] &&
                   config.tooltip[y.dataKey].label
-                  ? <div key={`${y.dataKey}`} className={styles.tooltipHeader}>
-                    {
+                  ? (
+                    <div key={`${y.dataKey}`} className={styles.tooltipHeader}>
+                      {
                       yUnit && (
-                          <span>
-                            <span
-                              className={styles.dot}
-                              style={{
+                      <span>
+                        <span
+                          className={styles.dot}
+                          style={{
                                 backgroundColor: config.theme[y.dataKey].stroke
                               }}
-                            />
-                            <span
-                              className={styles.unit}
-                              /* eslint-disable-line*/
-                              dangerouslySetInnerHTML={{
+                        />
+                        <span
+                          className={styles.unit}
+                              /* eslint-disable-next-line react/no-danger */
+                          dangerouslySetInnerHTML={{
                                 __html: config.tooltip[y.dataKey].label
                               }}
-                            />
-                          </span>
+                        />
+                      </span>
                         )
                     }
-                    <span>
-                      {this.renderValue(y)}
-                    </span>
-                  </div>
+                      <span>
+                        {this.renderValue(y)}
+                      </span>
+                    </div>
+)
                   : null
             )
         }
