@@ -19,10 +19,8 @@ class Economy extends PureComponent {
   render() {
     const {
       nationalChartData,
-      stateChartData,
       nationalOptions,
-      statesOptions,
-      selectedOptions,
+      selectedIndicator,
       selectedSource,
       loading,
       sources,
@@ -31,7 +29,6 @@ class Economy extends PureComponent {
     } = this.props;
 
     const nationalIndLabel = 'National Indicator';
-    const stateIndLabel = 'State';
 
     return (
       <div className={styles.page}>
@@ -50,7 +47,7 @@ class Economy extends PureComponent {
           handleChange={selected =>
             this.handleFilterChange('economySource', selected)}
         />
-        <div className={styles.container}>
+        <div>
           <div className="first-column">
             <div className={styles.toolbox}>
               <div className={styles.dropdown}>
@@ -63,10 +60,11 @@ class Economy extends PureComponent {
                       'economyNationalIndicator',
                       selected
                     )}
-                  value={selectedOptions.economyNationalIndicator}
+                  value={selectedIndicator}
                   theme={{ select: dropdownStyles.select }}
                   hideResetButton
                 />
+                {}
               </div>
               <InfoDownloadToolbox
                 className={{ buttonWrapper: styles.buttonWrapper }}
@@ -98,48 +96,6 @@ class Economy extends PureComponent {
                 )
             }
           </div>
-          <div className="second-column">
-            <div className={styles.toolbox}>
-              <div className={styles.dropdown}>
-                <Dropdown
-                  key={stateIndLabel}
-                  label={stateIndLabel}
-                  options={statesOptions || []}
-                  onValueChange={selected =>
-                    this.handleFilterChange('economyState', selected)}
-                  value={selectedOptions.economyState}
-                  theme={{ select: dropdownStyles.select }}
-                  hideResetButton
-                />
-              </div>
-              <InfoDownloadToolbox
-                className={{ buttonWrapper: styles.buttonWrapper }}
-                slugs={sources}
-                downloadUri={downloadURI}
-              />
-            </div>
-            {
-              stateChartData &&
-                (
-                  <Chart
-                    type="line"
-                    loading={loading}
-                    dots={false}
-                    lineType="linear"
-                    config={stateChartData.config}
-                    theme={{ legend: styles.legend }}
-                    customTooltip={<CustomTooltip />}
-                    dataOptions={stateChartData.dataOptions || []}
-                    dataSelected={stateChartData.dataSelected}
-                    getCustomYLabelFormat={stateChartData.config.yLabelFormat}
-                    data={stateChartData.data}
-                    domain={stateChartData.domain}
-                    margin={{ bottom: 10 }}
-                    height={300}
-                  />
-                )
-            }
-          </div>
         </div>
       </div>
     );
@@ -149,10 +105,8 @@ class Economy extends PureComponent {
 Economy.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   nationalChartData: PropTypes.object,
-  stateChartData: PropTypes.object,
+  selectedIndicator: PropTypes.object,
   nationalOptions: PropTypes.array,
-  statesOptions: PropTypes.array,
-  selectedOptions: PropTypes.object,
   selectedSource: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   sources: PropTypes.array.isRequired,
@@ -162,10 +116,8 @@ Economy.propTypes = {
 
 Economy.defaultProps = {
   nationalChartData: {},
-  stateChartData: {},
-  statesOptions: [],
+  selectedIndicator: {},
   nationalOptions: [],
-  selectedOptions: {},
   loading: false
 };
 
