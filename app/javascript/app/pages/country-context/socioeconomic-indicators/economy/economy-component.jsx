@@ -11,11 +11,6 @@ import CustomTooltip from '../shared/bar-chart-tooltip';
 import styles from '../socioeconomic-indicators-styles';
 
 class Economy extends PureComponent {
-  handleFilterChange = (filter, selected) => {
-    const { onFilterChange } = this.props;
-    onFilterChange({ [filter]: selected.value });
-  };
-
   render() {
     const {
       nationalChartData,
@@ -25,6 +20,9 @@ class Economy extends PureComponent {
       loading,
       sources,
       downloadURI,
+      onLegendChange,
+      onIndicatorChange,
+      onSwitchChange,
       t
     } = this.props;
 
@@ -44,8 +42,7 @@ class Economy extends PureComponent {
             { name: 'Employment', value: 'Employment' }
           ]}
           value={selectedSource}
-          handleChange={selected =>
-            this.handleFilterChange('economySource', selected)}
+          handleChange={onSwitchChange}
         />
         <div>
           <div className="first-column">
@@ -55,11 +52,7 @@ class Economy extends PureComponent {
                   key={nationalIndLabel}
                   label={nationalIndLabel}
                   options={nationalOptions || []}
-                  onValueChange={selected =>
-                    this.handleFilterChange(
-                      'economyNationalIndicator',
-                      selected
-                    )}
+                  onValueChange={onIndicatorChange}
                   value={selectedIndicator}
                   theme={{ select: dropdownStyles.select }}
                   hideResetButton
@@ -83,7 +76,7 @@ class Economy extends PureComponent {
                     config={nationalChartData.config}
                     theme={{ legend: styles.legend }}
                     customTooltip={<CustomTooltip />}
-                    dataOptions={nationalChartData.dataOptions || []}
+                    dataOptions={nationalChartData.dataOptions}
                     dataSelected={nationalChartData.dataSelected}
                     getCustomYLabelFormat={
                       nationalChartData.config.yLabelFormat
@@ -92,6 +85,7 @@ class Economy extends PureComponent {
                     domain={nationalChartData.domain}
                     margin={{ bottom: 10 }}
                     height={300}
+                    onLegendChange={onLegendChange}
                   />
                 )
             }
@@ -103,7 +97,9 @@ class Economy extends PureComponent {
 }
 
 Economy.propTypes = {
-  onFilterChange: PropTypes.func.isRequired,
+  onLegendChange: PropTypes.func.isRequired,
+  onIndicatorChange: PropTypes.func.isRequired,
+  onSwitchChange: PropTypes.func.isRequired,
   nationalChartData: PropTypes.object,
   selectedIndicator: PropTypes.object,
   nationalOptions: PropTypes.array,
