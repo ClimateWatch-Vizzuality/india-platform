@@ -1,4 +1,5 @@
 import { createStructuredSelector, createSelector } from 'reselect';
+import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
@@ -16,8 +17,6 @@ import {
   getAxes
 } from '../shared/socioeconomic-selectors';
 
-const { COUNTRY_ISO } = process.env;
-
 const DATA_SCALE = '1000000';
 
 const getUniqueYears = data => {
@@ -32,6 +31,7 @@ const getUniqueYears = data => {
 const getYColumn = data =>
   data.map(d => ({ label: d.label, value: d.category || d.key }));
 
+const unitLabels = { unit: '₹ Billion', million: 'People', '%': 'Percentage' };
 export const getSourceIndicatorCode = createSelector(
   getQuery,
   query =>
@@ -39,7 +39,6 @@ export const getSourceIndicatorCode = createSelector(
       ? 'GDP'
       : 'Employment'
 );
-
 const getEconomyIndicatorsValues = createSelector(
   [ getSourceIndicatorCode, getIndicatorsValues ],
   (indicatorCode, indicators) => {
@@ -49,7 +48,6 @@ const getEconomyIndicatorsValues = createSelector(
     );
   }
 );
-
 const getIndicatorsWithLabels = createSelector(
   [ getSourceIndicatorCode, getIndicators ],
   (indicatorCode, indicators) => {
@@ -60,7 +58,6 @@ const getIndicatorsWithLabels = createSelector(
     );
   }
 );
-
 const getEconomyIndicatorsValuesOptions = createSelector(
   [ getIndicatorsWithLabels ],
   indicators => {
@@ -73,32 +70,6 @@ const getEconomyIndicatorsValuesOptions = createSelector(
     );
   }
 );
-
-const getStateIndicatorsForEconomyOptions = createSelector(
-  [ getIndicators, getSourceIndicatorCode ],
-  (indicators, sourceCode) => {
-    if (!indicators) return null;
-
-    const options = [];
-    const economyStates = indicators &&
-      indicators.values &&
-      indicators.values.filter(
-        ind =>
-          ind.location_iso_code3 !== COUNTRY_ISO &&
-            ind.indicator_code === sourceCode
-      );
-
-    if (economyStates) {
-      economyStates.forEach(
-        province =>
-          options.push({ label: province.location, value: province.location })
-      );
-    }
-
-    return upperCaseLabels(sortBy(options, 'label'));
-  }
-);
-
 const getSelectedIndicator = createSelector(
   [ getQuery, getEconomyIndicatorsValuesOptions, getSourceIndicatorCode ],
   (query, options, indicatorCode) => {
@@ -108,8 +79,84 @@ const getSelectedIndicator = createSelector(
       options.find(o => o.value === query.economyNationalIndicator);
   }
 );
+const getSelectedIndicatorsValues = createSelector(
+  [ getEconomyIndicatorsValues, getSelectedIndicator ],
+  (indicators, selectedIndicator) => {
+    if (!indicators) return null;
+    return indicators.filter(
+      ind => ind.indicator_code === selectedIndicator.value
+    );
+  }
+);
+const getStatesSelectionOptions = createSelector(
+  getSelectedIndicatorsValues,
+  selectedIndicatorValues => {
+    if (!selectedIndicatorValues) return null;
+    return selectedIndicatorValues.map(i => ({
+      label: i.location,
+      value: i.location_iso_code3
+    }));
+  }
+);
+const getSelectedStates = createSelector(
+  [ getQuery, getStatesSelectionOptions ],
+  (query, options) => {
+    if (!options) return null;
+    if (!query || !query.economyState)
+      return [ { value: options[0].value, label: options[0].label } ];
+    const queryArray = query.economyState.split(',');
+    const statesSelected = queryArray.map(q => {
+      const statesData = options.find(o => o.value === q);
+      return statesData && { label: statesData.label, value: statesData.value };
+    });
+    return statesSelected;
+  }
+);
 
-// Y LABEL FORMATS
+const getChartRawData = createSelector(
+  [ getSelectedIndicatorsValues, getSelectedStates, getSelectedIndicator ],
+  (selectedIndicatorValues, selectedStates, selectedIndicator) => {
+    if (!selectedIndicatorValues) return null;
+    if (selectedIndicator && selectedIndicator.value === 'GDP_sector')
+      return selectedIndicatorValues.map(i => ({
+        values: i.values,
+        key: `y${upperFirst(camelCase(i.category))}`,
+        label: `${upperFirst(i.category)}`,
+        id: i.location_iso_code3,
+        value: i.location_iso_code3,
+        category: `y${upperFirst(camelCase(i.category))}`
+      }));
+    return selectedStates.map(st => {
+      const stateData = selectedIndicatorValues.find(
+        i => i.location_iso_code3 === st.value
+      );
+      return {
+        values: stateData.values,
+        key: stateData.category
+          ? `y${upperFirst(camelCase(stateData.category))}`
+          : `y${upperFirst(camelCase(stateData.location_iso_code3))}`,
+        label: stateData.category
+          ? `${upperFirst(stateData.category)}`
+          : stateData.location,
+        id: stateData.location_iso_code3,
+        value: stateData.location_iso_code3,
+        category: stateData.category &&
+          `y${upperFirst(camelCase(stateData.category))}`
+      };
+    });
+  }
+);
+const getChartXYvalues = createSelector(getChartRawData, rawData => {
+  if (!rawData) return null;
+  return getUniqueYears(rawData).map(year => {
+    const yValues = {};
+    rawData.forEach(({ values, key }) => {
+      const valueForYear = values.find(o => o.year === year);
+      yValues[key] = valueForYear && valueForYear.value || undefined;
+    });
+    return { x: parseInt(year, 10), ...yValues };
+  });
+}); // Y LABEL FORMATS
 const getCustomYLabelFormat = unit => {
   const formatY = {
     'billion Rupiahs': value => `${value / DATA_SCALE}B`,
@@ -122,66 +169,57 @@ let colorThemeCache;
 const getNationalBarChartData = createSelector(
   [
     getIndicatorsWithLabels,
-    getEconomyIndicatorsValues,
     getSourceIndicatorCode,
-    getSelectedIndicator
+    getSelectedIndicator,
+    getStatesSelectionOptions,
+    getChartRawData,
+    getChartXYvalues,
+    getSelectedStates
   ],
-  (indicatorsWithLabels, indicators, source, selectedIndicator) => {
-    if (!indicators || !indicatorsWithLabels) return null;
+  (
+    indicatorsWithLabels,
+    source,
+    selectedIndicator,
+    selectionOptions,
+    rawData,
+    chartXYvalues,
+    selectedStates
+  ) =>
+    {
+      if (!indicatorsWithLabels) return null;
 
-    const code = selectedIndicator.value;
+      const code = selectedIndicator.value;
+      const indicator = indicatorsWithLabels &&
+        indicatorsWithLabels.find(ind => ind.code === code);
 
-    const selectedIndicatorValues = indicators.filter(
-      ind => ind.indicator_code === code
-    );
-    const indicator = indicatorsWithLabels &&
-      indicatorsWithLabels.find(ind => ind.code === code);
-    const unit = indicator && indicator.unit;
-
-    const rawData = selectedIndicatorValues.map(i => ({
-      values: i.values,
-      key: i.category
-        ? `y${upperFirst(camelCase(i.category))}`
-        : `y${upperFirst(camelCase(i.location_iso_code3))}`,
-      label: i.category ? `${upperFirst(i.category)}` : i.location,
-      id: i.location_iso_code3,
-      value: i.location_iso_code3,
-      category: i.category && `y${upperFirst(camelCase(i.category))}`
-    }));
-
-    const chartData = getUniqueYears(rawData).map(year => {
-      const yValues = {};
-      rawData.forEach(({ values, key }) => {
-        const valueForYear = values.find(o => o.year === year);
-        yValues[key] = valueForYear && valueForYear.value || undefined;
-      });
-      return { x: parseInt(year, 10), ...yValues };
-    });
-
-    const theme = getThemeConfig(getYColumn(rawData, CHART_COLORS));
-    colorThemeCache = { ...theme, ...colorThemeCache };
-
-    return {
-      data: chartData,
-      domain: getDomain(),
-      config: {
-        axes: getAxes('Years', source === 'GDP' ? 'GDP' : 'Employment'),
-        tooltip: {
-          ...getTooltipConfig(getYColumn(rawData)),
-          x: { label: 'Year' },
-          indicator: selectedIndicator && selectedIndicator.label
+      const unit = indicator && indicator.unit;
+      const theme = getThemeConfig(getYColumn(rawData, CHART_COLORS));
+      colorThemeCache = { ...theme, ...colorThemeCache };
+      return {
+        data: chartXYvalues,
+        domain: getDomain(),
+        config: {
+          axes: getAxes('Years', source === 'GDP' ? 'GDP' : 'Employment'),
+          tooltip: {
+            ...getTooltipConfig(getYColumn(rawData)),
+            x: { label: 'Year' },
+            indicator: unitLabels[unit] ? unitLabels[unit] : unit,
+            theme: colorThemeCache,
+            formatFunction: value =>
+              `${format(',.4s')(`${value}`).replace('G', 'B')}`
+          },
+          animation: false,
+          columns: { x: getXColumn(), y: getYColumn(rawData) },
+          theme: colorThemeCache,
+          yLabelFormat: getCustomYLabelFormat(unit)
         },
-        animation: false,
-        columns: { x: getXColumn(), y: getYColumn(rawData) },
-        theme: colorThemeCache,
-        yLabelFormat: getCustomYLabelFormat(unit)
-      },
-      dataOptions: selectedIndicator && [ { label: selectedIndicator.label } ],
-      dataSelected: selectedIndicator && [ { label: selectedIndicator.label } ]
-    };
-  }
+        dataOptions: selectedIndicator.value !== 'GDP_sector'
+          ? selectionOptions
+          : null,
+        dataSelected: selectedStates
+      };
+    }
 );
-
 const getSelectedIndicatorCodes = createSelector(
   [ getIndicators, getSourceIndicatorCode ],
   (indicators, sourceIndicatorCode) => {
@@ -192,7 +230,6 @@ const getSelectedIndicatorCodes = createSelector(
       .map(i => i.code);
   }
 );
-
 const getSelectedIndicatorValues = createSelector(
   [ getSelectedIndicatorCodes, getIndicators ],
   (indicatorCodes, indicators) => {
@@ -202,12 +239,10 @@ const getSelectedIndicatorValues = createSelector(
     );
   }
 );
-
 const getSources = createSelector(
   [ getSelectedIndicatorValues ],
   iValues => uniq(iValues.map(i => i.source))
 );
-
 const getDownloadURI = createSelector(
   [ getSources, getSelectedIndicatorCodes ],
   (sources, indicatorCodes) =>
@@ -215,12 +250,10 @@ const getDownloadURI = createSelector(
       ','
     )}&source=${sources.join(',')}`
 );
-
 export const getEconomy = createStructuredSelector({
   query: getQuery,
   nationalChartData: getNationalBarChartData,
   nationalOptions: getEconomyIndicatorsValuesOptions,
-  statesOptions: getStateIndicatorsForEconomyOptions,
   selectedIndicator: getSelectedIndicator,
   loading: getLoading,
   selectedSource: getSourceIndicatorCode,
