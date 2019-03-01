@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import isArray from 'lodash/isArray';
 
 import withTranslations from 'providers/translations-provider/with-translations.hoc';
 import { getEconomy } from './economy-selectors';
@@ -20,8 +21,36 @@ class EconomyContainer extends PureComponent {
     updateFiltersSelected({ query: { ...query, ...updatedFilter } });
   };
 
+  updateIndicatorFilter = newFilter => {
+    this.onFilterChange({
+      economyNationalIndicator: newFilter.value,
+      economyState: undefined
+    });
+  };
+
+  updateSwitchFilter = newFilter => {
+    this.onFilterChange({ economySource: newFilter.value });
+  };
+
+  updateLegendFilter = newFilter => {
+    let values;
+    if (isArray(newFilter)) {
+      values = newFilter.map(v => v.value).join(',');
+    } else {
+      values = newFilter.value;
+    }
+    this.onFilterChange({ economyState: values });
+  };
+
   render() {
-    return <Component {...this.props} onFilterChange={this.onFilterChange} />;
+    return (
+      <Component
+        {...this.props}
+        onIndicatorChange={this.updateIndicatorFilter}
+        onLegendChange={this.updateLegendFilter}
+        onSwitchChange={this.updateSwitchFilter}
+      />
+    );
   }
 }
 

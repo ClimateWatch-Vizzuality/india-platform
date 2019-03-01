@@ -11,27 +11,22 @@ import CustomTooltip from '../shared/bar-chart-tooltip';
 import styles from '../socioeconomic-indicators-styles';
 
 class Economy extends PureComponent {
-  handleFilterChange = (filter, selected) => {
-    const { onFilterChange } = this.props;
-    onFilterChange({ [filter]: selected.value });
-  };
-
   render() {
     const {
       nationalChartData,
-      stateChartData,
       nationalOptions,
-      statesOptions,
-      selectedOptions,
+      selectedIndicator,
       selectedSource,
       loading,
       sources,
       downloadURI,
+      onLegendChange,
+      onIndicatorChange,
+      onSwitchChange,
       t
     } = this.props;
 
     const nationalIndLabel = 'National Indicator';
-    const stateIndLabel = 'State';
 
     return (
       <div className={styles.page}>
@@ -47,10 +42,9 @@ class Economy extends PureComponent {
             { name: 'Employment', value: 'Employment' }
           ]}
           value={selectedSource}
-          handleChange={selected =>
-            this.handleFilterChange('economySource', selected)}
+          handleChange={onSwitchChange}
         />
-        <div className={styles.container}>
+        <div>
           <div className="first-column">
             <div className={styles.toolbox}>
               <div className={styles.dropdown}>
@@ -58,15 +52,12 @@ class Economy extends PureComponent {
                   key={nationalIndLabel}
                   label={nationalIndLabel}
                   options={nationalOptions || []}
-                  onValueChange={selected =>
-                    this.handleFilterChange(
-                      'economyNationalIndicator',
-                      selected
-                    )}
-                  value={selectedOptions.economyNationalIndicator}
+                  onValueChange={onIndicatorChange}
+                  value={selectedIndicator}
                   theme={{ select: dropdownStyles.select }}
                   hideResetButton
                 />
+                {}
               </div>
               <InfoDownloadToolbox
                 className={{ buttonWrapper: styles.buttonWrapper }}
@@ -85,7 +76,7 @@ class Economy extends PureComponent {
                     config={nationalChartData.config}
                     theme={{ legend: styles.legend }}
                     customTooltip={<CustomTooltip />}
-                    dataOptions={nationalChartData.dataOptions || []}
+                    dataOptions={nationalChartData.dataOptions}
                     dataSelected={nationalChartData.dataSelected}
                     getCustomYLabelFormat={
                       nationalChartData.config.yLabelFormat
@@ -94,48 +85,7 @@ class Economy extends PureComponent {
                     domain={nationalChartData.domain}
                     margin={{ bottom: 10 }}
                     height={300}
-                  />
-                )
-            }
-          </div>
-          <div className="second-column">
-            <div className={styles.toolbox}>
-              <div className={styles.dropdown}>
-                <Dropdown
-                  key={stateIndLabel}
-                  label={stateIndLabel}
-                  options={statesOptions || []}
-                  onValueChange={selected =>
-                    this.handleFilterChange('economyState', selected)}
-                  value={selectedOptions.economyState}
-                  theme={{ select: dropdownStyles.select }}
-                  hideResetButton
-                />
-              </div>
-              <InfoDownloadToolbox
-                className={{ buttonWrapper: styles.buttonWrapper }}
-                slugs={sources}
-                downloadUri={downloadURI}
-              />
-            </div>
-            {
-              stateChartData &&
-                (
-                  <Chart
-                    type="line"
-                    loading={loading}
-                    dots={false}
-                    lineType="linear"
-                    config={stateChartData.config}
-                    theme={{ legend: styles.legend }}
-                    customTooltip={<CustomTooltip />}
-                    dataOptions={stateChartData.dataOptions || []}
-                    dataSelected={stateChartData.dataSelected}
-                    getCustomYLabelFormat={stateChartData.config.yLabelFormat}
-                    data={stateChartData.data}
-                    domain={stateChartData.domain}
-                    margin={{ bottom: 10 }}
-                    height={300}
+                    onLegendChange={onLegendChange}
                   />
                 )
             }
@@ -147,12 +97,12 @@ class Economy extends PureComponent {
 }
 
 Economy.propTypes = {
-  onFilterChange: PropTypes.func.isRequired,
+  onLegendChange: PropTypes.func.isRequired,
+  onIndicatorChange: PropTypes.func.isRequired,
+  onSwitchChange: PropTypes.func.isRequired,
   nationalChartData: PropTypes.object,
-  stateChartData: PropTypes.object,
+  selectedIndicator: PropTypes.object,
   nationalOptions: PropTypes.array,
-  statesOptions: PropTypes.array,
-  selectedOptions: PropTypes.object,
   selectedSource: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   sources: PropTypes.array.isRequired,
@@ -162,10 +112,8 @@ Economy.propTypes = {
 
 Economy.defaultProps = {
   nationalChartData: {},
-  stateChartData: {},
-  statesOptions: [],
+  selectedIndicator: {},
   nationalOptions: [],
-  selectedOptions: {},
   loading: false
 };
 

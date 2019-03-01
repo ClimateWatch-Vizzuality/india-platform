@@ -34,6 +34,11 @@ export const getIndicatorsMetadata = createSelector(
   }
 );
 
+export const getIndicatorsValues = createSelector(getIndicators, indicators => {
+  if (!indicators || isEmpty(indicators)) return null;
+  return indicators.values;
+});
+
 export const getFirstChartFilter = (queryName, selectedOptions) => {
   const label = selectedOptions[queryName] && selectedOptions[queryName].label;
 
