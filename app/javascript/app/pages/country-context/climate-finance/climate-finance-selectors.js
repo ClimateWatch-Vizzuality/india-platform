@@ -26,10 +26,7 @@ export const getXColumn = () => [ { label: 'year', value: 'x' } ];
 const getFundOptions = createSelector([ getFunds ], funds => {
   if (!funds || isEmpty(funds)) return null;
   const availableFunds = uniq(funds.map(c => c.source));
-  return [
-    ALL_SELECTED_OPTION,
-    ...availableFunds.map(f => ({ label: f, value: f }))
-  ];
+  return availableFunds.map(f => ({ label: f, value: f }));
 });
 
 const getSelectedOption = createSelector([ getFundOptions, getQuery ], (
