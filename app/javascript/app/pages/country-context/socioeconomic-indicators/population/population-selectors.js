@@ -27,13 +27,19 @@ const DEFAULT_INDICATOR = {
 };
 const INDICATOR_CODES = {
   CAIT: [ 'population_3', 'population_4', 'population_5', 'pop_density' ],
-  population_by_gender: [ 'population_1', 'population_2', 'Sex_ratio' ],
+  population_by_gender: [
+    'population_1',
+    'population_2',
+    'Sex_ratio',
+    'Sex_ratio_child'
+  ],
   hdi: [ 'hdi' ]
 };
 
 const unitLabels = {
   pop_density: 'per sq km',
   Sex_ratio: 'female per 1000 male',
+  Sex_ratio_child: 'number of children per 1000 male',
   '%': 'Percentage',
   hdi: 'Index'
 };
