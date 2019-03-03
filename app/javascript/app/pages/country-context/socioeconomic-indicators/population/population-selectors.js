@@ -26,7 +26,7 @@ const DEFAULT_INDICATOR = {
   hdi: 'hdi'
 };
 const INDICATOR_CODES = {
-  CAIT: [ 'population_3', 'population_4', 'pop_density' ],
+  CAIT: [ 'population_3', 'population_4', 'population_5', 'pop_density' ],
   population_by_gender: [ 'population_1', 'population_2', 'Sex_ratio' ],
   hdi: [ 'hdi' ]
 };
