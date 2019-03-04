@@ -16,7 +16,6 @@
   }
 }
 
-
 .filtersGroup {
   display: flex;
   flex-direction: column;
@@ -24,7 +23,7 @@
   .filters {
     width: 100%;
   }
-  
+
   @include xy-gutters($gutter-position: ('bottom'), $gutters: $gutter-padding * 8);
 }
 
