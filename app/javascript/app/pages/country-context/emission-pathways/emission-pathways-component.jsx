@@ -90,45 +90,47 @@ class EmissionPathways extends PureComponent {
                 )
             }
             <div className="grid-column-item">
-              <div className={styles.selectorsWrapper}>
-                <Dropdown
-                  label="Model"
-                  options={filtersOptions.models}
-                  onValueChange={handleModelChange}
-                  disabled={filtersLoading.location}
-                  value={filtersSelected.model}
-                  hideResetButton
-                />
-                <Dropdown
-                  label="Category"
-                  placeholder="Select a category"
-                  options={filtersOptions.category}
-                  hideResetButton
-                  disabled={filtersDisabled}
-                  onValueChange={option =>
-                    handleSelectorChange(option, 'category')}
-                  value={filtersSelected.category}
-                />
-                <Dropdown
-                  label="Subcategory"
-                  placeholder="Select a subcategory"
-                  options={filtersOptions.subcategory}
-                  hideResetButton
-                  disabled={filtersDisabled}
-                  onValueChange={option =>
-                    handleSelectorChange(option, 'subcategory')}
-                  value={filtersSelected.subcategory}
-                />
-                <Dropdown
-                  label="Indicator"
-                  placeholder="Select an indicator"
-                  options={filtersOptions.indicators}
-                  hideResetButton
-                  disabled={filtersDisabled}
-                  onValueChange={option =>
-                    handleSelectorChange(option, 'indicator')}
-                  value={filtersSelected.indicator}
-                />
+              <div className={styles.filtersGroup}>
+                <div className={styles.filters}>
+                  <Dropdown
+                    label="Model"
+                    options={filtersOptions.models}
+                    onValueChange={handleModelChange}
+                    disabled={filtersLoading.location}
+                    value={filtersSelected.model}
+                    hideResetButton
+                  />
+                  <Dropdown
+                    label="Category"
+                    placeholder="Select a category"
+                    options={filtersOptions.category}
+                    hideResetButton
+                    disabled={filtersDisabled}
+                    onValueChange={option =>
+                      handleSelectorChange(option, 'category')}
+                    value={filtersSelected.category}
+                  />
+                  <Dropdown
+                    label="Subcategory"
+                    placeholder="Select a subcategory"
+                    options={filtersOptions.subcategory}
+                    hideResetButton
+                    disabled={filtersDisabled}
+                    onValueChange={option =>
+                      handleSelectorChange(option, 'subcategory')}
+                    value={filtersSelected.subcategory}
+                  />
+                  <Dropdown
+                    label="Indicator"
+                    placeholder="Select an indicator"
+                    options={filtersOptions.indicators}
+                    hideResetButton
+                    disabled={filtersDisabled}
+                    onValueChange={option =>
+                      handleSelectorChange(option, 'indicator')}
+                    value={filtersSelected.indicator}
+                  />
+                </div>
                 <InfoDownloadToolbox
                   className={{ buttonWrapper: styles.buttonWrapper }}
                   downloadUri={downloadURI}

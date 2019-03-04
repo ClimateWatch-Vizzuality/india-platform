@@ -138,9 +138,11 @@ class HistoricalEmissions extends PureComponent {
           )}
           extraContent={renderButtons()}
         />
-        <div className={styles.dropdowns}>
-          {this.renderDropdown('sector', true)}
-          {this.renderDropdown('gas', true)}
+        <div className={styles.filtersGroup}>
+          <div className={styles.filters}>
+            {this.renderDropdown('sector', true)}
+            {this.renderDropdown('gas', true)}
+          </div>
           <InfoDownloadToolbox
             className={{ buttonWrapper: styles.buttonWrapper }}
             slugs={sources}
