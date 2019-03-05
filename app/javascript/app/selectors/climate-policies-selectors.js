@@ -1,5 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import { groupBy } from 'lodash';
+import { flatMap, groupBy, uniq } from 'lodash';
 
 export const getClimatePoliciesList = ({ ClimatePolicies }) =>
   ClimatePolicies && (ClimatePolicies.data || null);
@@ -97,7 +97,10 @@ export const getResponsibleAuthorities = createSelector(
   getClimatePoliciesList,
   list => {
     if (!list) return null;
-    return Object.keys(groupBy(list, 'authority'));
+
+    return uniq(
+      flatMap(list, p => (p.authority || '').split(',').map(a => a.trim()))
+    ).sort();
   }
 );
 export const policiesByCode = createSelector(getClimatePoliciesList, list => {

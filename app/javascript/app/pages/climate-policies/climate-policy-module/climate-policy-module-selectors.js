@@ -1,5 +1,5 @@
 import { createStructuredSelector, createSelector } from 'reselect';
-import { isEmpty, groupBy, isArray } from 'lodash';
+import { isEmpty, groupBy, castArray } from 'lodash';
 
 import {
   getClimatePoliciesList,
@@ -20,10 +20,7 @@ const getFilteredPolicies = createSelector(
     return policies.reduce(
       (acc, policy) => {
         const notFiltered = filtersFieldsArray.find(
-          f =>
-            isArray(query[f])
-              ? query[f].includes(policy[f])
-              : policy[f].includes(query[f])
+          f => castArray(query[f]).some(q => policy[f].includes(q))
         );
         return notFiltered ? [ ...acc, policy ] : [ ...acc ];
       },
