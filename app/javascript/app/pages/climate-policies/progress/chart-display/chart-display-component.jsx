@@ -26,6 +26,7 @@ class ChartDisplay extends PureComponent {
     if (!indicator) return null;
 
     const tooltip = <BarTooltipChart showEmptyValues={false} />;
+    const margin = { top: 30, right: 0, left: -10, bottom: 0 };
 
     return (
       <React.Fragment>
@@ -46,6 +47,7 @@ class ChartDisplay extends PureComponent {
               dataSelected={chartData.dataSelected}
               loading={false}
               domain={chartData.domain}
+              margin={margin}
               height={300}
               barSize={50}
               customTooltip={tooltip}

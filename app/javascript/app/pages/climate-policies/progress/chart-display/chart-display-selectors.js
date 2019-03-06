@@ -12,7 +12,7 @@ const getAllCategories = indicator =>
 
 const getAxes = indicator => ({
   xBottom: { name: 'AxisX', unit: '', format: 'string' },
-  yLeft: { name: 'Reporting value', unit: indicator.unit, format: 'number' }
+  yLeft: { name: 'Reporting value', unit: indicator.unit, format: 'number', label: { dy: 10 } }
 });
 
 const getSelectedCategories = indicator => state => {
