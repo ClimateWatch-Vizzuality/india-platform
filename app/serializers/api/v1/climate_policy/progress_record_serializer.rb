@@ -11,7 +11,7 @@ module Api
         end
 
         def category
-          object.category || 'Reporting value'
+          object.category || object.indicator.name
         end
       end
     end
