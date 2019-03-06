@@ -101,7 +101,7 @@
     "eslint-plugin-react": "7.10.0",
     "husky": "0.14.3",
     "lint-staged": "4.1.1",
-    "prettier": "0.11.0",
+    "prettier": "1.16.4",
     "prop-types": "15.5.10",
     "redux-logger": "3.0.6",
     "release": "github:vizzuality/release#4.0.0",
