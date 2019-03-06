@@ -209,13 +209,22 @@ class ImportClimatePolicies
   end
 
   def progress_attributes(row)
+    indicator = find_indicator!(row[:indicator_code])
+
     {
-      indicator: find_indicator!(row[:indicator_code]),
+      indicator: indicator,
       axis_x: row[:axis_x],
       category: row[:category],
-      value: row[:value]&.delete('%,', ',')&.to_f,
+      value: parse_progress_value(indicator, row[:value]),
       target: parse_target(row[:target])
     }
+  end
+
+  def parse_progress_value(indicator, value)
+    return unless value.present?
+    return value.delete('%,', ',')&.to_f unless indicator.text?
+
+    value
   end
 
   # we want to raise an error when source is not found
