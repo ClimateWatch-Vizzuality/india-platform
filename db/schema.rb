@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_06_135352) do
+ActiveRecord::Schema.define(version: 2019_03_06_105438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,10 +127,10 @@ ActiveRecord::Schema.define(version: 2019_02_06_135352) do
     t.bigint "indicator_id"
     t.string "axis_x"
     t.string "category"
-    t.float "value", null: false
     t.string "target"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "value"
     t.index ["indicator_id"], name: "index_climate_policy_progress_records_on_indicator_id"
   end
 

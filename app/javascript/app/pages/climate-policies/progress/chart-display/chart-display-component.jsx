@@ -15,9 +15,7 @@ class ChartDisplay extends PureComponent {
     const { onFilterChange, indicator } = this.props;
 
     const filter = `${indicator.code}_category`;
-    const values = isArray(selected)
-      ? selected.map(v => v.value).join(',')
-      : selected.value;
+    const values = isArray(selected) ? selected.map(v => v.value).join(',') : selected.value;
 
     onFilterChange({ [filter]: values });
   };
@@ -27,45 +25,36 @@ class ChartDisplay extends PureComponent {
 
     if (!indicator) return null;
 
-    const tooltip = (
-      <BarTooltipChart
-        showEmptyValues={false}
-        getCustomValueFormat={chartData.tooltipCustomValueFormat}
-      />
-    );
+    const tooltip = <BarTooltipChart showEmptyValues={false} />;
+    const margin = { top: 30, right: 0, left: -10, bottom: 0 };
 
     return (
       <React.Fragment>
         <div className={styles.chartProgress}>
-          <div className={styles.indicatorTitle}>
-            {indicator.title}
-          </div>
+          <div className={styles.indicatorTitle}>{indicator.title}</div>
           <div className={styles.lastUpdate}>
-            <span className={styles.date}>
-              Last update: {formatDate(indicator.updated_at)}
-            </span>
+            <span className={styles.date}>Last update: {formatDate(indicator.updated_at)}</span>
             <InfoButton dark slugs="" />
           </div>
         </div>
         <div className={styles.chartContainer}>
-          {
-            chartData &&
-              (
-                <Chart
-                  type="bar"
-                  config={chartData.config}
-                  data={chartData.data}
-                  dataOptions={chartData.dataOptions}
-                  dataSelected={chartData.dataSelected}
-                  loading={false}
-                  domain={chartData.domain}
-                  height={300}
-                  barSize={50}
-                  customTooltip={tooltip}
-                  onLegendChange={this.handleLegendChange}
-                />
-              )
-          }
+          {chartData && (
+            <Chart
+              type="bar"
+              config={chartData.config}
+              data={chartData.data}
+              dataOptions={chartData.dataOptions}
+              dataSelected={chartData.dataSelected}
+              loading={false}
+              domain={chartData.domain}
+              margin={margin}
+              height={300}
+              barSize={50}
+              customTooltip={tooltip}
+              showUnit
+              onLegendChange={this.handleLegendChange}
+            />
+          )}
         </div>
       </React.Fragment>
     );

@@ -9,7 +9,7 @@
   border-radius: 4px;
 }
 
-.tooltipHeader {
+.tooltipRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,6 +28,14 @@
 
   &:not(:first-child) {
     color: #77818c;
+  }
+}
+
+.total {
+  font-weight: $font-weight-bold;
+
+  > * {
+    color: #0e4762;
   }
 }
 
