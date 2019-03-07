@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
 
 import { formatDate } from 'utils';
 import InfoButton from 'components/info-button';
 
 import styles from './text-display-styles';
-
-const normalizeValue = value =>
-  Number.isNaN(Number(value)) ? value : Number(value).toString();
-
-const showCategoryWithValue = progress =>
-  [ progress.axis_x, normalizeValue(progress.value) ].filter(x => x).join(': ');
 
 const TextDisplay = ({ indicator }) => (
   <div className={styles.textProgress}>
@@ -19,9 +14,8 @@ const TextDisplay = ({ indicator }) => (
     </div>
     <ul>
       {indicator.progress_records.map(progress => (
-        <li key={progress.axis_x}>
-          {showCategoryWithValue(progress)}
-          {indicator.unit && ` ${indicator.unit}`}
+        <li key={progress.value}>
+          <ReactMarkdown source={progress.value} escapeHtml={false} />
         </li>
       ))}
     </ul>

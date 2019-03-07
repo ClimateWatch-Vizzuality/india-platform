@@ -12,9 +12,7 @@ import iconThemes from 'styles/themes/icon';
 import isArray from 'lodash/isArray';
 import Switch from 'components/switch';
 import dropdownStyles from 'styles/themes/dropdown.scss';
-import socioeconomicStyles from '../socioeconomic-indicators-styles';
-
-import styles from './energy-styles.scss';
+import styles from '../socioeconomic-indicators-styles';
 
 class Energy extends PureComponent {
   handleFilterChange = (filter, selected) => {
@@ -43,7 +41,7 @@ class Energy extends PureComponent {
     const indicatorLabel = 'Indicators';
 
     return (
-      <div className={socioeconomicStyles.page}>
+      <div className={styles.page}>
         <div>
           <SectionTitle
             title={t('pages.country-context.socioeconomic.energy.title')}
@@ -77,7 +75,7 @@ class Energy extends PureComponent {
           handleChange={selected =>
             this.handleFilterChange('energySource', selected)}
         />
-        <div className={styles.container}>
+        <div className="first-column">
           <div className={styles.toolbox}>
             <div className={styles.dropdown}>
               <Dropdown

@@ -16,19 +16,29 @@
   }
 }
 
-.dropdowns {
-  @include columns();
+.filtersGroup {
+  display: flex;
+  flex-direction: column;
 
-  @media #{$tablet-landscape} {
-    @include columns($columns: (2.2, 2.2, 1.5));
-
-    padding-left: $gutter-padding / 2;
-
-    @include xy-gutters($gutter-position: ('bottom'), $gutters: $gutter-padding * 8);
+  .filters {
+    width: 100%;
   }
+
+  @include xy-gutters($gutter-position: ('bottom'), $gutters: $gutter-padding * 8);
 }
 
 .buttonWrapper {
   max-width: 100px;
   margin-top: 22px;
+}
+
+@media #{$tablet-landscape} {
+  .filtersGroup {
+    flex-direction: row;
+    justify-content: space-between;
+
+    .filters {
+      @include columns((3, 3, 3, 3));
+    }
+  }
 }

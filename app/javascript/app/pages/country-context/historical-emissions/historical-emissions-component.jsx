@@ -19,6 +19,7 @@ import styles from './historical-emissions-styles.scss';
 import BarTooltipChart from './bar-tooltip-chart/bar-tooltip-chart-component';
 
 const CW_COMPARE_LINK = 'https://www.climatewatchdata.org/countries/compare?locations=IND';
+const GHG_INDIA_LINK = 'http://www.ghgplatform-india.org/';
 
 const renderButtons = () => (
   <div className={styles.buttons}>
@@ -28,7 +29,7 @@ const renderButtons = () => (
     >
       <Button
         theme={{ button: cx(buttonThemes.yellow, styles.powerExplorerButton) }}
-        link={{ type: 'a', props: { href: '', target: '_blank' } }}
+        link={{ type: 'a', props: { href: GHG_INDIA_LINK, target: '_blank' } }}
       >
         Explore by sector and state
         <Icon icon={openInNew} theme={{ icon: iconThemes.openInNew }} />
@@ -137,9 +138,11 @@ class HistoricalEmissions extends PureComponent {
           )}
           extraContent={renderButtons()}
         />
-        <div className={styles.dropdowns}>
-          {this.renderDropdown('sector', true)}
-          {this.renderDropdown('gas', true)}
+        <div className={styles.filtersGroup}>
+          <div className={styles.filters}>
+            {this.renderDropdown('sector', true)}
+            {this.renderDropdown('gas', true)}
+          </div>
           <InfoDownloadToolbox
             className={{ buttonWrapper: styles.buttonWrapper }}
             slugs={sources}
