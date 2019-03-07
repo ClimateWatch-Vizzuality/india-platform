@@ -22,11 +22,17 @@ class PopulationContainer extends PureComponent {
   };
 
   updateSwitchFilter = newFilter => {
-    this.onFilterChange({ populationSource: newFilter.value });
+    this.onFilterChange({
+      populationSource: newFilter.value,
+      popState: undefined
+    });
   };
 
   updateIndicatorFilter = newFilter => {
-    this.onFilterChange({ popNationalIndicator: newFilter.value });
+    this.onFilterChange({
+      popNationalIndicator: newFilter.value,
+      popState: undefined
+    });
   };
 
   updateLegendFilter = newFilter => {
@@ -58,6 +64,7 @@ PopulationContainer.propTypes = {
 
 PopulationContainer.defaultProps = { query: {} };
 
-export default connect(mapStateToProps, actions)(
-  withTranslations(PopulationContainer)
-);
+export default connect(
+  mapStateToProps,
+  actions
+)(withTranslations(PopulationContainer));
