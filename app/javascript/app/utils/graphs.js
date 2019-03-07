@@ -38,35 +38,32 @@ export const getThemeConfig = (
   columns,
   colorCache = {},
   colors = CHART_COLORS
-) =>
-  {
-    const theme = {};
-    let newColumns = columns;
-    let usedColors = [];
-    if (colorCache && !isEmpty(colorCache)) {
-      const usedColumns = columns.filter(c => colorCache[c.value]);
-      usedColors = uniq(usedColumns.map(c => colorCache[c.value].stroke));
-      newColumns = columns.filter(c => !usedColumns.includes(c.value));
+) => {
+  const theme = {};
+  let newColumns = columns;
+  let usedColors = [];
+  if (colorCache && !isEmpty(colorCache)) {
+    const usedColumns = columns.filter(c => colorCache[c.value]);
+    usedColors = uniq(usedColumns.map(c => colorCache[c.value].stroke));
+    newColumns = columns.filter(c => !usedColumns.includes(c.value));
+  }
+  const themeUsedColors = [];
+  let availableColors = colors.filter(c => !usedColors.includes(c));
+  newColumns.forEach((column, i) => {
+    availableColors = availableColors.filter(c => !themeUsedColors.includes(c));
+    if (!availableColors.length) availableColors = colors;
+    let index;
+    if (column.index || column.index === 0) {
+      index = { column };
+    } else {
+      index = i % availableColors.length;
+      themeUsedColors.push(selectedColor);
     }
-    const themeUsedColors = [];
-    let availableColors = colors.filter(c => !usedColors.includes(c));
-    newColumns.forEach((column, i) => {
-      availableColors = availableColors.filter(
-        c => !themeUsedColors.includes(c)
-      );
-      if (!availableColors.length) availableColors = colors;
-      let index;
-      if (column.index || column.index === 0) {
-        index = { column };
-      } else {
-        index = i % availableColors.length;
-        themeUsedColors.push(selectedColor);
-      }
-      const selectedColor = availableColors[index];
-      theme[column.value] = { stroke: selectedColor, fill: selectedColor };
-    });
-    return { ...theme, ...colorCache };
-  };
+    const selectedColor = availableColors[index];
+    theme[column.value] = { stroke: selectedColor, fill: selectedColor };
+  });
+  return { ...theme, ...colorCache };
+};
 
 export const DEFAULT_AXES_CONFIG = {
   xBottom: { name: 'Year', unit: 'date', format: 'YYYY' },
@@ -82,5 +79,11 @@ function setBuffer(min) {
 }
 
 export function setYAxisDomain() {
-  return [ setBuffer, 'auto' ];
+  return [setBuffer, 'auto'];
 }
+
+export const setLegendOptions = (options, selected, maxLegendElements) => {
+  const placehyolderArray = new Array(maxLegendElements);
+  if (selected && selected.length === 4) return placehyolderArray;
+  return options;
+};
