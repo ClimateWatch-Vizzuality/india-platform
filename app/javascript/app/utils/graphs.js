@@ -83,7 +83,9 @@ export function setYAxisDomain() {
 }
 
 export const setLegendOptions = (options, selected, maxLegendElements) => {
+  if (!maxLegendElements) return options;
   const placehyolderArray = new Array(maxLegendElements);
-  if (selected && selected.length === 4) return placehyolderArray;
+  if (selected && selected.length === maxLegendElements)
+    return placehyolderArray;
   return options;
 };

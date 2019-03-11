@@ -51,7 +51,7 @@ const unitLabels = {
 
 const DATA_SCALE = 1000;
 
-const MAX_CHART_LEGEND_ELEMENTS = 4;
+const MAX_CHART_LEGEND_ELEMENTS = 5;
 
 const formatY = {
   'number of female per 1000 male': value => `${value}`,
