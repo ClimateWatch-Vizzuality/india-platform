@@ -41,14 +41,6 @@ const INDICATOR_CODES = {
   hdi: ['hdi']
 };
 
-const unitLabels = {
-  pop_density: 'per sq km',
-  Sex_ratio: 'female per 1000 male',
-  Sex_ratio_child: 'children per 1000 male',
-  '%': 'Percentage',
-  hdi: 'Index'
-};
-
 const DATA_SCALE = 1000;
 
 const MAX_CHART_LEGEND_ELEMENTS = 5;
@@ -246,7 +238,7 @@ const getBarChartData = createSelector(
   ) => {
     if (!indicators || !data || !provincesIndicators) return null;
 
-    const { value, unit } = selectedIndicator;
+    const { unit } = selectedIndicator;
 
     const theme = getThemeConfig(getYColumn(rawData, CHART_COLORS));
     return {
@@ -257,7 +249,7 @@ const getBarChartData = createSelector(
         tooltip: {
           ...getTooltipConfig(getYColumn(rawData)),
           x: { label: 'Year' },
-          indicator: unitLabels[value] ? unitLabels[value] : 'People',
+          indicator: unit !== 'million' ? upperFirst(unit) : 'People',
           theme,
           formatFunction: formatY[unit]
             ? getCustomYLabelFormat(unit)
