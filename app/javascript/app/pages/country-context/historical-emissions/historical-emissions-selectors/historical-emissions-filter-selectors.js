@@ -5,17 +5,26 @@ import { ALL_SELECTED, SECTOR_TOTAL } from 'constants/constants';
 import { getMetadata } from './historical-emissions-get-selectors';
 
 const DEFAULT_GAS_OPTION = 'All GHG';
-
+const EXCLUDED_SECTORS = [
+  'Total with LULUCF',
+  'Total without LULUCF',
+  'Fuel Combustion Activities',
+  'Fugitive Emission from fuels',
+  'Enteric Fermentation',
+  'Manure Management',
+  'Rice Cultivation',
+  'Agricultural Soils',
+  'Field burning of Agricultural Residues'
+];
 const findOption = (
   options,
   value,
-  findBy = [ 'name', 'value', 'code', 'label' ]
+  findBy = ['name', 'value', 'code', 'label']
 ) =>
-  options && options
-      .filter(o => o)
-      .find(
-        o => castArray(findBy).some(key => String(o[key]) === String(value))
-      );
+  options &&
+  options
+    .filter(o => o)
+    .find(o => castArray(findBy).some(key => String(o[key]) === String(value)));
 
 // OPTIONS
 export const getAllSelectedOption = () => ({
@@ -24,17 +33,30 @@ export const getAllSelectedOption = () => ({
   override: true
 });
 
-const getFieldOptions = field => createSelector([ getMetadata ], metadata => {
-  if (!metadata || !metadata[field]) return null;
+const getFieldOptions = field =>
+  createSelector(
+    [getMetadata],
+    metadata => {
+      if (!metadata || !metadata[field]) return null;
 
-  const options = metadata[field].map(o => {
-    const option = { label: o.label, value: String(o.value), code: o.code };
-    if (field === 'gas' && o.label === DEFAULT_GAS_OPTION)
-      option.override = true;
-    return option;
-  });
-  return options.filter(o => o);
-});
+      const options = metadata[field]
+        .map(({ label, value, code }) => ({
+          label,
+          value: String(value),
+          code
+        }))
+        .filter(o => o);
+
+      if (field === 'gas') {
+        return options.map(option => ({
+          ...option,
+          override: option.label === DEFAULT_GAS_OPTION
+        }));
+      }
+
+      return options.filter(({ label }) => !EXCLUDED_SECTORS.includes(label));
+    }
+  );
 
 export const getFilterOptions = createStructuredSelector({
   sector: getFieldOptions('sector'),
@@ -42,13 +64,13 @@ export const getFilterOptions = createStructuredSelector({
 });
 
 // DEFAULTS
-const getDefaults = createSelector([ getFilterOptions, getAllSelectedOption ], (
-  options,
-  allSelectedOption
-) => ({
-  sector: allSelectedOption,
-  gas: findOption(options.gas, DEFAULT_GAS_OPTION)
-}));
+const getDefaults = createSelector(
+  [getFilterOptions, getAllSelectedOption],
+  (options, allSelectedOption) => ({
+    sector: allSelectedOption,
+    gas: findOption(options.gas, DEFAULT_GAS_OPTION)
+  })
+);
 
 // SELECTED
 const getFieldSelected = field => state => {
@@ -64,7 +86,7 @@ const getFieldSelected = field => state => {
 };
 
 const getSectorSelected = createSelector(
-  [ getFieldSelected('sector'), getFieldOptions('sector') ],
+  [getFieldSelected('sector'), getFieldOptions('sector')],
   (sectorSelected, sectorOptions) => {
     if (!sectorOptions) return null;
     return sectorOptions.find(o => o.code === SECTOR_TOTAL) || sectorSelected;
