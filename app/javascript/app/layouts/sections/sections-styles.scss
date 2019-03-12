@@ -25,6 +25,10 @@
   @include row();
 }
 
+.descriptionContainer {
+  @include columns((8, 4));
+}
+
 .nav {
   display: flex;
   height: 70px;
