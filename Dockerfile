@@ -9,7 +9,7 @@ ENV ESP_API_URL="https://data.emissionspathways.org/api/v1"
 ENV API_URL="/api/v1"
 ENV S3_BUCKET_NAME="wri-sites"
 ENV COUNTRY_ISO=IND
-ENV GOOGLE_ANALYTICS_ID ''
+ENV GOOGLE_ANALYTICS_ID "UA-130931064-3"
 
 # Install dependencies
 RUN apt-get update \
