@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import universal from 'react-universal-component';
 import Sticky from 'react-stickynode';
-import { Loading } from 'cw-components';
-
+import { Loading, Dropdown } from 'cw-components';
+import { NDC_LINKS_OPTIONS } from 'constants/constants';
+import { NDC_LINK } from 'constants/links';
 import Nav from 'components/nav';
 import navStyles from 'components/nav/nav-styles';
 
+import theme from 'styles/themes/dropdown-links.scss';
 import styles from './sections-styles.scss';
 
 const CLIMATE_POLICIES = '/climate-policies';
@@ -32,9 +34,12 @@ class Planning extends PureComponent {
     }
   }
 
+  handleDocumentDropdownClick = selected => {
+    window.open(`${NDC_LINK}/full?document=${selected.value}-EN`, '_blank');
+  }
+
   render() {
     const { route, section, policy, t } = this.props;
-
     const isClimatePoliciesDetails = route.link === CLIMATE_POLICIES;
     let { sections } = route;
     if (isClimatePoliciesDetails) {
@@ -56,10 +61,26 @@ class Planning extends PureComponent {
 
       if (!page) return null;
 
+      const isClimateGoalsSection = route.slug === 'climate-goals'
+
       return (
         <div className={styles.row}>
           <h2 className={styles.sectionTitle}>{page.title}</h2>
-          <p className={styles.sectionDescription}>{page.description}</p>
+          <div className='layout-column-container'>
+            <div className={styles.descriptionContainer}>
+              <p className={styles.sectionDescription}>{page.description}</p>
+              {
+                isClimateGoalsSection && (
+                  <Dropdown
+                    className={theme.dropdownWithLink}
+                    placeholder="Read India's NDC documents"
+                    options={NDC_LINKS_OPTIONS}
+                    onValueChange={this.handleDocumentDropdownClick}
+                  />
+                )
+              }
+            </div>
+          </div>
         </div>
       );
     };
