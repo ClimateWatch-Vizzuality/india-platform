@@ -1,5 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import { flatMap, groupBy, uniq } from 'lodash';
+import { flatMap, groupBy, uniq, sortBy } from 'lodash';
 
 export const getClimatePoliciesList = ({ ClimatePolicies }) =>
   ClimatePolicies && (ClimatePolicies.data || null);
@@ -11,7 +11,7 @@ export const getClimatePoliciesDetails = ({ ClimatePoliciesDetails }) =>
   ClimatePoliciesDetails && (ClimatePoliciesDetails.data || null);
 
 export const getClimatePolicyDetails = createSelector(
-  [ getClimatePoliciesDetails, getPolicyCode ],
+  [getClimatePoliciesDetails, getPolicyCode],
   (climatePoliciesDetails, policyCode) => {
     if (!climatePoliciesDetails || !policyCode) return null;
     return climatePoliciesDetails[policyCode];
@@ -19,7 +19,7 @@ export const getClimatePolicyDetails = createSelector(
 );
 
 export const getIndicators = createSelector(
-  [ getClimatePolicyDetails ],
+  [getClimatePolicyDetails],
   policyDetails => {
     if (!policyDetails) return null;
 
@@ -31,14 +31,16 @@ export const getIndicators = createSelector(
 
     const groupedByCategory = groupBy(sluggedIndicators, 'category');
 
-    return Object
-      .keys(groupedByCategory)
-      .map(cat => ({ slug: cat, title: cat, content: groupedByCategory[cat] }));
+    return Object.keys(groupedByCategory).map(cat => ({
+      slug: cat,
+      title: cat,
+      content: groupedByCategory[cat]
+    }));
   }
 );
 
 export const getSources = createSelector(
-  [ getClimatePolicyDetails ],
+  [getClimatePolicyDetails],
   policyDetails => {
     if (!policyDetails) return null;
     return policyDetails && policyDetails.sources;
@@ -46,7 +48,7 @@ export const getSources = createSelector(
 );
 
 export const getInstruments = createSelector(
-  [ getClimatePolicyDetails ],
+  [getClimatePolicyDetails],
   policyDetails => {
     if (!policyDetails) return null;
     const instruments = policyDetails && policyDetails.instruments;
@@ -58,7 +60,7 @@ export const getInstruments = createSelector(
 );
 
 export const getMilestones = createSelector(
-  [ getClimatePolicyDetails ],
+  [getClimatePolicyDetails],
   policyDetails => {
     if (!policyDetails) return null;
     const milestones = policyDetails && policyDetails.milestones;
@@ -67,12 +69,14 @@ export const getMilestones = createSelector(
 );
 
 export const getIndicatorsProgress = createSelector(
-  [ getClimatePolicyDetails ],
-  policyDetails => {
-    if (!policyDetails) return null;
+  [getClimatePolicyDetails, getPolicyCode],
+  (policyDetails, policyCode) => {
+    if (!policyDetails || !policyCode) return null;
 
-    return policyDetails &&
+    const indicators =
+      policyDetails &&
       policyDetails.indicators.filter(i => !!i.progress_display);
+    return policyCode === 'CEC' ? sortBy(indicators, ['title']) : indicators;
   }
 );
 
@@ -103,13 +107,17 @@ export const getResponsibleAuthorities = createSelector(
     ).sort();
   }
 );
-export const policiesByCode = createSelector(getClimatePoliciesList, list => {
-  if (!list) return null;
-  const groupedByCode = groupBy(list, 'code');
-  return Object
-    .keys(groupedByCode)
-    .reduce((acc, code) => ({ ...acc, [code]: groupedByCode[code][0] }), {});
-});
+export const policiesByCode = createSelector(
+  getClimatePoliciesList,
+  list => {
+    if (!list) return null;
+    const groupedByCode = groupBy(list, 'code');
+    return Object.keys(groupedByCode).reduce(
+      (acc, code) => ({ ...acc, [code]: groupedByCode[code][0] }),
+      {}
+    );
+  }
+);
 
 export const climatePolicies = createStructuredSelector({
   policiesList: getClimatePoliciesList,
