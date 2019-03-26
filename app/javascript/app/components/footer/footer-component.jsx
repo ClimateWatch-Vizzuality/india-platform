@@ -27,26 +27,30 @@ const upperFooter = (
           Funding for this initiative is provided by
         </span>
         {founders.map(
-          partner => partner.img && (
-          <div key={partner.img.alt} className={styles.logoContainer}>
-            <a
-              className={cx(styles.logo, styles[partner.img.customClass])}
-              href={partner.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                className={styles.defaultLogo}
-                src={partner.img.src}
-                alt={partner.img.alt}
-              />
-            </a>
-            {partner.description && <div>{partner.description}</div>}
-          </div>
+          partner =>
+            partner.img && (
+              <div key={partner.img.alt} className={styles.logoContainer}>
+                <a
+                  className={cx(styles.logo, styles[partner.img.customClass])}
+                  href={partner.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    className={styles.defaultLogo}
+                    src={partner.img.src}
+                    alt={partner.img.alt}
+                  />
+                </a>
+                {partner.description && <div>{partner.description}</div>}
+              </div>
             )
         )}
       </div>
-      <a className={styles.contactUs} href="mailto:climatewatch@wri.org">
+      <a
+        className={styles.contactUs}
+        href="mailto:indiaclimateexplorer@wri.org"
+      >
         {contactLinkIcon}
         CONTACT US
       </a>
@@ -84,9 +88,7 @@ const bottomBar = (
           >
             {rwLogo}
             <span className={styles.resourceWatch}>
-              <span className={styles.resource}>
-                RESOURCE
-              </span>
+              <span className={styles.resource}>RESOURCE</span>
               WATCH
             </span>
           </a>
