@@ -23,7 +23,6 @@ import {
 } from '../shared/socioeconomic-selectors';
 
 const DATA_SCALE = '1000000';
-const MAX_CHART_LEGEND_ELEMENTS = 5;
 
 const getUniqueYears = data => {
   const allYears = flatten(
@@ -220,11 +219,7 @@ const getNationalBarChartData = createSelector(
       },
       dataOptions:
         selectedIndicator.value !== 'GDP_sector'
-          ? setLegendOptions(
-              selectionOptions,
-              selectedStates,
-              MAX_CHART_LEGEND_ELEMENTS
-            )
+          ? setLegendOptions(selectionOptions, selectedStates)
           : null,
       dataSelected: selectedStates
     };
