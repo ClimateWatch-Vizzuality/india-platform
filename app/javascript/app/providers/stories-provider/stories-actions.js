@@ -5,13 +5,15 @@ export const fetchStoriesInit = createAction('fetchStoriesInit');
 export const fetchStoriesReady = createAction('fetchStoriesReady');
 export const fetchStoriesFail = createAction('fetchStoriesFail');
 
+const params = { tags: 'indiaclimatedata' /** , limit: 3 */ };
+
 export const fetchStories = createThunkAction(
   'fetchStories',
   () => (dispatch, state) => {
     const { stories } = state();
     if (!stories.loading) {
       dispatch(fetchStoriesInit());
-      CWAPI.get('stories', 'indiaclimatedata')
+      CWAPI.get('stories', params)
         .then((data = []) => {
           dispatch(fetchStoriesReady(data));
         })
