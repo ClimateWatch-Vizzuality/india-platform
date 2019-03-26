@@ -6,6 +6,7 @@ import { Icon, Button } from 'cw-components';
 import yellowWriLogo from 'assets/yellow-wri-logo';
 import { WRI_WEBSITE } from 'constants/links';
 import button from 'styles/themes/button';
+import StoriesProvider from 'providers/stories-provider';
 import styles from './stories-styles.scss';
 
 class Stories extends PureComponent {
@@ -39,12 +40,8 @@ class Stories extends PureComponent {
                   backgroundImage: `url(${story.background_image_url})`
                 }}
               >
-                <div className={styles.storyDate}>
-                  {story.date}
-                </div>
-                <div className={styles.storyTitle}>
-                  {story.title}
-                </div>
+                <div className={styles.storyDate}>{story.date}</div>
+                <div className={styles.storyTitle}>{story.title}</div>
                 <div className={styles.storyDescription}>
                   {story.description}
                 </div>
@@ -68,6 +65,7 @@ class Stories extends PureComponent {
         >
           More Stories
         </Button>
+        <StoriesProvider />
       </div>
     );
   }
