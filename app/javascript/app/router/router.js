@@ -9,6 +9,7 @@ import ClimatePolicyDetail from './sections/climate-policy-detail';
 const history = createHistory();
 
 export const HOME = 'location/HOME';
+export const COMING_SOON = 'location/COMING_SOON';
 export const COUNTRY_CONTEXT = 'location/COUNTRY_CONTEXT';
 export const CLIMATE_POLICIES = 'location/CLIMATE_POLICIES';
 export const CLIMATE_POLICY_DETAIL = 'location/CLIMATE_POLICY_DETAIL';
@@ -21,6 +22,13 @@ export const routes = {
     label: 'Overview',
     path: '/',
     component: 'pages/home/home'
+  },
+  [COMING_SOON]: {
+    nav: false,
+    slug: 'coming-soon',
+    label: 'Placeholder',
+    path: '/coming-soon',
+    component: 'pages/coming-soon/coming-soon'
   },
   [COUNTRY_CONTEXT]: {
     nav: true,
@@ -46,7 +54,8 @@ export const routes = {
     label: 'Climate policies',
     link: '/climate-policies',
     path: '/climate-policies',
-    component: 'pages/climate-policies/climate-policy-module/climate-policy-module'
+    component:
+      'pages/climate-policies/climate-policy-module/climate-policy-module'
   },
   [CLIMATE_POLICY_DETAIL]: {
     nav: false,

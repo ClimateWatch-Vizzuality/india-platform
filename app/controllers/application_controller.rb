@@ -1,12 +1,25 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  unless Rails.env.development?
-    http_basic_authenticate_with name: ENV['HTTP_AUTH_USERNAME'],
-      password: ENV['HTTP_AUTH_PASSWORD']
-  end
+
+  before_action :authorize_access
 
   def index
     @is_production = Rails.env.production?
+  end
+
+  private
+
+  def authorize_access
+    if request.base_url == "https://india.climatewatchdata.org"
+      authenticate_or_request_with_http_basic do |username, password|
+        username == ENV['HTTP_AUTH_USERNAME'] &&
+          password == ENV['HTTP_AUTH_PASSWORD']
+      end
+    elsif request.base_url != "http://localhost:3000" && request.path != "/coming-soon"
+      redirect_to "/coming-soon"
+    else
+      true
+    end
   end
 end

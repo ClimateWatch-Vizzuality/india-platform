@@ -26,7 +26,7 @@ class Header extends PureComponent {
   );
 
   render() {
-    const { routes, className } = this.props;
+    const { routes, className, hideLinks } = this.props;
     return (
       <div className={styles.headerContainer} id="header">
         <div className={cx(styles.header, className)}>
@@ -37,23 +37,23 @@ class Header extends PureComponent {
             onTouchStart={undefined}
             onMouseDown={undefined}
           >
-            <div className={styles.country}>
-              INDIA
-            </div>
+            <div className={styles.country}>INDIA</div>
             <div className={styles.climateExplorer}>
               <span className={styles.bold}>CLIMATE</span>
               EXPLORER
             </div>
           </NavLink>
           <div className={styles.tabsContainer}>
-            <Nav
-              theme={{
-                nav: cx(styles.stickyNavElement, styles.stickyTabs),
-                link: styles.stickyLink
-              }}
-              routes={routes}
-            />
-            {this.renderActions()}
+            {!hideLinks && (
+              <Nav
+                theme={{
+                  nav: cx(styles.stickyNavElement, styles.stickyTabs),
+                  link: styles.stickyLink
+                }}
+                routes={routes}
+              />
+            )}
+            {!hideLinks && this.renderActions()}
           </div>
         </div>
       </div>
@@ -63,9 +63,10 @@ class Header extends PureComponent {
 
 Header.propTypes = {
   className: PropTypes.string,
-  routes: PropTypes.array.isRequired
+  routes: PropTypes.array.isRequired,
+  hideLinks: PropTypes.bool
 };
 
-Header.defaultProps = { className: '' };
+Header.defaultProps = { className: '', hideLinks: false };
 
 export default Header;

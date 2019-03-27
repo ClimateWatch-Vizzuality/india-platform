@@ -24,28 +24,32 @@ let gaInitialized = false;
 const initializeGa = () => {
   ReactGA.initialize(GOOGLE_ANALYTICS_ID);
   gaInitialized = true;
-}
+};
 
 function handleTrack(location, prevLocation) {
   if (GOOGLE_ANALYTICS_ID) {
-    if (!gaInitialized) { initializeGa(); }
+    if (!gaInitialized) {
+      initializeGa();
+    }
 
     const page = location.pathname;
     const prevPage = prevLocation && prevLocation.pathname;
 
     const pageChanged = prevPage && page !== prevPage;
-    if(!prevLocation || pageChanged) { trackPage(page); }
-
+    if (!prevLocation || pageChanged) {
+      trackPage(page);
+    }
   }
 }
 
 const universalOptions = {
   loading: <Loading height={500} />,
   minDelay: 400
-}
-const PageComponent = universal((
-  { path } /* webpackChunkName: "[request]" */
-) => (import(`../../${path}.js`)), universalOptions);
+};
+const PageComponent = universal(
+  ({ path } /* webpackChunkName: "[request]" */) => import(`../../${path}.js`),
+  universalOptions
+);
 
 class App extends PureComponent {
   componentDidMount() {
@@ -57,11 +61,18 @@ class App extends PureComponent {
   }
 
   render() {
-    const { route } = this.props;
+    const { route, location } = this.props;
     return (
       <React.Fragment>
-        <Sticky top={-85} className={styles.header} activeClass={headerStyles.stickyWrapper} innerZ={5}>
-          <Header />
+        <Sticky
+          top={-85}
+          className={styles.header}
+          activeClass={headerStyles.stickyWrapper}
+          innerZ={5}
+        >
+          <Header
+            hideLinks={location && location.pathname === '/coming-soon'}
+          />
         </Sticky>
         <div className={styles.appContent}>
           <PageComponent path={route.component} />
