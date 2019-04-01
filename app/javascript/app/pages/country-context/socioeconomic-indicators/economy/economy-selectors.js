@@ -203,7 +203,10 @@ const getNationalBarChartData = createSelector(
       data: chartXYvalues,
       domain: getDomain(),
       config: {
-        axes: getAxes('Years', source === 'GDP' ? 'GDP' : 'Employment'),
+        axes: getAxes(
+          { name: 'Years' },
+          { name: source === 'GDP' ? 'GDP' : 'Employment' }
+        ),
         tooltip: {
           ...getTooltipConfig(getYColumn(rawData)),
           x: { label: 'Year' },

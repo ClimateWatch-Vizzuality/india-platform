@@ -64,27 +64,25 @@ class Population extends PureComponent {
                 downloadUri={downloadURI}
               />
             </div>
-            {
-              chartData &&
-                (
-                  <Chart
-                    type="bar"
-                    loading={loading}
-                    config={chartData.config}
-                    data={chartData.data}
-                    theme={{ legend: styles.legend }}
-                    customTooltip={<CustomTooltip />}
-                    getCustomYLabelFormat={chartData.config.yLabelFormat}
-                    domain={chartData.domain}
-                    dataOptions={chartData.dataOptions}
-                    dataSelected={chartData.dataSelected}
-                    margin={{ bottom: 10 }}
-                    height={300}
-                    barSize={30}
-                    onLegendChange={onLegendChange}
-                  />
-                )
-            }
+            {chartData && (
+              <Chart
+                type="bar"
+                loading={loading}
+                config={chartData.config}
+                data={chartData.data}
+                theme={{ legend: styles.legend }}
+                customTooltip={<CustomTooltip />}
+                getCustomYLabelFormat={chartData.config.yLabelFormat}
+                domain={chartData.domain}
+                dataOptions={chartData.dataOptions}
+                dataSelected={chartData.dataSelected}
+                margin={{ bottom: 10 }}
+                height={300}
+                barSize={30}
+                onLegendChange={onLegendChange}
+                showUnit
+              />
+            )}
           </div>
         </div>
       </div>
