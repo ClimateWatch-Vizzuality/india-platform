@@ -245,7 +245,14 @@ const getBarChartData = createSelector(
       data: chartXYvalues,
       domain: getDomain(),
       config: {
-        axes: getAxes('Year', 'People'),
+        axes: getAxes(
+          { name: 'Year' },
+          {
+            name: 'People',
+            unit: unit === 'index' && 'HDI',
+            label: { dx: 28, dy: 10 }
+          }
+        ),
         tooltip: {
           ...getTooltipConfig(getYColumn(rawData)),
           x: { label: 'Year' },

@@ -1,5 +1,5 @@
 import { createStructuredSelector, createSelector } from 'reselect';
-import { format } from 'd3-format';
+import { format, formatSpecifier, precisionFixed } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
@@ -35,6 +35,17 @@ const getYColumn = data =>
   data.map(d => ({ label: d.label, value: d.category || d.key }));
 
 const unitLabels = { unit: '₹ Billion', million: 'People', '%': 'Percentage' };
+
+const formatFunction = unit =>
+  unit === '%'
+    ? value => `${value}%`
+    : value => {
+        const precision = value > 10000 && value < 1000000 ? 0.001 : 0.01;
+        const s = formatSpecifier('s');
+        s.precision = precisionFixed(precision);
+        return format(s)(value).replace('G', 'B');
+      };
+
 export const getSourceIndicatorCode = createSelector(
   getQuery,
   query =>
@@ -199,18 +210,21 @@ const getNationalBarChartData = createSelector(
 
     const unit = indicator && indicator.unit;
     const theme = getThemeConfig(getYColumn(rawData, CHART_COLORS));
+
     return {
       data: chartXYvalues,
       domain: getDomain(),
       config: {
-        axes: getAxes('Years', source === 'GDP' ? 'GDP' : 'Employment'),
+        axes: getAxes(
+          { name: 'Years' },
+          { name: source === 'GDP' ? 'GDP' : 'Employment' }
+        ),
         tooltip: {
           ...getTooltipConfig(getYColumn(rawData)),
           x: { label: 'Year' },
           indicator: unitLabels[unit] ? unitLabels[unit] : unit,
           theme,
-          formatFunction: value =>
-            `${format(',.4s')(`${value}`).replace('G', 'B')}`
+          formatFunction: formatFunction(unit)
         },
         animation: false,
         columns: { x: getXColumn(), y: getYColumn(rawData) },
