@@ -35,6 +35,17 @@ const getYColumn = data =>
   data.map(d => ({ label: d.label, value: d.category || d.key }));
 
 const unitLabels = { unit: '₹ Billion', million: 'People', '%': 'Percentage' };
+
+const formatFunction = unit =>
+  unit === '%'
+    ? value => `${value}%`
+    : value => {
+        const precision = value > 10000 && value < 1000000 ? 0.001 : 0.01;
+        const s = formatSpecifier('s');
+        s.precision = precisionFixed(precision);
+        return format(s)(value).replace('G', 'B');
+      };
+
 export const getSourceIndicatorCode = createSelector(
   getQuery,
   query =>
@@ -200,15 +211,6 @@ const getNationalBarChartData = createSelector(
     const unit = indicator && indicator.unit;
     const theme = getThemeConfig(getYColumn(rawData, CHART_COLORS));
 
-    const formatFunction = formatUnit =>
-      formatUnit === '%'
-        ? value => `${value}%`
-        : value => {
-            const precision = value > 10000 && value < 1000000 ? 0.001 : 0.01;
-            const s = formatSpecifier('s');
-            s.precision = precisionFixed(precision);
-            return format(s)(value).replace('G', 'B');
-          };
     return {
       data: chartXYvalues,
       domain: getDomain(),
