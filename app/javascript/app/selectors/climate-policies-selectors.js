@@ -103,7 +103,11 @@ export const getResponsibleAuthorities = createSelector(
     if (!list) return null;
 
     return uniq(
-      flatMap(list, p => (p.authority || '').split(',').map(a => a.trim()))
+      flatMap(list, p =>
+        (p.authority || '')
+          .replace(', and', ',')
+          .split(',')
+          .map(a => a.trim()))
     ).sort();
   }
 );
