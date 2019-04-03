@@ -17,12 +17,14 @@ const getFilteredPolicies = createSelector(
     const filtersFieldsArray = Object.keys(query).filter(
       f => !isEmpty(query[f])
     );
-    return policies.reduce((acc, policy) => {
-      const notFiltered = filtersFieldsArray.find(f =>
-        castArray(query[f]).some(q =>
-          policy[f].toLowerCase().includes(q.toLowerCase())));
-      return notFiltered ? [...acc, policy] : [...acc];
+    const x = policies.reduce((acc, policy) => {
+      const notFiltered = filtersFieldsArray.filter(f =>
+        castArray(query[f]).some(q => policy[f].toLowerCase().includes(q.toLowerCase())));
+      const fullyMatch = filtersFieldsArray.every(filter =>
+        notFiltered.includes(filter));
+      return fullyMatch ? [...acc, policy] : [...acc];
     }, []);
+    return x;
   }
 );
 
