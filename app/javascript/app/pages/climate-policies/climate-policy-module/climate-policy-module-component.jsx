@@ -13,19 +13,18 @@ const SEARCHBOX_TABS = [
   { slug: 'authority', name: 'Responsible Authority' }
 ];
 
-const ClimatePolicies = (
-  {
-    policiesListBySector,
-    sectors,
-    authorities,
-    onSearchChange,
-    onCheckboxChange,
-    handleTagRemove,
-    handleAllTagsRemove,
-    t,
-    keyPoliciesList
-  }
-) => (
+const ClimatePolicies = ({
+  policiesListBySector,
+  sectors,
+  authorities,
+  onSearchChange,
+  onCheckboxChange,
+  handleTagRemove,
+  handleAllTagsRemove,
+  t,
+  keyPoliciesList,
+  titleLinks
+}) => (
   <div>
     <section className={styles.pageIntro}>
       <div className={styles.pageLayout}>
@@ -62,59 +61,49 @@ const ClimatePolicies = (
         </div>
       </section>
       <section className={styles.policyTypeSectionWrapper}>
-        {
-          !isEmpty(policiesListBySector)
-            ? Object.keys(policiesListBySector).map(sector => (
-              <section className={styles.policyTypeSection} key={sector}>
-                <h3 className={styles.title}>{sector}</h3>
-                <div className={styles.policiesCardsContainer}>
-                  {policiesListBySector[sector].map(policy => (
-                    <PoliciesCard
-                      key={policy.title}
-                      title={policy.title}
-                      description={policy.description}
-                      responsibleAuthority={policy.authority}
-                      action={{
-                        type: 'location/CLIMATE_POLICY_DETAIL',
-                        payload: {
-                          policy: policy.code,
-                          section: 'overview',
-                          data: policy
-                        }
-                      }}
-                    />
-                  ))}
-                </div>
-              </section>
-            ))
-            : (
-              <NoContent
-                minHeight={300}
-                message="No data found with this search"
-              />
-)
-        }
+        {!isEmpty(policiesListBySector) ? (
+          Object.keys(policiesListBySector).map(sector => (
+            <section className={styles.policyTypeSection} key={sector}>
+              <h3 className={styles.title}>{sector}</h3>
+              <div className={styles.policiesCardsContainer}>
+                {policiesListBySector[sector].map(policy => (
+                  <PoliciesCard
+                    key={policy.title}
+                    title={policy.title}
+                    description={policy.description}
+                    responsibleAuthority={policy.authority}
+                    action={{
+                      type: 'location/CLIMATE_POLICY_DETAIL',
+                      payload: {
+                        policy: policy.code,
+                        section: 'overview',
+                        data: policy
+                      }
+                    }}
+                  />
+                ))}
+              </div>
+            </section>
+          ))
+        ) : (
+          <NoContent minHeight={300} message="No data found with this search" />
+        )}
       </section>
-      {
-        !isEmpty(keyPoliciesList) && (
+      {!isEmpty(keyPoliciesList) && (
         <section className={styles.policyKeyListWrapper}>
           <h2 className={styles.title}>
             {t('pages.climate-policies.key-policies-header')}
           </h2>
           <Table
             data={keyPoliciesList}
-            defaultColumns={[
-                  'policy',
-                  'policy_status',
-                  'policy_progress'
-                ]}
+            defaultColumns={['policy', 'policy_status', 'policy_progress']}
             setColumnWidth={() => 370}
             tableHeight={600}
             dynamicRowsHeight
+            titleLinks={titleLinks}
           />
         </section>
-          )
-      }
+      )}
       <ClimatePoliciesProvider />
     </div>
   </div>
@@ -129,14 +118,16 @@ ClimatePolicies.propTypes = {
   handleTagRemove: PropTypes.func.isRequired,
   handleAllTagsRemove: PropTypes.func.isRequired,
   onCheckboxChange: PropTypes.func.isRequired,
-  keyPoliciesList: PropTypes.arrayOf(PropTypes.shape({}))
+  keyPoliciesList: PropTypes.arrayOf(PropTypes.shape({})),
+  titleLinks: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 ClimatePolicies.defaultProps = {
   policiesListBySector: {},
   sectors: null,
   authorities: null,
-  keyPoliciesList: null
+  keyPoliciesList: null,
+  titleLinks: null
 };
 
 export default ClimatePolicies;
