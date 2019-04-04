@@ -120,4 +120,11 @@
     color: $downriver;
     font-size: $font-size-x-large;
   }
+
+  a {
+    line-height: $line-height !important;
+    color: $elephant-blue !important;
+    border-bottom: 0 !important;
+    text-decoration: underline !important;
+  }
 }

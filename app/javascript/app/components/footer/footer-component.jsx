@@ -23,9 +23,7 @@ const upperFooter = (
     <div className={styles.line} />
     <div className={styles.grid}>
       <div className={styles.content}>
-        <span className={styles.text}>
-          Funding for this initiative is provided by
-        </span>
+        <span className={styles.text}>Supported by:</span>
         {founders.map(
           partner =>
             partner.img && (

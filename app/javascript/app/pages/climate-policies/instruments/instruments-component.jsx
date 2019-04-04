@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown/with-html';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DateTime from 'luxon/src/datetime';
@@ -51,10 +51,9 @@ const table = (instrument, sources) => (
               {columnNames[column]}
             </td>
             <td className={cx(styles.cell)}>
-              {
-                instrument[column] &&
-                  <ReactMarkdown source={instrument[column]} />
-              }
+              {instrument[column] && (
+                <ReactMarkdown source={instrument[column]} escapeHtml={false} />
+              )}
             </td>
           </tr>
         ))}
@@ -81,26 +80,22 @@ class Instruments extends PureComponent {
     return (
       <div className={styles.page}>
         <div className={styles.titleContainer}>
-          <div className={styles.title}>
-            Policy Instruments
-          </div>
+          <div className={styles.title}>Policy Instruments</div>
         </div>
-        {
-          instruments && instruments && (
+        {instruments && (
           <Accordion
             loading={false}
             data={instruments}
             openSlug={openSlug}
             handleOnClick={this.handleAccordionOnClick}
             theme={{
-                  title: styles.accordionTitle,
-                  header: styles.accordionHeader
-                }}
+              title: styles.accordionTitle,
+              header: styles.accordionHeader
+            }}
           >
             {instruments.map(instrument => table(instrument, sources))}
           </Accordion>
-            )
-        }
+        )}
         <ClimatePolicyProvider params={{ policyCode }} />
       </div>
     );

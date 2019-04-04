@@ -42,11 +42,29 @@ const getKeyClimatePolicies = createSelector(
     if (!policies) return null;
     return policies
       .filter(({ key_policy }) => key_policy)
-      .map(({ title, status, progress }) => ({
-        policy: title,
+      .map(({ title, status, progress, code }) => ({
+        policy: {
+          label: title,
+          name: title,
+          code
+        },
         policy_status: status,
         policy_progress: progress
       }));
+  }
+);
+
+const getTitleLinks = createSelector(
+  [getKeyClimatePolicies],
+  data => {
+    if (!data || !data.length) return null;
+    return data.map(p => [
+      {
+        columnName: 'policy',
+        url: `/climate-policies/${p.policy.code}/overview`,
+        label: p.label
+      }
+    ]);
   }
 );
 
@@ -56,5 +74,6 @@ export const climatePolicies = createStructuredSelector({
   policiesListBySector: getFilteredPoliciesBySector,
   sectors: getSectors,
   authorities: getResponsibleAuthorities,
-  keyPoliciesList: getKeyClimatePolicies
+  keyPoliciesList: getKeyClimatePolicies,
+  titleLinks: getTitleLinks
 });
