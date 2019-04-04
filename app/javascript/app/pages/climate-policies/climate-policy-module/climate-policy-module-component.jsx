@@ -94,6 +94,9 @@ const ClimatePolicies = ({
           <h2 className={styles.title}>
             {t('pages.climate-policies.key-policies-header')}
           </h2>
+          <p className={styles.keyDescription}>
+            {t('pages.climate-policies.key-policies-description')}
+          </p>
           <Table
             data={keyPoliciesList}
             defaultColumns={['policy', 'policy_status', 'policy_progress']}

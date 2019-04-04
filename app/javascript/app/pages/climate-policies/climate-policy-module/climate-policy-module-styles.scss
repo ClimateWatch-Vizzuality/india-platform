@@ -121,6 +121,12 @@
     font-size: $font-size-x-large;
   }
 
+  .keyDescription {
+    color: $midnightblue;
+    line-height: 1.6;
+    padding-bottom: $gutter-padding * 2;
+  }
+
   a {
     line-height: $line-height !important;
     color: $elephant-blue !important;
