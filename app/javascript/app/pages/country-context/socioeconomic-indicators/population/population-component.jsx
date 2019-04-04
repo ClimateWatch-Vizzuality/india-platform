@@ -76,7 +76,7 @@ class Population extends PureComponent {
                 domain={chartData.domain}
                 dataOptions={chartData.dataOptions}
                 dataSelected={chartData.dataSelected}
-                margin={{ bottom: 10 }}
+                margin={{ top: 20, bottom: 10 }}
                 height={300}
                 barSize={30}
                 onLegendChange={onLegendChange}

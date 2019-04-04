@@ -215,6 +215,26 @@ const getChartXYvalues = createSelector(
   }
 );
 
+const getYAxisUnit = unit => {
+  switch (unit) {
+    case 'index':
+      return {
+        unit: 'HDI',
+        label: { dx: 28, dy: 24 }
+      };
+    case 'million':
+      return {
+        unit: 'People',
+        label: { dx: 14, dy: 24 }
+      };
+    default:
+      return {
+        unit: upperFirst(unit),
+        label: { dx: 14, dy: 10 }
+      };
+  }
+};
+
 const getBarChartData = createSelector(
   [
     getIndicators,
@@ -249,8 +269,7 @@ const getBarChartData = createSelector(
           { name: 'Year' },
           {
             name: 'People',
-            unit: unit === 'index' && 'HDI',
-            label: { dx: 28, dy: 10 }
+            ...getYAxisUnit(unit)
           }
         ),
         tooltip: {
