@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown/with-html';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
@@ -21,24 +21,29 @@ const columnNames = {
 };
 
 const columnValueRenderers = {
-  source_ids: (sourceIds, sources) => sourceIds.map(sourceId => {
-    const source = sources && sources.find(s => s.id === sourceId);
-    return source && (
-    <div key={source.code}>
-      <a
-        href={source.link}
-        alt={source.code}
-        className={styles.link}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {source.code}
-      </a>
-    </div>
+  source_ids: (sourceIds, sources) =>
+    sourceIds.map(sourceId => {
+      const source = sources && sources.find(s => s.id === sourceId);
+      return (
+        source && (
+          <div key={source.code}>
+            <a
+              href={source.link}
+              alt={source.code}
+              className={styles.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {source.code}
+            </a>
+          </div>
+        )
       );
-  })
+    })
 };
-const columnValueDefaultRenderer = value => <ReactMarkdown source={value} />;
+const columnValueDefaultRenderer = value => (
+  <ReactMarkdown source={value} escapeHtml={false} />
+);
 
 const renderColumnValue = (indicator, column, sources) => {
   const isSourcesColumn = column === 'source_ids';
@@ -108,9 +113,8 @@ class Indicators extends PureComponent {
   handleSecondAccordionOnClick = slug => {
     const { openSecondLevelAccordionSlug } = this.state;
     this.setState({
-      openSecondLevelAccordionSlug: openSecondLevelAccordionSlug === slug
-        ? 'none'
-        : slug
+      openSecondLevelAccordionSlug:
+        openSecondLevelAccordionSlug === slug ? 'none' : slug
     });
   };
 
@@ -121,21 +125,18 @@ class Indicators extends PureComponent {
     return (
       <div className={styles.page}>
         <div className={styles.titleContainer}>
-          <div className={styles.title}>
-            Indicators
-          </div>
+          <div className={styles.title}>Indicators</div>
         </div>
-        {
-          indicators && (
+        {indicators && (
           <Accordion
             loading={false}
             data={indicators}
             openSlug={openSlug}
             handleOnClick={this.handleAccordionOnClick}
             theme={{
-                  title: styles.accordionTitle,
-                  header: styles.accordionHeader
-                }}
+              title: styles.accordionTitle,
+              header: styles.accordionHeader
+            }}
           >
             {indicators.map(({ content }) => (
               <Accordion
@@ -144,16 +145,15 @@ class Indicators extends PureComponent {
                 openSlug={openSecondLevelAccordionSlug}
                 handleOnClick={this.handleSecondAccordionOnClick}
                 theme={{
-                      title: styles.secondAccordionTitle,
-                      header: styles.secondAccordionHeader
-                    }}
+                  title: styles.secondAccordionTitle,
+                  header: styles.secondAccordionHeader
+                }}
               >
                 {content.map(ind => table(ind, sources))}
               </Accordion>
-                ))}
+            ))}
           </Accordion>
-            )
-        }
+        )}
         <ClimatePolicyProvider params={{ policyCode }} />
       </div>
     );
