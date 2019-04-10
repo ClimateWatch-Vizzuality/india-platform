@@ -51,7 +51,7 @@ export const getInstruments = createSelector(
   [getClimatePolicyDetails],
   policyDetails => {
     if (!policyDetails) return null;
-    const instruments = policyDetails && policyDetails.instruments;
+    const instruments = policyDetails && policyDetails.instruments.reverse();
     return instruments.map(instrument => ({
       ...instrument,
       slug: instrument.title
