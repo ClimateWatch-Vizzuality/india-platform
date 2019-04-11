@@ -11,9 +11,9 @@ import styles from './instruments-styles';
 
 const columnNames = {
   policy_status: 'Policy status',
-  key_milestones: 'Key milestones dates',
+  key_milestones: 'Key milestone dates',
   implementation_entities: 'Implementation entity',
-  broader_context: 'The broader context'
+  broader_context: 'Broader context'
 };
 
 const formatDate = date => DateTime.fromISO(date).toFormat('dd/M/yyyy');
