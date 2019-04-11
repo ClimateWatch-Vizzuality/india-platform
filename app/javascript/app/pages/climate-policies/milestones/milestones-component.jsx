@@ -18,7 +18,7 @@ import styles from './milestones-styles';
 
 const ICONS = { attained, issued, estimated, launched };
 
-const formatDate = date => DateTime.fromISO(date).toFormat('MMMM yyyy');
+const formatDate = date => DateTime.fromISO(date).toFormat('yyyy');
 
 const table = milestones => (
   <table className={styles.table}>
@@ -44,15 +44,9 @@ const table = milestones => (
               <p>{capitalize(milestone.status)}</p>
             </TabletPortraitOnly>
             <p>{formatDate(milestone.date)}</p>
-            {
-              milestone.name &&
-                (
-                  <ReactMarkdown
-                    className={styles.name}
-                    source={milestone.name}
-                  />
-                )
-            }
+            {milestone.name && (
+              <ReactMarkdown className={styles.name} source={milestone.name} />
+            )}
             <p>{milestone.responsible_authority}</p>
             <a href={milestone.data_source_link}>Data source</a>
           </td>
@@ -69,9 +63,7 @@ class Milestones extends PureComponent {
     return (
       <div className={styles.page}>
         <div className={styles.titleContainer}>
-          <div className={styles.title}>
-            Milestones
-          </div>
+          <div className={styles.title}>Milestones</div>
         </div>
         {milestones && table(milestones)}
         <ClimatePolicyProvider params={{ policyCode }} />
