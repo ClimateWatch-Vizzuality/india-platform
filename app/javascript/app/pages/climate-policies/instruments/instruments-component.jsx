@@ -10,6 +10,7 @@ import { Accordion } from 'cw-components';
 import styles from './instruments-styles';
 
 const columnNames = {
+  description: 'Description',
   policy_status: 'Policy status',
   key_milestones: 'Key milestone dates',
   implementation_entities: 'Implementation entity',
