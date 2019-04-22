@@ -7,7 +7,17 @@ module Api
                    :status, :progress, :key_policy, :sources
 
         has_many :instruments, serializer: Api::V1::ClimatePolicy::InstrumentSerializer
-        has_many :indicators, serializer: Api::V1::ClimatePolicy::IndicatorSerializer
+        has_many :indicators, serializer: Api::V1::ClimatePolicy::IndicatorSerializer do
+          object.indicators.order("CASE category
+                                      WHEN 'Activity' THEN 0
+                                      WHEN 'Activity Indicator' THEN 1
+                                      WHEN 'Intermediate Effect' THEN 2
+                                      WHEN 'Effect' THEN 3
+                                      WHEN 'Finance' THEN 4
+                                      WHEN 'Other' THEN 5
+                                      ELSE 6
+                                    END ASC")
+        end
         has_many :milestones, serializer: Api::V1::ClimatePolicy::MilestoneSerializer do
           object.milestones.order("to_date(date, 'YYYY') DESC")
         end
