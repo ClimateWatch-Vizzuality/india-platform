@@ -6,7 +6,9 @@ module Api
                    :authority, :tracking, :tracking_description,
                    :status, :progress, :key_policy, :sources
 
-        has_many :instruments, serializer: Api::V1::ClimatePolicy::InstrumentSerializer
+        has_many :instruments, serializer: Api::V1::ClimatePolicy::InstrumentSerializer do
+          object.instruments.order(created_at: :asc)
+        end
         has_many :indicators, serializer: Api::V1::ClimatePolicy::IndicatorSerializer do
           object.indicators.order("CASE category
                                       WHEN 'Activity' THEN 0
