@@ -198,7 +198,8 @@ class ImportClimatePolicies
       responsible_authority: row[:responsible_authority],
       date: normalize_date(row[:date]),
       source: find_source!(row[:source]),
-      status: row[:status]
+      status: row[:status],
+      order_timeline: row[:order_timeline]
     }
   end
 

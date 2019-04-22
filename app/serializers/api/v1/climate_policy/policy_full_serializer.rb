@@ -8,7 +8,9 @@ module Api
 
         has_many :instruments, serializer: Api::V1::ClimatePolicy::InstrumentSerializer
         has_many :indicators, serializer: Api::V1::ClimatePolicy::IndicatorSerializer
-        has_many :milestones, serializer: Api::V1::ClimatePolicy::MilestoneSerializer
+        has_many :milestones, serializer: Api::V1::ClimatePolicy::MilestoneSerializer do
+          object.milestones.order("to_date(date, 'YYYY') DESC")
+        end
 
         def sources
           ActiveModelSerializers::SerializableResource.new(
