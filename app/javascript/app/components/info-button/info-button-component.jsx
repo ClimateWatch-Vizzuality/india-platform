@@ -22,7 +22,10 @@ class InfoButton extends PureComponent {
     const { className, theme, dark, infoModalData } = this.props;
     return (
       <div className={className}>
-        <div data-for="blueTooltip" data-tip="Information">
+        <div
+          data-for="blueTooltip"
+          data-tip={(infoModalData && infoModalData.title) || 'Information'}
+        >
           <Icon
             alt="info"
             icon={dark ? darkInfo : iconInfo}
@@ -49,7 +52,7 @@ InfoButton.propTypes = {
   className: PropTypes.object,
   theme: PropTypes.shape({ icon: PropTypes.string }),
   dark: PropTypes.bool,
-  slugs: PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+  slugs: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   setModalMetadata: PropTypes.func.isRequired,
   infoModalData: PropTypes.shape({
     data: PropTypes.array,
