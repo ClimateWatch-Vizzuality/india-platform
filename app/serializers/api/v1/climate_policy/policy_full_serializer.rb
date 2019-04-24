@@ -4,7 +4,7 @@ module Api
       class PolicyFullSerializer < ActiveModel::Serializer
         attributes :code, :policy_type, :sector, :description, :title,
                    :authority, :tracking, :tracking_description,
-                   :status, :progress, :key_policy, :sources
+                   :status, :progress, :key_policy, :sources, :source_ids
 
         has_many :instruments, serializer: Api::V1::ClimatePolicy::InstrumentSerializer do
           object.instruments.order(created_at: :asc)
@@ -21,7 +21,7 @@ module Api
                                     END ASC")
         end
         has_many :milestones, serializer: Api::V1::ClimatePolicy::MilestoneSerializer do
-          object.milestones.order("to_date(date, 'YYYY') DESC")
+          object.milestones.order(order_timeline: :desc)
         end
 
         def sources

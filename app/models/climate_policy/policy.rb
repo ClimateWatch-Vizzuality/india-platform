@@ -25,6 +25,7 @@ module ClimatePolicy
     has_many :instruments
     has_many :indicators
     has_many :milestones
+    has_and_belongs_to_many :sources
 
     validates_presence_of :sector, :code, :policy_type, :title
     validates :code, uniqueness: true
