@@ -14,7 +14,7 @@ class InfoButton extends PureComponent {
     const { slugs, setModalMetadata, infoModalData } = this.props;
     if (slugs || infoModalData) {
       handleAnalytics('Info Window', 'Open', slugs);
-      setModalMetadata({ slugs, open: true });
+      setModalMetadata({ slugs, open: true, customTitle: 'Sources' });
     }
   };
 
