@@ -21,7 +21,7 @@ module Api
                                     END ASC")
         end
         has_many :milestones, serializer: Api::V1::ClimatePolicy::MilestoneSerializer do
-          object.milestones.order("to_date(date, 'YYYY') DESC")
+          object.milestones.order(order_timeline: :desc)
         end
 
         def sources

@@ -21,7 +21,7 @@ class ImportClimatePolicies
             :indicator_code, :axis_x, :category, :value
           ],
           milestones: [
-            :policy_code, :name, :responsible_authority, :date, :status, :source
+            :policy_code, :name, :responsible_authority, :date, :order_timeline, :status, :source
           ],
           sources: [:code, :name, :description, :link]
   # rubocop:enable Layout/IndentArray
@@ -201,7 +201,7 @@ class ImportClimatePolicies
       date: normalize_date(row[:date]),
       source: find_source!(row[:source]),
       status: row[:status],
-      order_timeline: row[:order_timeline]
+      order_timeline: normalize_milestone_order_timeline(row[:order_timeline])
     }
   end
 
@@ -267,13 +267,26 @@ class ImportClimatePolicies
     raise "Couldn't find indicator: #{code}"
   end
 
+  def normalize_milestone_order_timeline(date_string)
+    return if date_string.nil?
+
+    parsed_date = try_to_parse_date(date_string)
+    return date_string unless parsed_date
+
+    parsed_date.strftime('%Y-%m-%d')
+  end
+
   def normalize_date(date)
     return if date.nil?
 
+    try_to_parse_date(date) || date
+  end
+
+  def try_to_parse_date(date)
     expected_formats = ['%b-%y', '%b-%Y', '%B-%y', '%B-%Y',
                         '%y-%b', '%Y-%b', '%y-%B', '%Y-%B']
 
-    expected_formats.map { |format| parse_date(date, format) }.compact.first || date
+    expected_formats.map { |format| parse_date(date, format) }.compact.first
   end
 
   def parse_target(target)

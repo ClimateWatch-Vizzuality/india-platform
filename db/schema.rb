@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_24_120549) do
+ActiveRecord::Schema.define(version: 2019_04_24_144052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_120549) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "source_id"
-    t.date "order_timeline"
+    t.string "order_timeline"
     t.index ["policy_id"], name: "index_climate_policy_milestones_on_policy_id"
     t.index ["source_id"], name: "index_climate_policy_milestones_on_source_id"
   end
