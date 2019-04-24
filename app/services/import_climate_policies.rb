@@ -5,7 +5,7 @@ class ImportClimatePolicies
   headers policies: [
             :category, :code, :type, :title, :authority,
             :description, :tracking, :tracking_description,
-            :status, :progress, :is_a_key_policy
+            :status, :progress, :is_a_key_policy, :source
           ],
           instruments: [
             :policy_code, :policy_scheme, :name, :description,
@@ -110,7 +110,9 @@ class ImportClimatePolicies
 
   def import_policies
     import_each_with_logging(policies_csv, POLICIES_FILEPATH) do |row|
-      ClimatePolicy::Policy.create!(climate_policy_attributes(row))
+      ClimatePolicy::Policy.create!(climate_policy_attributes(row)) do |p|
+        assign_sources(p, row)
+      end
     end
   end
 
@@ -230,11 +232,11 @@ class ImportClimatePolicies
 
   # we want to raise an error when source is not found
   def assign_sources(record, row)
-    sources = row[:sources]
+    sources = row[:sources] || row[:source]
 
     return unless sources.present?
 
-    row[:sources].
+    sources.
       split(',').
       map(&:strip).
       map(&:squish).

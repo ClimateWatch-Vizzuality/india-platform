@@ -19,6 +19,7 @@ module ClimatePolicy
   class Source < ApplicationRecord
     has_and_belongs_to_many :instruments
     has_and_belongs_to_many :indicators
+    has_and_belongs_to_many :policies
     has_many :milestones
 
     validates :code, presence: true, uniqueness: true

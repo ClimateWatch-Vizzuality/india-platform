@@ -4,7 +4,7 @@ module Api
       class PolicyFullSerializer < ActiveModel::Serializer
         attributes :code, :policy_type, :sector, :description, :title,
                    :authority, :tracking, :tracking_description,
-                   :status, :progress, :key_policy, :sources
+                   :status, :progress, :key_policy, :sources, :source_ids
 
         has_many :instruments, serializer: Api::V1::ClimatePolicy::InstrumentSerializer do
           object.instruments.order(created_at: :asc)

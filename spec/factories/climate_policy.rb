@@ -8,6 +8,7 @@ FactoryBot.define do
     description { 'description' }
     tracking { true }
     tracking_description { 'tracking description' }
+    sources { create_list(:climate_policy_source, 2) }
 
     trait :with_indicators do
       after(:create) do |policy|
