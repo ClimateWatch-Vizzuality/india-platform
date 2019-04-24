@@ -10,41 +10,31 @@ import styles from './metadata-text-styles.scss';
 const DEFAULT_KEY_ORDER = [
   'title',
   'full_name',
+  'code',
+  'name',
   'description',
   'source_organization',
   'citation',
   'notes',
   'learn_more_link'
 ];
-const KEY_BLACKLIST = [ 'short_title' ];
-const URLS = [ 'learn_more_link', 'url' ];
+const KEY_BLACKLIST = ['short_title'];
+const URLS = ['learn_more_link', 'url', 'link'];
 
 const link = (title, href) => (
-  <a
-    className={styles.link}
-    href={href}
-    alt={title}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
+  <a className={styles.link} href={href} alt={title} target="_blank" rel="noopener noreferrer">
     {title}
   </a>
 );
 
 // push non existent keys in default key order to the end
 const indexOf = key =>
-  DEFAULT_KEY_ORDER.indexOf(key) > -1
-    ? DEFAULT_KEY_ORDER.indexOf(key)
-    : Infinity;
+  DEFAULT_KEY_ORDER.indexOf(key) > -1 ? DEFAULT_KEY_ORDER.indexOf(key) : Infinity;
 const keyOrder = (a, b) => indexOf(a) - indexOf(b);
 
 const renderMetadataValue = (key, data, emptyText) => {
   if (!data) {
-    return (
-      <span className={styles.empty}>
-        {emptyText}
-      </span>
-    );
+    return <span className={styles.empty}>{emptyText}</span>;
   }
 
   if (key === 'Link') {
@@ -60,10 +50,7 @@ const renderMetadataValue = (key, data, emptyText) => {
 
 const MetadataProp = ({ id, title, data, emptyText }) => (
   <p className={styles.text}>
-    <span className={styles.textHighlight}>
-      {startCase(title)}:
-    </span>
-    {' '}
+    <span className={styles.textHighlight}>{startCase(title)}:</span>{' '}
     {renderMetadataValue(id, data, emptyText)}
   </p>
 );
@@ -81,10 +68,8 @@ class MetadataText extends PureComponent {
 
     if (!data) return null;
 
-    return flatMap(
-      castArray(data),
-      d => Object
-        .keys(d)
+    return flatMap(castArray(data), d =>
+      Object.keys(d)
         .filter(key => !KEY_BLACKLIST.includes(key))
         .filter(key => !isArray(d[key]))
         .sort(keyOrder)
@@ -96,8 +81,7 @@ class MetadataText extends PureComponent {
             data={d[key]}
             emptyText="Not specified"
           />
-        ))
-    );
+        )));
   }
 
   // eslint-disable-line react/prefer-stateless-function

@@ -5,7 +5,7 @@ class ImportClimatePolicies
   headers policies: [
             :category, :code, :type, :title, :authority,
             :description, :tracking, :tracking_description,
-            :status, :progress, :is_a_key_policy
+            :status, :progress, :is_a_key_policy, :source
           ],
           instruments: [
             :policy_code, :policy_scheme, :name, :description,
@@ -21,7 +21,7 @@ class ImportClimatePolicies
             :indicator_code, :axis_x, :category, :value
           ],
           milestones: [
-            :policy_code, :name, :responsible_authority, :date, :status, :source
+            :policy_code, :name, :responsible_authority, :date, :order_timeline, :status, :source
           ],
           sources: [:code, :name, :description, :link]
   # rubocop:enable Layout/IndentArray
@@ -110,7 +110,9 @@ class ImportClimatePolicies
 
   def import_policies
     import_each_with_logging(policies_csv, POLICIES_FILEPATH) do |row|
-      ClimatePolicy::Policy.create!(climate_policy_attributes(row))
+      ClimatePolicy::Policy.create!(climate_policy_attributes(row)) do |p|
+        assign_sources(p, row)
+      end
     end
   end
 
@@ -199,7 +201,7 @@ class ImportClimatePolicies
       date: normalize_date(row[:date]),
       source: find_source!(row[:source]),
       status: row[:status],
-      order_timeline: row[:order_timeline]
+      order_timeline: normalize_milestone_order_timeline(row[:order_timeline])
     }
   end
 
@@ -230,11 +232,11 @@ class ImportClimatePolicies
 
   # we want to raise an error when source is not found
   def assign_sources(record, row)
-    sources = row[:sources]
+    sources = row[:sources] || row[:source]
 
     return unless sources.present?
 
-    row[:sources].
+    sources.
       split(',').
       map(&:strip).
       map(&:squish).
@@ -265,13 +267,26 @@ class ImportClimatePolicies
     raise "Couldn't find indicator: #{code}"
   end
 
+  def normalize_milestone_order_timeline(date_string)
+    return if date_string.nil?
+
+    parsed_date = try_to_parse_date(date_string)
+    return date_string unless parsed_date
+
+    parsed_date.strftime('%Y-%m-%d')
+  end
+
   def normalize_date(date)
     return if date.nil?
 
+    try_to_parse_date(date) || date
+  end
+
+  def try_to_parse_date(date)
     expected_formats = ['%b-%y', '%b-%Y', '%B-%y', '%B-%Y',
                         '%y-%b', '%Y-%b', '%y-%B', '%Y-%B']
 
-    expected_formats.map { |format| parse_date(date, format) }.compact.first || date
+    expected_formats.map { |format| parse_date(date, format) }.compact.first
   end
 
   def parse_target(target)

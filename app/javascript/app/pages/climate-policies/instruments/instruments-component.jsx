@@ -23,9 +23,10 @@ const formatDate = date => DateTime.fromISO(date).toFormat('dd/M/yyyy');
 
 const renderInfoIcon = (instrument, sources) => {
   const sourceIds = instrument.source_ids;
-  const instrumentSources = sourceIds.map(
-    sourceId => sources && sources.find(s => s.id === sourceId)
-  );
+  const instrumentSources = sourceIds
+    .map(sId => sources && sources.find(s => s.id === sId))
+    .filter(s => s)
+    .map(({ code, name, description, link }) => ({ code, name, description, link }));
   const codes = instrumentSources.map(source => source.code);
   const infoModalData = {
     data: instrumentSources,
@@ -72,9 +73,7 @@ const renderColumnValue = (indicator, column, sources) => {
 const table = (instrument, sources) => (
   <React.Fragment key={`${instrument.title}-table`}>
     <div className={styles.header}>
-      <span className={styles.date}>
-        Last update: {formatDate(instrument.updated_at)}
-      </span>
+      <span className={styles.date}>Last update: {formatDate(instrument.updated_at)}</span>
       {renderInfoIcon(instrument, sources)}
     </div>
     <table className={styles.table}>
@@ -84,12 +83,8 @@ const table = (instrument, sources) => (
             key={`${instrument.title}-${instrument[column]}-${column}-row`}
             className={styles.row}
           >
-            <td className={cx(styles.nameColumn, styles.cell)}>
-              {columnNames[column]}
-            </td>
-            <td className={cx(styles.cell)}>
-              {renderColumnValue(instrument, column, sources)}
-            </td>
+            <td className={cx(styles.nameColumn, styles.cell)}>{columnNames[column]}</td>
+            <td className={cx(styles.cell)}>{renderColumnValue(instrument, column, sources)}</td>
           </tr>
         ))}
       </tbody>

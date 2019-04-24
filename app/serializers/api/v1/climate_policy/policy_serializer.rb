@@ -4,7 +4,7 @@ module Api
       class PolicySerializer < ActiveModel::Serializer
         attributes :code, :policy_type, :sector, :description, :title,
                    :authority, :tracking, :tracking_description,
-                   :status, :progress, :key_policy
+                   :status, :progress, :key_policy, :source_ids
       end
     end
   end
