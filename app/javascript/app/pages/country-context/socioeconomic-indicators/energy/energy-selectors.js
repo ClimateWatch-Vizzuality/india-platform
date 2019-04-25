@@ -281,8 +281,14 @@ const getChartData = createSelector(
             const categoryForYear = singleCategory.values.find(
               d => d.year === year
             );
-            dataForYear[`y${capitalize(category.value)}`] =
-              categoryForYear.value;
+            if (categoryForYear) {
+              dataForYear[`y${capitalize(category.value)}`] =
+                categoryForYear.value;
+            } else {
+              console.warn(
+                `No energy data for ${year} and category ${category.value}`
+              );
+            }
           }
         });
         selectedData.push(dataForYear);
