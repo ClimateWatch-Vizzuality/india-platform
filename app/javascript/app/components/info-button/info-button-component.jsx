@@ -5,21 +5,28 @@ import { Icon } from 'cw-components';
 import iconInfo from 'assets/icons/info';
 import darkInfo from 'assets/icons/info-fill';
 import ReactTooltip from 'react-tooltip';
-import ModalMetadata from 'components/modal-metadata';
+import ModalMetadata from 'components/modal-metadata/modal-metadata-component';
 import { handleAnalytics } from 'utils/analytics';
 import styles from './info-button-styles.scss';
 
 class InfoButton extends PureComponent {
+  constructor() {
+    super();
+    this.state = { isOpen: false };
+  }
+
   handleInfoClick = () => {
-    const { slugs, setModalMetadata, infoModalData } = this.props;
-    if (slugs || infoModalData) {
-      handleAnalytics('Info Window', 'Open', slugs);
-      setModalMetadata({ slugs, open: true, customTitle: 'Sources' });
+    const { infoModalData } = this.props;
+    if (infoModalData) {
+      this.setState({ isOpen: !this.setState.isOpen });
+      const slugString = infoModalData.tabTitles.join(',');
+      handleAnalytics('Info Window', 'Open', slugString);
     }
   };
 
   render() {
     const { className, theme, dark, infoModalData } = this.props;
+    const { isOpen } = this.state;
     return (
       <div className={className}>
         <div
@@ -38,11 +45,15 @@ class InfoButton extends PureComponent {
           effect="solid"
           className="global_INDTooltip"
         />
-        <ModalMetadata
-          data={infoModalData && infoModalData.data}
-          title={infoModalData && infoModalData.title}
-          tabTitles={infoModalData && infoModalData.tabTitles}
-        />
+        {isOpen && (
+          <ModalMetadata
+            isOpen={isOpen}
+            data={infoModalData && infoModalData.data}
+            title={infoModalData && infoModalData.title}
+            tabTitles={infoModalData && infoModalData.tabTitles}
+            onRequestClose={() => this.setState({ isOpen: false })}
+          />
+        )}
       </div>
     );
   }
@@ -52,8 +63,6 @@ InfoButton.propTypes = {
   className: PropTypes.object,
   theme: PropTypes.shape({ icon: PropTypes.string }),
   dark: PropTypes.bool,
-  slugs: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  setModalMetadata: PropTypes.func.isRequired,
   infoModalData: PropTypes.shape({
     data: PropTypes.array,
     title: PropTypes.string,
@@ -63,7 +72,6 @@ InfoButton.propTypes = {
 
 InfoButton.defaultProps = {
   className: {},
-  slugs: null,
   theme: {},
   dark: false,
   infoModalData: undefined
