@@ -69,14 +69,35 @@ export const getMilestones = createSelector(
 );
 
 export const getIndicatorsProgress = createSelector(
-  [getClimatePolicyDetails, getPolicyCode],
-  (policyDetails, policyCode) => {
-    if (!policyDetails || !policyCode) return null;
+  [getClimatePolicyDetails, getPolicyCode, getSources],
+  (policyDetails, policyCode, sources) => {
+    if (!policyDetails || !policyCode || !sources) return null;
 
     const indicators =
       policyDetails &&
       policyDetails.indicators.filter(i => !!i.progress_display);
-    return policyCode === 'CEC' ? sortBy(indicators, ['title']) : indicators;
+    const sortedIndicators =
+      policyCode === 'CEC' ? sortBy(indicators, ['title']) : indicators;
+
+    const indicatorsWithSoures = sortedIndicators.map(indicator => {
+      const filteredSources = sources.filter(({ id }) =>
+        indicator.source_ids.includes(id));
+      const sourcesModalData = filteredSources.map(
+        ({ code, name, description, link }) => ({
+          code,
+          name,
+          description,
+          link
+        })
+      );
+      const infoModalData = {
+        data: sourcesModalData,
+        title: 'Sources',
+        tabTitles: filteredSources.map(({ code }) => code)
+      };
+      return { ...indicator, infoModalData };
+    });
+    return indicatorsWithSoures;
   }
 );
 

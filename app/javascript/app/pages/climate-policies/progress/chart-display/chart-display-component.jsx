@@ -15,7 +15,9 @@ class ChartDisplay extends PureComponent {
     const { onFilterChange, indicator } = this.props;
 
     const filter = `${indicator.code}_category`;
-    const values = isArray(selected) ? selected.map(v => v.value).join(',') : selected.value;
+    const values = isArray(selected)
+      ? selected.map(v => v.value).join(',')
+      : selected.value;
 
     onFilterChange({ [filter]: values });
   };
@@ -33,8 +35,10 @@ class ChartDisplay extends PureComponent {
         <div className={styles.chartProgress}>
           <div className={styles.indicatorTitle}>{indicator.title}</div>
           <div className={styles.lastUpdate}>
-            <span className={styles.date}>Last update: {formatDate(indicator.updated_at)}</span>
-            <InfoButton dark slugs="" />
+            <span className={styles.date}>
+              Last update: {formatDate(indicator.updated_at)}
+            </span>
+            <InfoButton dark slugs="" infoModalData={indicator.infoModalData} />
           </div>
         </div>
         <div className={styles.chartContainer}>

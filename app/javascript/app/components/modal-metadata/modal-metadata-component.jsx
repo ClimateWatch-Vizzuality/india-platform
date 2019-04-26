@@ -41,22 +41,19 @@ class ModalMetadata extends PureComponent {
   render() {
     const { selectedIndex } = this.state;
     const { isOpen, title, tabTitles } = this.props;
-
     return (
       <Modal
         onRequestClose={this.handleOnRequestClose}
         isOpen={isOpen}
-        header={
-          (
-            <ModalHeader
-              tabSelectedIndex={selectedIndex}
-              handleTabIndexChange={this.handleTabIndexChange}
-              tabTitles={tabTitles}
-              title={title}
-              theme={{ header: styles.modalHeaderTitle }}
-            />
-          )
-        }
+        header={(
+          <ModalHeader
+            tabSelectedIndex={selectedIndex}
+            handleTabIndexChange={this.handleTabIndexChange}
+            tabTitles={tabTitles}
+            title={title}
+            theme={{ header: styles.modalHeaderTitle }}
+          />
+)}
       >
         {this.getContent()}
       </Modal>
