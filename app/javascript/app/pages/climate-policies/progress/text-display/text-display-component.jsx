@@ -9,9 +9,7 @@ import styles from './text-display-styles';
 
 const TextDisplay = ({ indicator }) => (
   <div className={styles.textProgress}>
-    <div className={styles.indicatorTitle}>
-      {indicator.title}
-    </div>
+    <div className={styles.indicatorTitle}>{indicator.title}</div>
     <ul>
       {indicator.progress_records.map(progress => (
         <li key={progress.value}>
@@ -23,7 +21,7 @@ const TextDisplay = ({ indicator }) => (
       <span className={styles.date}>
         Last update: {formatDate(indicator.updated_at)}
       </span>
-      <InfoButton dark slugs="" />
+      <InfoButton dark infoModalData={indicator.infoModalData} />
     </div>
   </div>
 );
