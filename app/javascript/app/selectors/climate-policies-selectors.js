@@ -82,8 +82,16 @@ export const getIndicatorsProgress = createSelector(
     const indicatorsWithSoures = sortedIndicators.map(indicator => {
       const filteredSources = sources.filter(({ id }) =>
         indicator.source_ids.includes(id));
+      const sourcesModalData = filteredSources.map(
+        ({ code, name, description, link }) => ({
+          code,
+          name,
+          description,
+          link
+        })
+      );
       const infoModalData = {
-        data: filteredSources,
+        data: sourcesModalData,
         title: 'Sources',
         tabTitles: filteredSources.map(({ code }) => code)
       };
