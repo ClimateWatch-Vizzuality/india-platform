@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DateTime from 'luxon/src/datetime';
 import ClimatePolicyProvider from 'providers/climate-policy-provider';
-import InfoButton from 'components/info-button';
 import { Accordion } from 'cw-components';
 import isEmpty from 'lodash/isEmpty';
 
@@ -20,21 +19,6 @@ const columnNames = {
 };
 
 const formatDate = date => DateTime.fromISO(date).toFormat('dd/M/yyyy');
-
-const renderInfoIcon = (instrument, sources) => {
-  const sourceIds = instrument.source_ids;
-  const instrumentSources = sourceIds
-    .map(sId => sources && sources.find(s => s.id === sId))
-    .filter(s => s)
-    .map(({ code, name, description, link }) => ({ code, name, description, link }));
-  const codes = instrumentSources.map(source => source.code);
-  const infoModalData = {
-    data: instrumentSources,
-    title: 'Sources',
-    tabTitles: codes
-  };
-  return <InfoButton dark infoModalData={infoModalData} />;
-};
 
 const columnValueRenderers = {
   source_ids: (sourceIds, sources) =>
@@ -73,8 +57,9 @@ const renderColumnValue = (indicator, column, sources) => {
 const table = (instrument, sources) => (
   <React.Fragment key={`${instrument.title}-table`}>
     <div className={styles.header}>
-      <span className={styles.date}>Last update: {formatDate(instrument.updated_at)}</span>
-      {renderInfoIcon(instrument, sources)}
+      <span className={styles.date}>
+        Last update: {formatDate(instrument.updated_at)}
+      </span>
     </div>
     <table className={styles.table}>
       <tbody>
@@ -83,8 +68,12 @@ const table = (instrument, sources) => (
             key={`${instrument.title}-${instrument[column]}-${column}-row`}
             className={styles.row}
           >
-            <td className={cx(styles.nameColumn, styles.cell)}>{columnNames[column]}</td>
-            <td className={cx(styles.cell)}>{renderColumnValue(instrument, column, sources)}</td>
+            <td className={cx(styles.nameColumn, styles.cell)}>
+              {columnNames[column]}
+            </td>
+            <td className={cx(styles.cell)}>
+              {renderColumnValue(instrument, column, sources)}
+            </td>
           </tr>
         ))}
       </tbody>
