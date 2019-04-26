@@ -45,10 +45,10 @@ class EmissionPathways extends PureComponent {
       handleLegendChange,
       t
     } = this.props;
-    const needsTimeSeries = filtersSelected &&
-      filtersSelected.location &&
-      filtersSelected.model;
-    const filtersDisabled = filtersLoading.indicators ||
+    const needsTimeSeries =
+      filtersSelected && filtersSelected.location && filtersSelected.model;
+    const filtersDisabled =
+      filtersLoading.indicators ||
       filtersLoading.timeseries ||
       filtersLoading.models;
 
@@ -57,22 +57,20 @@ class EmissionPathways extends PureComponent {
         <SectionTitle
           title={t('pages.country-context.emission-pathways.title')}
           description={t('pages.country-context.emission-pathways.description')}
-          extraContent={
-            (
-              <Button
-                theme={{
-                  button: cx(buttonThemes.yellow, styles.powerExplorerButton)
-                }}
-                link={{
-                  type: 'a',
-                  props: { href: CW_PATHWAYS_LINK, target: '_blank' }
-                }}
-              >
-                Explore pathways
-                <Icon icon={openInNew} theme={{ icon: iconThemes.openInNew }} />
-              </Button>
-            )
-          }
+          extraContent={(
+            <Button
+              theme={{
+                button: cx(buttonThemes.yellow, styles.powerExplorerButton)
+              }}
+              link={{
+                type: 'a',
+                props: { href: CW_PATHWAYS_LINK, target: '_blank' }
+              }}
+            >
+              Explore pathways
+              <Icon icon={openInNew} theme={{ icon: iconThemes.openInNew }} />
+            </Button>
+)}
         />
         <div className={styles.wrapper}>
           <div className={styles.content}>
@@ -80,15 +78,12 @@ class EmissionPathways extends PureComponent {
             <EspScenariosProvider />
             <EspIndicatorsProvider />
             <EspLocationsProvider withTimeSeries />
-            {
-              needsTimeSeries &&
-                (
-                  <EspTimeSeriesProvider
-                    location={filtersSelected.location.value}
-                    model={filtersSelected.model.value}
-                  />
-                )
-            }
+            {needsTimeSeries && (
+              <EspTimeSeriesProvider
+                location={filtersSelected.location.value}
+                model={filtersSelected.model.value}
+              />
+            )}
             <div className="grid-column-item">
               <div className={styles.filtersGroup}>
                 <div className={styles.filters}>
@@ -107,7 +102,8 @@ class EmissionPathways extends PureComponent {
                     hideResetButton
                     disabled={filtersDisabled}
                     onValueChange={option =>
-                      handleSelectorChange(option, 'category')}
+                      handleSelectorChange(option, 'category')
+                    }
                     value={filtersSelected.category}
                   />
                   <Dropdown
@@ -117,7 +113,8 @@ class EmissionPathways extends PureComponent {
                     hideResetButton
                     disabled={filtersDisabled}
                     onValueChange={option =>
-                      handleSelectorChange(option, 'subcategory')}
+                      handleSelectorChange(option, 'subcategory')
+                    }
                     value={filtersSelected.subcategory}
                   />
                   <Dropdown
@@ -127,7 +124,8 @@ class EmissionPathways extends PureComponent {
                     hideResetButton
                     disabled={filtersDisabled}
                     onValueChange={option =>
-                      handleSelectorChange(option, 'indicator')}
+                      handleSelectorChange(option, 'indicator')
+                    }
                     value={filtersSelected.indicator}
                   />
                 </div>
@@ -151,7 +149,7 @@ class EmissionPathways extends PureComponent {
               height={600}
               loading={loading}
               error={error}
-              margin={{ bottom: 40, top: 20 }}
+              margin={{ bottom: 40, top: 40 }}
               onLegendChange={handleLegendChange}
               showUnit
             />

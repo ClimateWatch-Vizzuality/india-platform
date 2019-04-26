@@ -65,30 +65,25 @@ class Economy extends PureComponent {
                 downloadUri={downloadURI}
               />
             </div>
-            {
-              nationalChartData &&
-                (
-                  <Chart
-                    type="line"
-                    dots={false}
-                    lineType="linear"
-                    loading={loading}
-                    config={nationalChartData.config}
-                    theme={{ legend: styles.legend }}
-                    customTooltip={<CustomTooltip />}
-                    dataOptions={nationalChartData.dataOptions}
-                    dataSelected={nationalChartData.dataSelected}
-                    getCustomYLabelFormat={
-                      nationalChartData.config.yLabelFormat
-                    }
-                    data={nationalChartData.data}
-                    domain={nationalChartData.domain}
-                    margin={{ bottom: 10 }}
-                    height={300}
-                    onLegendChange={onLegendChange}
-                  />
-                )
-            }
+            {nationalChartData && (
+              <Chart
+                type="line"
+                dots={false}
+                lineType="linear"
+                loading={loading}
+                config={nationalChartData.config}
+                theme={{ legend: styles.legend }}
+                customTooltip={<CustomTooltip />}
+                dataOptions={nationalChartData.dataOptions}
+                dataSelected={nationalChartData.dataSelected}
+                getCustomYLabelFormat={nationalChartData.config.yLabelFormat}
+                data={nationalChartData.data}
+                domain={nationalChartData.domain}
+                margin={{ bottom: 10, top: 20 }}
+                height={300}
+                onLegendChange={onLegendChange}
+              />
+            )}
           </div>
         </div>
       </div>
