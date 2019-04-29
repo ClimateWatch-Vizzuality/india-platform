@@ -48,22 +48,17 @@ class Energy extends PureComponent {
             description={t(
               'pages.country-context.socioeconomic.energy.description'
             )}
-            extraContent={
-              (
-                <Button
-                  theme={{
-                    button: cx(buttonThemes.yellow, styles.powerExplorerButton)
-                  }}
-                  disabled
-                >
-                  Visit Power Explorer
-                  <Icon
-                    icon={openInNew}
-                    theme={{ icon: iconThemes.openInNew }}
-                  />
-                </Button>
-              )
-            }
+            extraContent={(
+              <Button
+                theme={{
+                  button: cx(buttonThemes.yellow, styles.powerExplorerButton)
+                }}
+                disabled
+              >
+                Visit Power Explorer
+                <Icon icon={openInNew} theme={{ icon: iconThemes.openInNew }} />
+              </Button>
+)}
           />
         </div>
         <Switch
@@ -73,7 +68,8 @@ class Energy extends PureComponent {
           ]}
           value={selectedSource}
           handleChange={selected =>
-            this.handleFilterChange('energySource', selected)}
+            this.handleFilterChange('energySource', selected)
+          }
         />
         <div className="first-column">
           <div className={styles.toolbox}>
@@ -84,7 +80,8 @@ class Energy extends PureComponent {
                 placeholder={`Filter by ${indicatorLabel}`}
                 options={options || []}
                 onValueChange={selected =>
-                  this.handleFilterChange('energyIndicator', selected)}
+                  this.handleFilterChange('energyIndicator', selected)
+                }
                 value={selectedOptions.energyIndicator}
                 theme={{ select: dropdownStyles.select }}
                 hideResetButton
@@ -96,28 +93,24 @@ class Energy extends PureComponent {
               downloadUri={downloadURI}
             />
           </div>
-          {
-            chartData &&
-              chartData.data &&
-              (
-                <Chart
-                  type="line"
-                  loading={loading}
-                  config={chartData.config}
-                  theme={{ legend: styles.legend }}
-                  data={chartData.data}
-                  dots={false}
-                  domain={chartData.domain}
-                  getCustomYLabelFormat={chartData.config.yLabelFormat}
-                  dataOptions={chartData.dataOptions || []}
-                  dataSelected={chartData.dataSelected}
-                  height={500}
-                  margin={{ top: 15, left: -15, bottom: 10 }}
-                  showUnit
-                  onLegendChange={v => this.handleFilterChange('categories', v)}
-                />
-              )
-          }
+          {chartData && chartData.data && (
+            <Chart
+              type="line"
+              loading={loading}
+              config={chartData.config}
+              theme={{ legend: styles.legend }}
+              data={chartData.data}
+              dots={false}
+              domain={chartData.domain}
+              getCustomYLabelFormat={chartData.config.yLabelFormat}
+              dataOptions={chartData.dataOptions || []}
+              dataSelected={chartData.dataSelected}
+              height={500}
+              margin={{ top: 40, left: -15, bottom: 10 }}
+              showUnit
+              onLegendChange={v => this.handleFilterChange('categories', v)}
+            />
+          )}
         </div>
       </div>
     );

@@ -23,10 +23,7 @@ const GHG_INDIA_LINK = 'http://www.ghgplatform-india.org/';
 
 const renderButtons = () => (
   <div className={styles.buttons}>
-    <div
-      data-for="buttonTooltip"
-      data-tip="This is not official government information"
-    >
+    <div data-for="buttonTooltip" data-tip="This is not official government information">
       <Button
         theme={{ button: cx(buttonThemes.yellow, styles.powerExplorerButton) }}
         link={{ type: 'a', props: { href: GHG_INDIA_LINK, target: '_blank' } }}
@@ -42,11 +39,7 @@ const renderButtons = () => (
       Compare with other countries
       <Icon icon={openInNew} theme={{ icon: iconThemes.openInNew }} />
     </Button>
-    <ReactTooltip
-      id="buttonTooltip"
-      effect="solid"
-      className="global_blueTooltip"
-    />
+    <ReactTooltip id="buttonTooltip" effect="solid" className="global_blueTooltip" />
   </div>
 );
 
@@ -55,21 +48,16 @@ class HistoricalEmissions extends PureComponent {
   handleFilterChange = (field, selected) => {
     const { onFilterChange, selectedOptions } = this.props;
 
-    const prevSelectedOptionValues = castArray(selectedOptions[field]).map(
-      o => o.value
-    );
+    const prevSelectedOptionValues = castArray(selectedOptions[field]).map(o => o.value);
     const selectedArray = castArray(selected);
-    const newSelectedOption = selectedArray.find(
-      o => !prevSelectedOptionValues.includes(o.value)
-    );
+    const newSelectedOption = selectedArray.find(o => !prevSelectedOptionValues.includes(o.value));
 
-    const removedAnyPreviousOverride = selectedArray
-      .filter(v => v)
-      .filter(v => !v.override);
+    const removedAnyPreviousOverride = selectedArray.filter(v => v).filter(v => !v.override);
 
-    const values = newSelectedOption && newSelectedOption.override
-      ? newSelectedOption.value
-      : removedAnyPreviousOverride.map(v => v.value).join(',');
+    const values =
+      newSelectedOption && newSelectedOption.override
+        ? newSelectedOption.value
+        : removedAnyPreviousOverride.map(v => v.value).join(',');
 
     onFilterChange({ [field]: values });
   };
@@ -81,11 +69,11 @@ class HistoricalEmissions extends PureComponent {
     if (field === 'sector') {
       options = options.filter(v => v.code !== SECTOR_TOTAL);
     }
-    const NON_ALL_SELECTED_KEYS = [ 'gas' ];
+    const NON_ALL_SELECTED_KEYS = ['gas'];
     const noAllSelected = NON_ALL_SELECTED_KEYS.includes(field);
     if (noAllSelected) return options;
 
-    return [ allSelectedOption, ...options ];
+    return [allSelectedOption, ...options];
   }
 
   renderDropdown(field, multi) {
@@ -122,20 +110,15 @@ class HistoricalEmissions extends PureComponent {
   }
 
   render() {
-    const { emissionParams, chartData, t } = this.props;
+    const { emissionParams, chartData, sources, t } = this.props;
 
-    const sources = [ 'NATCOM1', 'NATCOM2', 'BUR' ];
-    const downloadURI = `emissions/download?location=IDN&source=${sources.join(
-      ','
-    )}`;
+    const downloadURI = `emissions/download?location=IDN&source=${sources.join(',')}`;
 
     return (
       <div className={styles.historicalEmissions}>
         <SectionTitle
           title={t('pages.country-context.historical-emissions.title')}
-          description={t(
-            'pages.country-context.historical-emissions.description'
-          )}
+          description={t('pages.country-context.historical-emissions.description')}
           extraContent={renderButtons()}
         />
         <div className={styles.filtersGroup}>
@@ -150,29 +133,26 @@ class HistoricalEmissions extends PureComponent {
           />
         </div>
         <div className={styles.chartContainer}>
-          {
-            chartData &&
-              (
-                <Chart
-                  theme={{
-                    legend: styles.legend,
-                    projectedLegend: styles.projectedLegend
-                  }}
-                  type="bar"
-                  config={chartData.config}
-                  data={chartData.data}
-                  dataOptions={chartData.dataOptions}
-                  dataSelected={chartData.dataSelected}
-                  height={500}
-                  margin={{ bottom: 40, top: 20 }}
-                  barSize={40}
-                  loading={chartData.loading}
-                  onLegendChange={v => this.handleFilterChange('sector', v)}
-                  customTooltip={<BarTooltipChart />}
-                  showUnit
-                />
-              )
-          }
+          {chartData && (
+            <Chart
+              theme={{
+                legend: styles.legend,
+                projectedLegend: styles.projectedLegend
+              }}
+              type="bar"
+              config={chartData.config}
+              data={chartData.data}
+              dataOptions={chartData.dataOptions}
+              dataSelected={chartData.dataSelected}
+              height={500}
+              margin={{ bottom: 40, top: 20 }}
+              barSize={40}
+              loading={chartData.loading}
+              onLegendChange={v => this.handleFilterChange('sector', v)}
+              customTooltip={<BarTooltipChart />}
+              showUnit
+            />
+          )}
         </div>
         <MetadataProvider meta="ghg" />
         {emissionParams && <GHGEmissionsProvider params={emissionParams} />}
@@ -188,6 +168,7 @@ HistoricalEmissions.propTypes = {
   selectedOptions: PropTypes.object,
   emissionParams: PropTypes.object,
   onFilterChange: PropTypes.func.isRequired,
+  sources: PropTypes.array,
   t: PropTypes.func.isRequired
 };
 
@@ -196,7 +177,8 @@ HistoricalEmissions.defaultProps = {
   filterOptions: undefined,
   allSelectedOption: undefined,
   selectedOptions: undefined,
-  emissionParams: undefined
+  emissionParams: undefined,
+  sources: []
 };
 
 export default HistoricalEmissions;
