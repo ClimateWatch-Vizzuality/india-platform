@@ -43,9 +43,12 @@ const ClimatePolicies = ({
         </div>
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
-            <div className={styles.description}>
-              {t('pages.climate-policies.sub-description')}
-            </div>
+            <div
+              className={styles.description}
+              dangerouslySetInnerHTML={{
+                __html: t('pages.climate-policies.sub-description')
+              }}
+            />
             <div className={styles.filterContainer}>
               <SearchCategoriesBox
                 onSearchChange={onSearchChange}
@@ -94,9 +97,12 @@ const ClimatePolicies = ({
           <h2 className={styles.title}>
             {t('pages.climate-policies.key-policies-header')}
           </h2>
-          <p className={styles.keyDescription}>
-            {t('pages.climate-policies.key-policies-description')}
-          </p>
+          <p
+            className={styles.keyDescription}
+            dangerouslySetInnerHTML={{
+              __html: t('pages.climate-policies.key-policies-description')
+            }}
+          />
           <Table
             data={keyPoliciesList}
             defaultColumns={['policy', 'policy_status', 'policy_progress']}
