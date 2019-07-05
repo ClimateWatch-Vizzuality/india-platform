@@ -1,17 +1,11 @@
 import { createStructuredSelector, createSelector } from 'reselect';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
-import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import camelCase from 'lodash/camelCase';
 import upperFirst from 'lodash/upperFirst';
 import { upperCaseLabels } from 'utils/utils';
-import {
-  getThemeConfig,
-  getTooltipConfig,
-  setLegendOptions,
-  CHART_COLORS
-} from 'utils/graphs';
+import { getThemeConfig, getTooltipConfig, setLegendOptions, CHART_COLORS } from 'utils/graphs';
 import {
   getQuery,
   getLoading,
@@ -21,7 +15,8 @@ import {
   getProvincesIndicators,
   getXColumn,
   getDomain,
-  getAxes
+  getAxes,
+  getSourcesSelector
 } from '../shared/socioeconomic-selectors';
 
 // Total population
@@ -32,12 +27,7 @@ const DEFAULT_INDICATOR = {
 };
 const INDICATOR_CODES = {
   CAIT: ['population_3', 'population_4', 'population_5', 'pop_density'],
-  population_by_gender: [
-    'population_1',
-    'population_2',
-    'Sex_ratio',
-    'Sex_ratio_child'
-  ],
+  population_by_gender: ['population_1', 'population_2', 'Sex_ratio', 'Sex_ratio_child'],
   hdi: ['hdi']
 };
 
@@ -57,9 +47,7 @@ const formatY = {
 const getCustomYLabelFormat = unit => formatY[unit];
 
 const getUniqueYears = data => {
-  const allYears = flatten(
-    data.map(d => d.values).map(arr => arr.map(o => o.year))
-  );
+  const allYears = flatten(data.map(d => d.values).map(arr => arr.map(o => o.year)));
   return [...new Set(allYears)];
 };
 
@@ -146,9 +134,7 @@ const getSelectedIndicatorsValues = createSelector(
     if (!indicators) return null;
     return (
       indicators.values &&
-      indicators.values.filter(
-        i => i.indicator_code === selectedIndicator.value
-      )
+      indicators.values.filter(i => i.indicator_code === selectedIndicator.value)
     );
   }
 );
@@ -186,9 +172,7 @@ const getChartRawData = createSelector(
   (selectedIndicatorValues, selectedStates) => {
     if (!selectedIndicatorValues) return null;
     return selectedStates.map(st => {
-      const stateData = selectedIndicatorValues.find(
-        i => i.location_iso_code3 === st.value
-      );
+      const stateData = selectedIndicatorValues.find(i => i.location_iso_code3 === st.value);
       return {
         values: stateData.values,
         key: `y${upperFirst(camelCase(stateData.location_iso_code3))}`,
@@ -286,11 +270,7 @@ const getBarChartData = createSelector(
         theme,
         yLabelFormat: getCustomYLabelFormat(unit)
       },
-      dataOptions: setLegendOptions(
-        selectionOptions,
-        selectedStates,
-        MAX_CHART_LEGEND_ELEMENTS
-      ),
+      dataOptions: setLegendOptions(selectionOptions, selectedStates, MAX_CHART_LEGEND_ELEMENTS),
       dataSelected: selectedStates
     };
   }
@@ -300,22 +280,16 @@ const getSelectedIndicatorValues = createSelector(
   [getSelectedIndicatorCodes, getIndicators],
   (indicatorCodes, indicators) => {
     if (!indicators || !indicators.values || !indicatorCodes) return [];
-    return indicators.values.filter(v =>
-      indicatorCodes.includes(v.indicator_code));
+    return indicators.values.filter(v => indicatorCodes.includes(v.indicator_code));
   }
 );
 
-const getSources = createSelector(
-  [getSelectedIndicatorValues],
-  iValues => uniq(iValues.map(i => i.source))
-);
+const getSources = getSourcesSelector(getSelectedIndicatorValues);
 
 const getDownloadURI = createSelector(
   [getSources, getSelectedIndicatorCodes],
   (sources, indicatorCodes) =>
-    `socioeconomic/indicators.zip?code=${indicatorCodes.join(
-      ','
-    )}&source=${sources.join(',')}`
+    `socioeconomic/indicators.zip?code=${indicatorCodes.join(',')}&source=${sources.join(',')}`
 );
 
 export const getPopulation = createStructuredSelector({
