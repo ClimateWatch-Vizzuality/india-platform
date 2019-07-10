@@ -1,4 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
+import uniq from 'lodash/uniq';
+import flatten from 'lodash/flatten';
 import { createSelector } from 'reselect';
 
 const { COUNTRY_ISO } = process.env;
@@ -13,8 +15,7 @@ export const getNationalIndicators = createSelector(
   indicators => {
     if (!indicators || isEmpty(indicators)) return null;
     return (
-      indicators.values &&
-      indicators.values.filter(ind => ind.location_iso_code3 === COUNTRY_ISO)
+      indicators.values && indicators.values.filter(ind => ind.location_iso_code3 === COUNTRY_ISO)
     );
   }
 );
@@ -24,8 +25,7 @@ export const getProvincesIndicators = createSelector(
   indicators => {
     if (!indicators || isEmpty(indicators)) return null;
     return (
-      indicators.values &&
-      indicators.values.filter(ind => ind.location_iso_code3 !== COUNTRY_ISO)
+      indicators.values && indicators.values.filter(ind => ind.location_iso_code3 !== COUNTRY_ISO)
     );
   }
 );
@@ -62,3 +62,9 @@ export const getAxes = (xBottom, yLeft) => ({
 export const getXColumn = () => [{ label: 'year', value: 'x' }];
 
 export const getTheme = color => ({ y: { stroke: color, fill: color } });
+
+export const getSourcesSelector = getSelectedIndicatorValues =>
+  createSelector(
+    [getSelectedIndicatorValues],
+    iValues => uniq(flatten(iValues.map(i => i.source.split(',')))).map(s => s.trim())
+  );
