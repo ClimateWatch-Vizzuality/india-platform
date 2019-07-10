@@ -2,16 +2,10 @@ import { createStructuredSelector, createSelector } from 'reselect';
 import { format, formatSpecifier, precisionFixed } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import flatten from 'lodash/flatten';
-import uniq from 'lodash/uniq';
 import camelCase from 'lodash/camelCase';
 import upperFirst from 'lodash/upperFirst';
 import { upperCaseLabels } from 'utils/utils';
-import {
-  getThemeConfig,
-  getTooltipConfig,
-  setLegendOptions,
-  CHART_COLORS
-} from 'utils/graphs';
+import { getThemeConfig, getTooltipConfig, setLegendOptions, CHART_COLORS } from 'utils/graphs';
 import {
   getQuery,
   getLoading,
@@ -19,20 +13,18 @@ import {
   getIndicatorsValues,
   getXColumn,
   getDomain,
-  getAxes
+  getAxes,
+  getSourcesSelector
 } from '../shared/socioeconomic-selectors';
 
 const DATA_SCALE = '1000000';
 
 const getUniqueYears = data => {
-  const allYears = flatten(
-    data.map(d => d.values).map(arr => arr.map(o => o.year))
-  );
+  const allYears = flatten(data.map(d => d.values).map(arr => arr.map(o => o.year)));
   return [...new Set(allYears)];
 };
 
-const getYColumn = data =>
-  data.map(d => ({ label: d.label, value: d.category || d.key }));
+const getYColumn = data => data.map(d => ({ label: d.label, value: d.category || d.key }));
 
 const unitLabels = { unit: '₹ Billion', million: 'People', '%': 'Percentage' };
 
@@ -48,17 +40,13 @@ const formatFunction = unit =>
 
 export const getSourceIndicatorCode = createSelector(
   getQuery,
-  query =>
-    !query || !query.economySource || query.economySource === 'GDP'
-      ? 'GDP'
-      : 'Employment'
+  query => (!query || !query.economySource || query.economySource === 'GDP' ? 'GDP' : 'Employment')
 );
 const getEconomyIndicatorsValues = createSelector(
   [getSourceIndicatorCode, getIndicatorsValues],
   (indicatorCode, indicators) => {
     if (!indicators) return null;
-    return indicators.filter(ind =>
-      ind.indicator_code.startsWith(indicatorCode));
+    return indicators.filter(ind => ind.indicator_code.startsWith(indicatorCode));
   }
 );
 const getIndicatorsWithLabels = createSelector(
@@ -66,8 +54,7 @@ const getIndicatorsWithLabels = createSelector(
   (indicatorCode, indicators) => {
     if (!indicators || !indicators.indicators) return null;
     const indicatorsWithLabels = indicators.indicators;
-    return indicatorsWithLabels.filter(ind =>
-      ind.code.startsWith(indicatorCode));
+    return indicatorsWithLabels.filter(ind => ind.code.startsWith(indicatorCode));
   }
 );
 const getEconomyIndicatorsValuesOptions = createSelector(
@@ -75,10 +62,7 @@ const getEconomyIndicatorsValuesOptions = createSelector(
   indicators => {
     if (!indicators) return null;
     return upperCaseLabels(
-      sortBy(
-        indicators.map(ind => ({ label: ind.name, value: ind.code })),
-        'label'
-      )
+      sortBy(indicators.map(ind => ({ label: ind.name, value: ind.code })), 'label')
     );
   }
 );
@@ -87,18 +71,14 @@ const getSelectedIndicator = createSelector(
   (query, options, indicatorCode) => {
     if (!query || !query.economyNationalIndicator)
       return options && options.find(o => o.value === indicatorCode);
-    return (
-      options && options.find(o => o.value === query.economyNationalIndicator)
-    );
+    return options && options.find(o => o.value === query.economyNationalIndicator);
   }
 );
 const getSelectedIndicatorsValues = createSelector(
   [getEconomyIndicatorsValues, getSelectedIndicator],
   (indicators, selectedIndicator) => {
     if (!indicators) return null;
-    return indicators.filter(
-      ind => ind.indicator_code === selectedIndicator.value
-    );
+    return indicators.filter(ind => ind.indicator_code === selectedIndicator.value);
   }
 );
 const getStatesSelectionOptions = createSelector(
@@ -140,21 +120,16 @@ const getChartRawData = createSelector(
         category: `y${upperFirst(camelCase(i.category))}`
       }));
     return selectedStates.map(st => {
-      const stateData = selectedIndicatorValues.find(
-        i => i.location_iso_code3 === st.value
-      );
+      const stateData = selectedIndicatorValues.find(i => i.location_iso_code3 === st.value);
       return {
         values: stateData.values,
         key: stateData.category
           ? `y${upperFirst(camelCase(stateData.category))}`
           : `y${upperFirst(camelCase(stateData.location_iso_code3))}`,
-        label: stateData.category
-          ? `${upperFirst(stateData.category)}`
-          : stateData.location,
+        label: stateData.category ? `${upperFirst(stateData.category)}` : stateData.location,
         id: stateData.location_iso_code3,
         value: stateData.location_iso_code3,
-        category:
-          stateData.category && `y${upperFirst(camelCase(stateData.category))}`
+        category: stateData.category && `y${upperFirst(camelCase(stateData.category))}`
       };
     });
   }
@@ -204,9 +179,7 @@ const getNationalBarChartData = createSelector(
     if (!indicatorsWithLabels) return null;
 
     const code = selectedIndicator.value;
-    const indicator =
-      indicatorsWithLabels &&
-      indicatorsWithLabels.find(ind => ind.code === code);
+    const indicator = indicatorsWithLabels && indicatorsWithLabels.find(ind => ind.code === code);
 
     const unit = indicator && indicator.unit;
     const theme = getThemeConfig(getYColumn(rawData, CHART_COLORS));
@@ -215,10 +188,7 @@ const getNationalBarChartData = createSelector(
       data: chartXYvalues,
       domain: getDomain(),
       config: {
-        axes: getAxes(
-          { name: 'Years' },
-          { name: source === 'GDP' ? 'GDP' : 'Employment' }
-        ),
+        axes: getAxes({ name: 'Years' }, { name: source === 'GDP' ? 'GDP' : 'Employment' }),
         tooltip: {
           ...getTooltipConfig(getYColumn(rawData)),
           x: { label: 'Year' },
@@ -242,8 +212,7 @@ const getNationalBarChartData = createSelector(
 const getSelectedIndicatorCodes = createSelector(
   [getIndicators, getSourceIndicatorCode],
   (indicators, sourceIndicatorCode) => {
-    if (!indicators || !indicators.indicators || !sourceIndicatorCode)
-      return [];
+    if (!indicators || !indicators.indicators || !sourceIndicatorCode) return [];
     return indicators.indicators
       .filter(i => i.code.startsWith(sourceIndicatorCode))
       .map(i => i.code);
@@ -253,20 +222,14 @@ const getSelectedIndicatorValues = createSelector(
   [getSelectedIndicatorCodes, getIndicators],
   (indicatorCodes, indicators) => {
     if (!indicators || !indicators.values || !indicatorCodes) return [];
-    return indicators.values.filter(v =>
-      indicatorCodes.includes(v.indicator_code));
+    return indicators.values.filter(v => indicatorCodes.includes(v.indicator_code));
   }
 );
-const getSources = createSelector(
-  [getSelectedIndicatorValues],
-  iValues => uniq(iValues.map(i => i.source))
-);
+const getSources = getSourcesSelector(getSelectedIndicatorValues);
 const getDownloadURI = createSelector(
   [getSources, getSelectedIndicatorCodes],
   (sources, indicatorCodes) =>
-    `socioeconomic/indicators.zip?code=${indicatorCodes.join(
-      ','
-    )}&source=${sources.join(',')}`
+    `socioeconomic/indicators.zip?code=${indicatorCodes.join(',')}&source=${sources.join(',')}`
 );
 export const getEconomy = createStructuredSelector({
   query: getQuery,
