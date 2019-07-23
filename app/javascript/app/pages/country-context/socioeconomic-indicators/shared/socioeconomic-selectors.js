@@ -66,5 +66,5 @@ export const getTheme = color => ({ y: { stroke: color, fill: color } });
 export const getSourcesSelector = getSelectedIndicatorValues =>
   createSelector(
     [getSelectedIndicatorValues],
-    iValues => uniq(flatten(iValues.map(i => i.source.split(',')))).map(s => s.trim())
+    iValues => uniq(flatten(iValues.map(i => i.source.split(','))).map(s => s.trim()))
   );
