@@ -61,7 +61,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const { route, location } = this.props;
+    const { route } = this.props;
     return (
       <React.Fragment>
         <Sticky
@@ -70,9 +70,7 @@ class App extends PureComponent {
           activeClass={headerStyles.stickyWrapper}
           innerZ={5}
         >
-          <Header
-            hideLinks={location && location.pathname === '/coming-soon'}
-          />
+          <Header />
         </Sticky>
         <div className={styles.appContent}>
           <PageComponent path={route.component} />
