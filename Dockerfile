@@ -1,10 +1,15 @@
 FROM ruby:2.5.1
 MAINTAINER Jose Angel Parreño <joseangel.parreno@vizzuality.com>
 
-ENV NAME cw-starter-kit
-ENV RAKE_ENV production
-ENV RAILS_ENV production
-ENV CW_API /api/v1
+ENV NAME=cw-india
+ENV RAKE_ENV=production
+ENV RAILS_ENV=production
+ENV CW_API_URL="https://www.climatewatchdata.org/api/v1"
+ENV ESP_API_URL="https://data.emissionspathways.org/api/v1"
+ENV API_URL="/api/v1"
+ENV S3_BUCKET_NAME="wri-sites"
+ENV COUNTRY_ISO=IND
+ENV GOOGLE_ANALYTICS_ID "UA-130931064-3"
 
 # Install dependencies
 RUN apt-get update \
@@ -31,12 +36,6 @@ RUN bundle install --without development test --jobs 4 --deployment
 ARG secretKey
 ENV SECRET_KEY_BASE $secretKey
 
-ARG FEATURE_QUANTIFICATIONS
-ENV FEATURE_QUANTIFICATIONS $FEATURE_QUANTIFICATIONS
-
-ARG FEATURE_COUNTRY_COMPARISON
-ENV FEATURE_COUNTRY_COMPARISON $FEATURE_COUNTRY_COMPARISON
-
 # Bundle app source
 COPY . ./
 
@@ -46,4 +45,4 @@ EXPOSE 3000
 RUN bundle exec rake assets:precompile
 
 # Start app
-CMD bundle exec rake tmp:clear db:migrate && bundle exec rails s -b 0.0.0.0
+ENTRYPOINT ["./entrypoint.sh"]

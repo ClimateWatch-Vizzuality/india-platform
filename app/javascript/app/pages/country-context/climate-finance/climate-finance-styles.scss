@@ -1,0 +1,31 @@
+@import '~styles/settings.scss';
+@import '~styles/layout.scss';
+
+$dropdown-max-width: 200px;
+
+.climateFinance {
+  @include row();
+
+  margin: {
+    top: $gutter-padding * 4;
+    bottom: $gutter-padding * 8;
+  }
+}
+
+.toolbox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown {
+  flex: 1;
+  margin-bottom: 20px;
+  max-width: $dropdown-max-width;
+}
+
+.buttonWrapper {
+  margin: {
+    top: 22px;
+    left: 10px;
+  }
+}

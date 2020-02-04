@@ -1,4 +1,14 @@
 @import '~styles/base.scss';
 @import '~styles/settings.scss';
 
-.app {}
+.header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.appContent {
+  padding-top: $header-height;
+  min-height: calc(100vh - 42px);
+}

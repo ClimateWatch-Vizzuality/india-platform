@@ -1,0 +1,35 @@
+@import '~styles/layout.scss';
+
+.text {
+  font-size: $font-size;
+  line-height: $line-height-small;
+  color: $theme-color;
+  margin-bottom: 5px;
+
+  &Highlight {
+    font-weight: $font-weight-bold;
+  }
+}
+
+.textContainer {
+  &:not(:last-of-type) {
+    margin-bottom: 30px;
+  }
+}
+
+.link {
+  font-size: $font-size;
+  line-height: 1;
+  height: 1.62;
+  color: $theme-color;
+  border-bottom: 1px solid $action-color;
+}
+
+.title {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.empty {
+  opacity: 0.7;
+}

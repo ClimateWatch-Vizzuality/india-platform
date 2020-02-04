@@ -1,0 +1,25 @@
+en:
+  app:
+    pages:
+      country-context:
+        title: Country context
+        description: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit.
+        socioeconomic:
+          population:
+            title: Population
+            description: population description
+          economy:
+            title: Economic profile
+            description: Economic profile description
+          energy:
+            title: Energy
+            description: Energy description
+        historical-emissions:
+          title: Historical emissions
+          description: Historical emissions description
+        emission-pathways:
+          title: Emission pathways
+          description: Emission pathways description
+        climate-finance:
+          title: Climate finance
+          description: Climate finance description

@@ -1,0 +1,63 @@
+@import '~styles/settings.scss';
+@import '~styles/layout.scss';
+
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 0;
+
+  > div {
+    @include xy-gutters($gutter-position: ('top', 'bottom'));
+
+    &:last-child {
+      .card {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media #{$tablet-landscape} {
+    @include columns(4);
+
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin-bottom: -320px;
+  }
+}
+
+.contentContainer {
+  padding: 0;
+}
+
+.card {
+  background-color: $white;
+  flex-direction: column-reverse;
+  margin-top: $gutter-padding;
+  min-height: 480px;
+  width: 100%;
+  padding: 40px 40px 50px;
+
+  @media #{$tablet-landscape} {
+    margin-top: 0;
+  }
+}
+
+.data {
+  background-color: $white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+}
+
+.title {
+  font-family: $font-family-1;
+  font-size: $font-size-xl-large;
+  font-weight: $font-weight-light;
+}
+
+.button {
+  width: 100%;
+}
+

@@ -1,0 +1,125 @@
+@import '~styles/ui-extends.scss';
+@import '~styles/layout.scss';
+
+.page {
+  margin-bottom: 50px;
+}
+
+.pageLayout {
+  @include row();
+}
+
+.section {
+  @include columns();
+
+  padding-left: $gutter-padding;
+  margin: {
+    top: $gutter-padding;
+    bottom: $gutter-padding * 6;
+  }
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: center;
+  background-color: $link-water;
+  color: $downriver;
+}
+
+.title {
+  padding: 52px;
+  text-transform: uppercase;
+  font-size: $font-size-large;
+  font-weight: bold;
+}
+
+.cell {
+  padding: 20px;
+  color: $downriver;
+  line-height: 1.5;
+}
+
+.nameColumn {
+  text-align: right;
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  border-bottom: 1px solid rgba($jakarta, 0.2);
+  padding: 26px;
+
+  > * {
+    flex: 0 1 33%;
+  }
+}
+
+.icon {
+  margin-left: 10px;
+}
+
+.link {
+  text-decoration: underline;
+  color: $elephant-blue;
+  cursor: pointer;
+  font-size: $font-size;
+}
+
+.document {
+  display: flex;
+  align-items: center;
+  font-size: $font-size;
+  cursor: pointer;
+}
+
+%accordionTitleDefaults {
+  justify-content: center;
+  padding-right: 0;
+}
+
+.accordionTitle {
+  @extend %accordionTitleDefaults;
+
+  text-transform: uppercase;
+}
+
+.secondAccordionTitle {
+  @extend %accordionTitleDefaults;
+
+  font-weight: bold;
+}
+
+%accordionHeaderDefaults {
+  padding: 36px;
+  border-bottom: 1px solid $iron;
+}
+
+.accordionHeader {
+  @extend %accordionHeaderDefaults;
+
+  background-color: $white;
+}
+
+.secondAccordionHeader {
+  @extend %accordionHeaderDefaults;
+
+  background-color: $link-water;
+  font-size: $font-size-x-m;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $link-water;
+  border-bottom: 1px solid rgba($jakarta, 0.2);
+  padding: 20px;
+}
+
+.date {
+  color: rgba($elephant-blue, 0.4);
+}

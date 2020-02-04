@@ -1,22 +1,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Link, { NavLink } from 'redux-first-router-link';
 import cx from 'classnames';
-import { Icon } from 'cw-components';
+import { NavLink } from 'redux-first-router-link';
 
-import cwLogo from 'assets/cw-logo.svg';
 import styles from './nav-styles.scss';
 
 class Nav extends PureComponent {
   render() {
-    const { routes, className } = this.props;
+    const { routes, theme } = this.props;
+
     return (
-      <nav className={cx(styles.navbar, className)}>
-        <Link className={styles.link} to="/">
-          <Icon theme={{ icon: styles.logo }} icon={cwLogo} />
-        </Link>
+      <nav className={theme.nav}>
         {routes.map(route => (
-          <NavLink className={styles.link} key={route.label} to={route.link} activeClassName={styles.active}>
+          <NavLink
+            exact={route.exact || false}
+            className={cx(styles.link, theme.link)}
+            key={route.label}
+            to={route.link || route.path}
+            activeClassName={styles.active}
+            onTouchStart={undefined}
+            onMouseDown={undefined}
+          >
             {route.label}
           </NavLink>
         ))}
@@ -26,12 +30,10 @@ class Nav extends PureComponent {
 }
 
 Nav.propTypes = {
-  className: PropTypes.string,
-  routes: PropTypes.array.isRequired
+  routes: PropTypes.array.isRequired,
+  theme: PropTypes.shape({ nav: PropTypes.string, link: PropTypes.string })
 };
 
-Nav.defaultProps = {
-  className: ''
-};
+Nav.defaultProps = { theme: {} };
 
 export default Nav;

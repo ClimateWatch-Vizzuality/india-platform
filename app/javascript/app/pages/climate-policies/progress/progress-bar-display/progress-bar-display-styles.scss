@@ -1,0 +1,10 @@
+@import '../progress-styles.scss';
+
+.barProgress {
+  @include columns((4, 4, 4));
+}
+
+.progressText {
+  color: $elephant-blue;
+  margin-bottom: $gutter-padding;
+}

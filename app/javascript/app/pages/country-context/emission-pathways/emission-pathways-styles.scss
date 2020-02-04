@@ -1,0 +1,96 @@
+@import '~styles/settings.scss';
+@import '~styles/layout.scss';
+
+.page {
+  @include row();
+
+  margin-top: $gutter-padding * 4;
+}
+
+$min-height: 450px;
+
+.wrapper {
+  min-height: 450px;
+  padding-bottom: 50px;
+}
+
+.filtersGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 40px;
+
+  .filters {
+    @include columns(6);
+
+    width: 100%;
+
+    > * {
+      @include xy-gutters($gutter-position: ('bottom'));
+    }
+  }
+}
+
+.title {
+  font-size: $font-size-large;
+  font-weight: $font-weight;
+  color: $theme-color;
+  margin-bottom: 10px;
+}
+
+.chartWrapper {
+  position: relative;
+  min-height: $min-height;
+}
+
+.loader {
+  min-height: 450px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.noContent {
+  min-height: $min-height;
+}
+
+.clearButton {
+  color: $theme-color;
+  border-bottom: 1px solid $action-color;
+  vertical-align: bottom;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.buttonWrapper {
+  max-width: 100px;
+
+  @include xy-gutters($gutter-position: ('bottom'));
+
+  @media #{$tablet-landscape} {
+    align-self: flex-end;
+  }
+}
+
+@media #{$tablet-landscape} {
+  .titleAndBtnsWrapper {
+    @include columns(2.2);
+
+    *:last-child {
+      @include column-offset(7.2, $gutters: true);
+    }
+  }
+
+  .filtersGroup {
+    flex-direction: row;
+
+    .filters {
+      @include columns(2.2);
+    }
+  }
+
+  .buttonWrapper {
+    align-self: flex-end;
+  }
+}

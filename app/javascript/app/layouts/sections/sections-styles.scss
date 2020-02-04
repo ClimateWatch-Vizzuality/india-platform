@@ -1,13 +1,55 @@
 @import '~styles/settings.scss';
+@import '~styles/layout.scss';
 
 .page {
   min-height: calc(100vh - #{$header-height} - #{$footer-height});
 }
 
-.link {
-  color: $theme-color;
+.section {
+  background-image: $blue-gradient;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: $blue-gradient;
+    z-index: -1;
+  }
+}
+
+.row {
+  @include row();
+}
+
+.descriptionContainer {
+  @include columns((8, 4));
+}
+
+.nav {
+  display: flex;
+  height: 70px;
 }
 
 .active {
   border-bottom: 3px solid $theme-color;
+}
+
+.sectionTitle {
+  color: $white;
+  font-size: $font-size-xxl-large;
+  font-weight: 300;
+  line-height: 1.19;
+  letter-spacing: -1.3px;
+  padding-top: $gutter-padding;
+  padding-bottom: $gutter-padding;
+}
+
+.sectionDescription {
+  color: $white;
+  line-height: 1.6;
+  padding-bottom: $gutter-padding * 2;
 }

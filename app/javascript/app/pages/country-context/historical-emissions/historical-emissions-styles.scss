@@ -1,0 +1,44 @@
+@import '~styles/settings.scss';
+@import '~styles/layout.scss';
+
+.historicalEmissions {
+  @include row();
+
+  margin-top: $gutter-padding * 4;
+  padding-bottom: $gutter-padding * 8;
+}
+
+.buttons {
+  display: flex;
+
+  :not(:first-child) {
+    margin-left: 1em;
+  }
+}
+
+.filtersGroup {
+  display: flex;
+  flex-direction: column;
+
+  .filters {
+    width: 100%;
+  }
+
+  @include xy-gutters($gutter-position: ('bottom'), $gutters: $gutter-padding * 8);
+}
+
+.buttonWrapper {
+  max-width: 100px;
+  margin-top: 22px;
+}
+
+@media #{$tablet-landscape} {
+  .filtersGroup {
+    flex-direction: row;
+    justify-content: space-between;
+
+    .filters {
+      @include columns((3, 3, 3, 3));
+    }
+  }
+}

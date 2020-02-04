@@ -2,37 +2,61 @@ import { connectRoutes, NOT_FOUND, redirect } from 'redux-first-router';
 import createHistory from 'history/createBrowserHistory';
 import queryString from 'query-string';
 
-import NationalSections from './sections/national-circumstances';
-import GHGSections from './sections/ghg-emissions';
+import CountryContext from './sections/country-context';
+import ClimateGoals from './sections/climate-goals';
+import ClimatePolicyDetail from './sections/climate-policy-detail';
 
 const history = createHistory();
 
 export const HOME = 'location/HOME';
-export const NATIONAL_CIRCUMSTANCES = 'location/NATIONAL_CIRCUMSTANCES';
-export const GHG_EMISSIONS = 'location/GHG_EMISSIONS';
+export const COUNTRY_CONTEXT = 'location/COUNTRY_CONTEXT';
+export const CLIMATE_POLICIES = 'location/CLIMATE_POLICIES';
+export const CLIMATE_POLICY_DETAIL = 'location/CLIMATE_POLICY_DETAIL';
+export const CLIMATE_GOALS = 'location/CLIMATE_GOALS';
 
 export const routes = {
   [HOME]: {
     nav: false,
+    slug: 'home',
     label: 'Overview',
     path: '/',
     component: 'pages/home/home'
   },
-  [NATIONAL_CIRCUMSTANCES]: {
+  [COUNTRY_CONTEXT]: {
     nav: true,
-    label: 'National Circumstances',
-    link: '/national-circumstances',
-    path: '/national-circumstances/:section?',
+    slug: 'country-context',
+    label: 'Country context',
+    link: '/country-context',
+    path: '/country-context/:section?',
     component: 'layouts/sections/sections',
-    sections: NationalSections
+    sections: CountryContext
   },
-  [GHG_EMISSIONS]: {
+  [CLIMATE_GOALS]: {
     nav: true,
-    label: 'GHG Emissions',
-    link: '/ghg-emissions',
-    path: '/ghg-emissions/:section?',
+    slug: 'climate-goals',
+    label: 'Climate Goals',
+    link: '/climate-goals',
+    path: '/climate-goals/:section?',
     component: 'layouts/sections/sections',
-    sections: GHGSections
+    sections: ClimateGoals
+  },
+  [CLIMATE_POLICIES]: {
+    nav: true,
+    slug: 'climate-policies',
+    label: 'Climate policies',
+    link: '/climate-policies',
+    path: '/climate-policies',
+    component:
+      'pages/climate-policies/climate-policy-module/climate-policy-module'
+  },
+  [CLIMATE_POLICY_DETAIL]: {
+    nav: false,
+    label: 'Climate policies',
+    link: '/climate-policies',
+    path: '/climate-policies/:policy?/:section?',
+    component: 'layouts/sections/sections',
+    sections: ClimatePolicyDetail,
+    fromPath: pathSegment => decodeURIComponent(pathSegment)
   },
   [NOT_FOUND]: {
     path: '/404',

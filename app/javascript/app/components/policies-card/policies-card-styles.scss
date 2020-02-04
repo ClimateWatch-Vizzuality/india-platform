@@ -1,0 +1,37 @@
+@import '~styles/ui-extends.scss';
+@import '~styles/layout.scss';
+
+.cardContainer {
+  border-radius: 3px;
+  padding: $modal-padding;
+  padding-bottom: 70px;
+  box-shadow: 0 1px 10px 0 rgba(232, 236, 245, 0.66);
+
+  @include xy-gutters('top', 'bottom');
+
+  &:hover {
+    box-shadow: none;
+    background-color: $mid-gray;
+    cursor: pointer;
+  }
+}
+
+.title {
+  @extend %smallTitle;
+
+  color: $midnightblue;
+}
+
+.responsibleAuthority {
+  @extend %bodyText;
+
+  margin: 40px 0 70px;
+  color: $dusty-gray;
+}
+
+.description {
+  @extend %bodyText;
+
+  color: $midnightblue;
+}
+

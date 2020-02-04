@@ -1,0 +1,70 @@
+@import '~styles/ui-extends.scss';
+@import '~styles/layout.scss';
+
+$line-height: 1.5rem; // 24px
+
+.pageLayout {
+  @include row();
+}
+
+.section {
+  @include columns();
+
+  padding-left: $gutter-padding;
+  margin: {
+    top: $gutter-padding * 2;
+    bottom: $gutter-padding * 6;
+  }
+
+  @media #{$tablet-landscape} {
+    @include columns((6, 6));
+  }
+}
+
+.column {
+  &:first-child {
+    margin-bottom: $gutter-padding * 2;
+
+    @media #{$tablet-landscape} {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.description {
+  color: $black;
+  font-size: $font-size;
+  line-height: $line-height;
+
+  ul {
+    list-style: circle outside;
+    padding-left: $gutter-padding;
+  }
+
+  ol {
+    list-style-position: outside;
+    padding-left: $gutter-padding;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  li {
+    margin-bottom: 10px;
+    padding-left: 5px;
+  }
+}
+
+.title {
+  display: flex;
+  font-size: $font-size-large;
+  font-family: $font-family-1;
+  margin-bottom: $gutter-padding;
+}
+
+.icon {
+  margin-left: 10px;
+  height: 15px;
+  width: 15px;
+}

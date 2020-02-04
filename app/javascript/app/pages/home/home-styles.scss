@@ -1,5 +1,114 @@
-@import '~styles/settings.scss';
+@import '~styles/ui-extends.scss';
+@import '~styles/layout.scss';
 
-.page {
-  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+.blank {
+  background-color: $porcelain;
+
+  @media #{$tablet-landscape} {
+    height: 340px;
+  }
+}
+
+.section {
+  padding-top: $gutter-padding * 2;
+  padding-bottom: $gutter-padding * 4;
+
+  @media #{$tablet-landscape} {
+    padding-top: $gutter-padding * 4;
+    padding-bottom: 0;
+  }
+}
+
+.row {
+  @include row();
+
+  @media #{$tablet-landscape} {
+    height: 490px;
+  }
+}
+
+.pageTitle {
+  font-family: $font-family-1;
+  font-size: $font-size-subtitle;
+  font-weight: $font-weight-light;
+  line-height: $line-height-small;
+  letter-spacing: $letter-spacing-narrow;
+  text-align: center;
+  color: $white;
+
+  .country {
+    color: $white;
+    font-weight: $font-weight-extra-bold;
+    font-size: $font-size-title;
+    letter-spacing: $letter-spacing-wide;
+  }
+}
+
+.introTextContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 620px;
+
+  @media #{$tablet-landscape} {
+    padding-top: 120px;
+  }
+}
+
+.introText {
+  color: $porcelain;
+  font-size: $font-size;
+  line-height: $line-height;
+  padding-top: $headlines-line-height;
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.cardsContainer {
+  padding-bottom: 340px;
+
+  @media #{$tablet-landscape} {
+  }
+}
+
+.climatePoliciesContainer {
+  @include row();
+
+  @media #{$tablet-landscape} {
+    @include row(6);
+  }
+}
+
+.climatePoliciesImage {
+  height: 665px;
+}
+
+.climatePoliciesDescription {
+  font-size: $font-size;
+  line-height: 26px;
+  margin-bottom: 35px;
+  max-width: 500px;
+}
+
+.climatePoliciesWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 30px;
+
+  @media #{$tablet-landscape} {
+    justify-content: flex-start;
+    margin-bottom: 0;
+  }
+}
+
+.button {
+  background-color: $white;
+  color: $elephant-blue;
+  max-width: 250px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(26, 28, 34, 0.1);
 }

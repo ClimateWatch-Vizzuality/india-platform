@@ -1,0 +1,4 @@
+indicator_code,axis_x,category,Value,target
+ind_1,PAT I,Aluminum,10.00,20
+ind_1,PAT I,Cement,85.00,67
+ind_1,PAT I,Fertilizer,29.00,45

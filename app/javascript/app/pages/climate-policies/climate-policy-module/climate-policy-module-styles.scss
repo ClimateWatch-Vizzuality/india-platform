@@ -1,0 +1,136 @@
+@import '~styles/ui-extends.scss';
+@import '~styles/layout.scss';
+
+.pageLayout {
+  @include row();
+}
+
+.pageIntro {
+  background-image: $blue-gradient;
+  position: relative;
+  left: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: $blue-gradient;
+    z-index: -1;
+  }
+}
+
+.sectionTitle {
+  color: $white;
+  font-size: $font-size-xxl-large;
+  font-weight: 300;
+  line-height: 1.19;
+  letter-spacing: -1.3px;
+  padding-top: $gutter-padding * 2;
+  padding-bottom: $gutter-padding * 2;
+}
+
+.sectionDescription {
+  color: $white;
+  line-height: 1.6;
+  padding-bottom: $gutter-padding * 4;
+}
+
+.introAndSearch {
+  margin-top: 70px;
+  margin-bottom: 70px;
+
+  .title {
+    @extend %bodyText;
+
+    font-size: $font-size-large;
+    color: $midnightblue;
+    margin-bottom: 10px;
+  }
+
+  .content {
+    @include columns();
+
+    > * {
+      @include setGutters('vertical');
+    }
+
+    @media #{$tablet-landscape} {
+      @include columns((7, 5));
+    }
+
+    @media #{$desktop} {
+      @include columns((7, 4));
+
+      > :last-child {
+        @include column-offset(1, $gutters: true);
+      }
+    }
+  }
+
+  .description {
+    @extend %bodyText;
+
+    color: $text-dark-blue;
+  }
+
+  .filterContainer {
+    position: relative;
+  }
+}
+
+.policyTypeSectionWrapper {
+  min-height: 800px;
+}
+
+.policyTypeSection {
+  margin-bottom: 40px;
+
+  .title {
+    @extend %smallTitle;
+
+    color: $midnightblue;
+  }
+}
+
+.policiesCardsContainer {
+  @include columns();
+
+  > * {
+    @include setGutters('vertical');
+  }
+
+  @media #{$tablet-portrait} {
+    @include columns(6);
+  }
+
+  @media #{$desktop} {
+    @include columns(4);
+  }
+}
+
+.policyKeyListWrapper {
+  margin-bottom: 250px;
+
+  .title {
+    @extend .sectionTitle;
+
+    color: $downriver;
+    font-size: $font-size-x-large;
+  }
+
+  .keyDescription {
+    color: $midnightblue;
+    line-height: 1.6;
+    padding-bottom: $gutter-padding * 2;
+  }
+
+  a {
+    line-height: $line-height !important;
+    color: $elephant-blue !important;
+    border-bottom: 0 !important;
+    text-decoration: underline !important;
+  }
+}

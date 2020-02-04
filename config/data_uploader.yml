@@ -1,0 +1,39 @@
+platforms:
+  - name: india_platform
+    sections:
+      - name: locations
+        importer: Locations::ImportLocations
+        datasets:
+          - locations
+      - name: locations_members
+        importer: Locations::ImportLocationMembers
+        datasets:
+          - locations_groupings
+      - name: historical_emissions
+        importer: ImportHistoricalEmissions
+        datasets:
+          - historical_emissions_metadata_sectors
+          - historical_emissions_data
+      - name: climate_policies
+        importer: ImportClimatePolicies
+        datasets:
+          - policies
+          - instruments
+          - indicators
+          - snapshot_of_progress_records
+          - milestones
+          - sources
+      - name: socioeconomic
+        importer: ImportSocioeconomics
+        datasets:
+          - indicators
+          - values
+          - sectoral_info
+      - name: climate_finance
+        importer: ImportClimateFinances
+        datasets:
+          - climate_finance
+      - name: metadata
+        importer: ImportDataSources
+        datasets:
+          - data_sources

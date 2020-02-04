@@ -1,0 +1,52 @@
+@import '~styles/settings.scss';
+
+.tooltip {
+  background: $white;
+  min-width: 180px;
+  max-width: 500px;
+  padding: 15px;
+  box-shadow: 0 5px 15px 0 rgba(17, 55, 80, 0.15);
+  border-radius: 4px;
+}
+
+.tooltipRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  font-size: $font-size-s;
+
+  > * {
+    &:not(:first-child) {
+      padding-left: $gutter-padding;
+    }
+  }
+
+  &:first-child {
+    color: $theme-color;
+  }
+
+  &:not(:first-child) {
+    color: #77818c;
+  }
+}
+
+.total {
+  font-weight: $font-weight-bold;
+
+  > * {
+    color: #0e4762;
+  }
+}
+
+.unit {
+  margin-right: 10px;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}

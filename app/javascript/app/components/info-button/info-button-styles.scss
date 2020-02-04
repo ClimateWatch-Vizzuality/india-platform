@@ -1,0 +1,9 @@
+@import '~styles/settings.scss';
+
+$icon-size: 15px;
+
+.icon {
+  margin-left: 10px;
+  height: $icon-size;
+  width: $icon-size;
+}

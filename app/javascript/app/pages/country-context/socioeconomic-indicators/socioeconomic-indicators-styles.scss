@@ -1,0 +1,48 @@
+@import '~styles/settings.scss';
+@import '~styles/layout.scss';
+
+$dropdown-min-width: 265px;
+
+.socioeconomic {
+  padding-bottom: $gutter-padding * 8;
+}
+
+.logo {
+  width: 136px;
+  height: 13px;
+}
+
+.page {
+  @include row();
+
+  margin-top: $gutter-padding * 4;
+}
+
+.container {
+  @include columns($columns: 12);
+
+  @media #{$tablet-landscape} {
+    padding-left: $gutter-padding;
+
+    @include columns($columns: (6, 6));
+  }
+}
+
+.toolbox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $gutter-padding * 2;
+}
+
+.dropdown {
+  max-width: $dropdown-min-width;
+}
+
+.buttonWrapper {
+  align-self: flex-end;
+  max-width: 100px;
+}
+
+.legend {
+  margin-top: 15px;
+}

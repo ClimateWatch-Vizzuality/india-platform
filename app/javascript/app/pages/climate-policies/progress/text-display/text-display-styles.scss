@@ -1,0 +1,5 @@
+@import '../progress-styles.scss';
+
+.textProgress {
+  @include columns((4, 4, 4));
+}

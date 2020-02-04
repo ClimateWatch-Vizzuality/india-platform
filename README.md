@@ -1,4 +1,4 @@
-# Climate Watch - Starter Kit
+# Climate Watch - India Country Platform
 
 Table of Contents:
 
@@ -46,10 +46,16 @@ These will create the development database and then run the database migration t
 You'll need to run both the rails server and the webpack server, which will be used internally by rails. Run, separately:
 
 ```
-bundle exec rails s
+yarn rails:server
 ```
 
 and
+
+```
+yarn js:server
+```
+
+or run both:
 
 ```
 yarn start
@@ -131,7 +137,7 @@ For Thunk actions a slim wrapper around `createActions` is used, this allows us 
 Reducers inside a module are simple pure functions, no switch case is even present.
 The reducers file exports an object which keys are the actions constants and the value is the reducer that will react to that dispatched action.
 
-The exported actions are used for the keys since `redux-actions` returns the action constant when calling the `.toString()` method in the action creator.
+The exported actions are used for the keys since `redux-tools` returns the action constant when calling the `.toString()` method in the action creator.
 
 ### Modules boilerplate generator
 
@@ -150,15 +156,13 @@ The application actions file is free to import/export every module's actions ind
 ### App Reducers
 
 In the app reducers we will import all module's reducers and bind them to a key in the store using a `handleActions` wrapper.
-This wrapper uses `redux-actions`'s `handleActions` and glues all the individual reducers together to the matching actions.
+This wrapper uses `redux-tools`'s `handleActions` and glues all the individual reducers together to the matching actions.
 
 ### Domain description
 
 - NDC: Intended Nationally Determined Contributions (INDCs) is a term used under the United Nations Framework Convention on Climate Change (UNFCCC) for reductions in greenhouse gas emissions that all countries that signed the UNFCCC were asked to publish in the lead up to the 2015 United Nations Climate Change Conference held in Paris
 
 - SDG: The Sustainable Development Goals (SDGs) are a set of 17 "Global Goals" with 169 targets. These goals and targets cover a broad range of sustainable development issues.
-
-- Category: (in Emission Pathways Section) stand for the different models related to the ESP data. i.e models, scenarios and indicators
 
 
 ### Release

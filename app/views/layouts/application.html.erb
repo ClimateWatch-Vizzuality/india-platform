@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Climate Watch NDC Tracking tool</title>
+    <title>Climate Watch India Country Platform</title>
     <%= csrf_meta_tags %>
 
-    <% if @is_production %>
-      <%= stylesheet_pack_tag 'main' %>
-    <% end %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
     <%= yield %>
 
     <%= javascript_pack_tag 'main' %>
+
+    <% if @is_production %>
+      <%= stylesheet_pack_tag 'main' %>
+    <% end %>
   </body>
 </html>
