@@ -64,23 +64,25 @@ node {
         case "master":
           def userInput = true
           def didTimeout = false
-          try {
-            timeout(time: 60, unit: 'SECONDS') {
-              userInput = input(
-                id: 'Proceed1', message: 'Confirm deployment', parameters: [
-                [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this deployment']
-              ])
-            }
-          }
-          catch(err) { // timeout reached or input false
-              sh("echo Aborted by user or timeout")
-              if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-                  didTimeout = true
-              } else {
-                  userInput = false
+          if ("${SKIP_DEPLOYMENT_CONFIRMATION}" != "true") {
+              try {
+                timeout(time: 60, unit: 'SECONDS') {
+                  userInput = input(
+                    id: 'Proceed1', message: 'Confirm deployment', parameters: [
+                    [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this deployment']
+                  ])
+                }
+              }
+              catch(err) { // timeout reached or input false
+                  sh("echo Aborted by user or timeout")
+                  if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
+                      didTimeout = true
+                  } else {
+                      userInput = false
+                  }
               }
           }
-          if (userInput == true && !didTimeout){
+          if ((userInput == true && !didTimeout) || "${SKIP_DEPLOYMENT_CONFIRMATION}" != "true") {
             sh("echo Deploying to PROD app")
             sh("kubectl apply -f k8s/production/")
             sh("kubectl set image deployment ${appName} ${appName}=${imageTag} --record --namespace=climate-watch")
